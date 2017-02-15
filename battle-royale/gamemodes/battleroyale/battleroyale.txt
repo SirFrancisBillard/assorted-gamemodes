@@ -1,0 +1,13 @@
+"battleroyale"
+{
+	"base"		"sandbox"
+	"title"		"Battle Royale"
+	"maps"		"^ttt_"
+	"menusystem"	"1"
+	"workshopid"	""
+
+	"settings"
+	{
+	}
+
+}
