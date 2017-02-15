@@ -10,6 +10,16 @@ game.ConsoleCommand("sbox_noclip 0\n")
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
 
+local WeaponTypes = {
+	Blades = {
+		["tfa_nmrih_asaw"] = true,
+		["tfa_nmrih_chainsaw"] = true,
+		["tfa_nmrih_cleaver"] = true,
+		["tfa_nmrih_kknife"] = true,
+		["tfa_nmrih_machete"] = true
+	}
+}
+
 function GM:PlayerSpawnObject()
 	return ply:IsAdmin()
 end
@@ -27,7 +37,7 @@ function GM:EntityTakeDamage(ply, dmg)
 			return
 		end
 		-- Psycho: Deal double damage with blades
-		if atk_perk == PERK_PSYCHO and dmg:GetDamageType() == DMG_SLASH then
+		if atk_perk == PERK_PSYCHO and WeaponTypes.Blades[wep:GetClass()] then
 			dmg:ScaleDamage(2)
 			return
 		end
