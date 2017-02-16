@@ -10,16 +10,6 @@ game.ConsoleCommand("sbox_noclip 0\n")
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
 
-local WeaponTypes = {
-	Blades = {
-		["tfa_nmrih_asaw"] = true,
-		["tfa_nmrih_chainsaw"] = true,
-		["tfa_nmrih_cleaver"] = true,
-		["tfa_nmrih_kknife"] = true,
-		["tfa_nmrih_machete"] = true
-	}
-}
-
 function GM:PlayerSpawnObject()
 	return ply:IsAdmin()
 end
@@ -37,7 +27,7 @@ function GM:EntityTakeDamage(ply, dmg)
 			return
 		end
 		-- Psycho: Deal double damage with blades
-		if atk_perk == PERK_PSYCHO and WeaponTypes.Blades[wep:GetClass()] then
+		if atk_perk == PERK_PSYCHO and self.WeaponTypes.Blades[wep:GetClass()] then
 			dmg:ScaleDamage(2)
 			return
 		end
@@ -47,7 +37,7 @@ function GM:EntityTakeDamage(ply, dmg)
 			return
 		end
 		-- Marksman: Deal more damage with rifles
-		if atk_perk == PERK_MARKSMAN and WeaponTypes.Marksman[wep:GetClass()] then
+		if atk_perk == PERK_MARKSMAN and self.WeaponTypes.Marksman[wep:GetClass()] then
 			dmg:ScaleDamage(1.4)
 			return
 		end
@@ -68,10 +58,32 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	rag:Spawn()
 	rag:Activate()
 
+	rag.player_corpse = true
+	rag.is_looted = false
+
+	rag.loot_armor = 0
+	if ply:Armor() > 0 then
+		rag.loot_armor = ply:Armor()
+	end
+
+	rag.loot_weapons = {}
+	for k, v in pairs(ply:GetWeapons()) do
+		table.insert(rag.loot_weapons, v)
+	end
+
+	rag.loot_ammo = {}
+	for k, v in pairs(self.AmmoTypes) do
+		if ply:GetAmmoCount(v) > 0 then
+			rag.loot_ammo[k] = ply:GetAmmoCount(v)
+		end
+	end
+
 	-- nonsolid to players, but can be picked up and shot
 	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	SafeRemoveEntityDelayed(rag, 60)
 	timer.Simple(1, function() if IsValid(rag) then rag:CollisionRulesChanged() end end)
+
+	-- clean corpse in a minute
+	SafeRemoveEntityDelayed(rag, 60)
 
 	-- position the bones
 	local num = rag:GetPhysicsObjectCount()-1
@@ -118,6 +130,12 @@ function GM:PlayerSpawn(ply)
 
 	net.Start("br_openperkmenu")
 	net.Send(ply)
+
+	ply:SetupHands()
+end
+
+function GM:GetFallDamage(ply, speed)
+	return speed / 8
 end
 
 net.Receive("br_selectperk", function(len, ply)
