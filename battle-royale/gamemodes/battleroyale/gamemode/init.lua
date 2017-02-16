@@ -41,9 +41,14 @@ function GM:EntityTakeDamage(ply, dmg)
 			dmg:ScaleDamage(2)
 			return
 		end
-		-- Rage: Do more damage the lower your health
+		-- Rage: Deal more damage the lower your health
 		if atk_perk == PERK_RAGE then
 			dmg:ScaleDamage(1 + ((100 - atk:Health()) / 100))
+			return
+		end
+		-- Marksman: Deal more damage with rifles
+		if atk_perk == PERK_MARKSMAN and WeaponTypes.Marksman[wep:GetClass()] then
+			dmg:ScaleDamage(1.4)
 			return
 		end
 	end
