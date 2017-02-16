@@ -42,6 +42,20 @@ function GM:EntityTakeDamage(ply, dmg)
 			dmg:ScaleDamage(1.4)
 			return
 		end
+		-- Acrobat: Take less damage from falling
+		if atk_perk == PERK_ACROBAT and dmg:IsDamageType(DMG_FALL) then
+			dmg:ScaleDamage(0.05)
+			return
+		end
+		-- Boxer: Deal more damage with fists
+		if atk_perk == PERK_BOXER and wep:GetClass() == "weapon_fists" then
+			dmg:ScaleDamage(1.2)
+			return
+		elseif wep:GetClass() == "weapon_fists" then
+			-- fist are op as shit so nerf them
+			-- by default
+			dmg:ScaleDamage(0.5)
+		end
 	end
 end
 
