@@ -18,7 +18,7 @@ if SERVER then
 	function ENT:Initialize()
 		self:SetModel("models/Items/ammocrate_smg1.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
-		self:SetMoveType(MOVETYPE_NONE)
+		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
 		self:SetSequence(1)
 		self:PhysWake()
@@ -34,7 +34,7 @@ if SERVER then
 		if IsValid(ply) and ply:IsPlayer() and self:GetColor().g == color_green.g then
 			self:SetColor(color_red)
 			-- todo: config for the time here
-			timer.Simple(45, function()
+			timer.Simple(60, function()
 				if not IsValid(self) then return end
 				self:SetColor(color_green)
 			end)

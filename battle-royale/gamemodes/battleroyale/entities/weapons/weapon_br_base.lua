@@ -7,7 +7,6 @@ AddCSLuaFile()
 -- This must be set to one of the WEAPON_ types in TTT weapons for weapon
 -- carrying limits to work properly. See /gamemode/shared.lua for all possible
 -- weapon categories.
-SWEP.Kind = WEAPON_NONE
 
 -- If CanBuy is a table that contains ROLE_TRAITOR and/or ROLE_DETECTIVE, those
 -- players are allowed to purchase it and it will appear in their Equipment Menu
@@ -175,7 +174,7 @@ if CLIENT then
       surface.DrawLine( x, y + length, x, y + gap )
    end
 
-   local GetPTranslation = LANG.GetParamTranslation
+   local GetPTranslation = function(args) return tostring(args) end
 
    -- Many non-gun weapons benefit from some help
    local help_spec = {text = "", font = "TabLarge", xalign = TEXT_ALIGN_CENTER}
@@ -206,9 +205,9 @@ if CLIENT then
 
    -- mousebuttons are enough for most weapons
    local default_key_params = {
-      primaryfire   = Key("+attack",  "LEFT MOUSE"),
-      secondaryfire = Key("+attack2", "RIGHT MOUSE"),
-      usekey        = Key("+use",     "USE")
+      primaryfire   = "LMB",
+      secondaryfire = "RMB",
+      usekey        = "E"
    };
 
    function SWEP:AddHUDHelp(primary_text, secondary_text, translate, extra_params)

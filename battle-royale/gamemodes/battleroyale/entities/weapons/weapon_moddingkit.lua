@@ -12,7 +12,7 @@ SWEP.Instructions = "Left click and switch to a weapon to mod the weapon.\nRight
 SWEP.Slot = 5
 SWEP.ViewModelFOV = 10
 
-SWEP.Base = "weapon_tttbase"
+SWEP.Base = "weapon_br_base"
 
 SWEP.ViewModel = "models/weapons/v_crowbar.mdl"
 SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
@@ -40,8 +40,8 @@ function SWEP:ShouldDropOnDie()
 end
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryAttack(CurTime() + 0.5)
-	if SERVERR and IsValid(self.Owner) then
+	self:SetNextPrimaryFire(CurTime() + 0.5)
+	if SERVER and IsValid(self.Owner) then
 		self.WillModNextGun = not self.WillModNextGun
 		self.Owner:ChatPrint(self.WillModNextGun and "Switch to a weapon to mod..." or "Modding disabled")
 	end
@@ -58,6 +58,7 @@ function SWEP:Reload() end
 function SWEP:Deploy()
 	if SERVER and IsValid(self.Owner) then
 		self.Owner:DrawViewModel(false)
+		self.Owner:ChatPrint(self.Instructions)
 		self.WillModNextGun = false
 	end
 	self:DrawShadow(false)
@@ -65,14 +66,18 @@ function SWEP:Deploy()
 end
 
 function SWEP:Holster(wep)
-	if SERVER and GAMEMODE.ModdableGuns[wep:GetClass()] then
-		ply:ChatPrint("Weapon has been modded")
-		ply:Give(GAMEMODE.ModdableGuns[wep:GetClass()])
-		ply:SelectWeapon(GAMEMODE.ModdableGuns[wep:GetClass()])
-		ply:StripWeapon(wep:GetClass())
-		ply:StripWeapon(self.ClassName)
-	elseif SERVER then
-		ply:ChatPrint("Weapon is not moddable\nNo mods have been applied")
+	if SERVER and self.WillModNextGun and GAMEMODE.ModdableGuns[wep:GetClass()] then
+		-- HACK
+		-- set a variable to stop ChatPrint from
+		-- being run twice
+		self.DoneModding = true
+		self.Owner:ChatPrint("Weapon has been modded")
+		self.Owner:Give(GAMEMODE.ModdableGuns[wep:GetClass()])
+		self.Owner:SelectWeapon("weapon_fists")
+		self.Owner:StripWeapon(wep:GetClass())
+		self.Owner:StripWeapon(self.ClassName)
+	elseif SERVER and self.WillModNextGun and not self.DoneModding then
+		self.Owner:ChatPrint("Weapon is not moddable\nNo mods have been applied")
 	end
 	return true
 end

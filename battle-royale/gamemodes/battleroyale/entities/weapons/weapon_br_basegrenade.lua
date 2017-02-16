@@ -5,18 +5,17 @@ AddCSLuaFile()
 SWEP.HoldReady             = "grenade"
 SWEP.HoldNormal            = "slam"
 
-if CLIENT then
-   SWEP.PrintName          = "Incendiary grenade"
-   SWEP.Instructions       = "Burn."
-   SWEP.Slot               = 3
+SWEP.PrintName          = "Incendiary grenade"
+SWEP.Instructions       = "Burn."
+SWEP.Slot               = 3
 
-   SWEP.ViewModelFlip      = true
-   SWEP.DrawCrosshair      = false
+SWEP.ViewModelFlip      = true
+SWEP.DrawCrosshair      = false
 
-   SWEP.Icon               = "vgui/ttt/icon_nades"
-end
+SWEP.Icon               = "vgui/ttt/icon_nades"
 
-SWEP.Base                  = "weapon_tttbase"
+
+SWEP.Base                  = "weapon_br_base"
 
 SWEP.ViewModel             = "models/weapons/v_eq_flashbang.mdl"
 SWEP.WorldModel            = "models/weapons/w_eq_flashbang.mdl"

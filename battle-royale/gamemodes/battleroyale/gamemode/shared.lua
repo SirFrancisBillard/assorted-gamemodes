@@ -27,19 +27,10 @@ GM.LootTable = {
 		["tfa_nmrih_sledge"] = true,
 		["tfa_nmrih_spade"] = true,
 		["tfa_nmrih_wrench"] = true,
-		
-		["tfa_nmrih_flaregun"] = true,
-		["tfa_nmrih_flaregun"] = true,
-		["tfa_nmrih_molotov"] = true,
-		["tfa_nmrih_molotov"] = true,
-		["tfa_nmrih_g17"] = true,
-		["tfa_nmrih_g17"] = true,
-		["tfa_nmrih_1892"] = true,
-		["tfa_nmrih_1892"] = true,
-		["tfa_nmrih_sw686"] = true,
-		["tfa_nmrih_sw686"] = true,
-		["tfa_nmrih_mac10"] = true,
-		["tfa_nmrih_500a"] = true,
+
+		["weapon_moddingkit"] = true,
+		["weapon_moddingkit"] = true,
+		["weapon_moddingkit"] = true
 	},
 	Okay = {
 		["tfa_nmrih_tnt"] = true,
@@ -50,6 +41,8 @@ GM.LootTable = {
 		["tfa_nmrih_sako_is"] = true,
 		["tfa_nmrih_sks_nb"] = true,
 		["tfa_nmrih_frag"] = true,
+		["tfa_nmrih_mac10"] = true,
+		["tfa_nmrih_500a"] = true,
 
 		["tfa_nmrih_m92fs"] = true,
 		["tfa_nmrih_m92fs"] = true,
@@ -58,6 +51,20 @@ GM.LootTable = {
 		["tfa_nmrih_sv10"] = true,
 		["tfa_nmrih_sv10"] = true,
 		["tfa_nmrih_mkiii"] = true,
+		["tfa_nmrih_flaregun"] = true,
+		["tfa_nmrih_flaregun"] = true,
+		["tfa_nmrih_molotov"] = true,
+		["tfa_nmrih_molotov"] = true,
+		["tfa_nmrih_g17"] = true,
+		["tfa_nmrih_g17"] = true,
+		["tfa_nmrih_1892"] = true,
+		["tfa_nmrih_1892"] = true,
+		["tfa_nmrih_sw686"] = true,
+		["tfa_nmrih_sw686"] = true,
+
+		["weapon_dropgrenade"] = true,
+		["weapon_dropgrenade"] = true,
+		["weapon_dropgrenade"] = true
 	},
 	Good = {
 		["tfa_nmrih_cz"] = true,

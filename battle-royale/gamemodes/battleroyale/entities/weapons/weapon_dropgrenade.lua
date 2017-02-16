@@ -2,21 +2,15 @@ AddCSLuaFile()
 
 SWEP.HoldType           = "grenade"
 
-if CLIENT then
-   SWEP.PrintName       = "grenade_smoke"
-   SWEP.Slot            = 3
+SWEP.PrintName       = "Airdrop Signal"
+SWEP.Slot            = 3
 
-   SWEP.ViewModelFlip   = false
-   SWEP.ViewModelFOV    = 54
+SWEP.ViewModelFlip   = false
+SWEP.ViewModelFOV    = 54
 
-   SWEP.Icon            = "vgui/ttt/icon_nades"
-   SWEP.IconLetter      = "Q"
-end
+SWEP.IconLetter      = "Q"
 
-SWEP.Base               = "weapon_tttbasegrenade"
-
-SWEP.WeaponID           = AMMO_SMOKE
-SWEP.Kind               = WEAPON_NADE
+SWEP.Base               = "weapon_br_basegrenade"
 
 SWEP.UseHands           = true
 SWEP.ViewModel          = "models/weapons/cstrike/c_eq_smokegrenade.mdl"
@@ -29,5 +23,5 @@ SWEP.Spawnable          = true
 -- ent.
 
 function SWEP:GetGrenadeName()
-   return "ttt_smokegrenade_proj"
+   return "ent_dropnade_proj"
 end
