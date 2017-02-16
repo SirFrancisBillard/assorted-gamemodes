@@ -1,9 +1,60 @@
 
+-- declare enumerations first, they don't
+-- have any dependencies
+PERK_NONE = 1
+PERK_BOXER = 2
+PERK_CANNIBAL = 3
+PERK_GRINDER = 4
+PERK_LOOTER = 5
+PERK_MARKSMAN = 6
+PERK_PSYCHO = 7
+PERK_RAGE = 8
+
+-- used for quick perk validation
+PERK_MAX = PERK_RAGE
+
+GM.PerkInfo = {
+	PERK_NONE = {
+		name = "None",
+		desc = "No perk selected"
+	},
+	PERK_BOXER = {
+		name = "Boxer",
+		desc = "Deal more damage with fists."
+	},
+	PERK_CANNIBAL = {
+		name = "Cannibal",
+		desc = "Eat corpses to regain health." -- fuckin' metal
+	},
+	PERK_GRINDER = {
+		name = "Grinder",
+		desc = "Gain 25% of damage dealt as armor."
+	},
+	PERK_LOOTER = {
+		name = "Looter",
+		desc = "Loot corpses for their weapons and equipment."
+	},
+	PERK_MARKSMAN = {
+		name = "Marksman",
+		desc = "Deal more damage with DMRs and revolvers."
+	},
+	PERK_PSYCHO = {
+		name = "Psycho",
+		desc = "Deal more damage with blades."
+	},
+	PERK_RAGE = {
+		name = "Rage",
+		desc = "Deal more damage the more you are injured."
+	}
+}
+
+-- general configuration
 GM.Config = {
 	LootcrateCooldown = 60,
 	CorpseDespawnTime = 60,
 }
 
+-- stuff you can get from containers
 GM.LootTable = {
 	Bad = {
 		["tfa_nmrih_asaw"] = true,
@@ -77,7 +128,7 @@ GM.LootTable = {
 	},
 }
 
--- Weapon types
+-- weapon types
 GM.WeaponTypes = {
 	Blades = {
 		["tfa_nmrih_asaw"] = true,
@@ -95,7 +146,7 @@ GM.WeaponTypes = {
 	}
 }
 
--- Ammo types
+-- ammo types
 GM.AmmoTypes = {
 	-- bullets
 	["pistol"] = 20,
@@ -103,6 +154,7 @@ GM.AmmoTypes = {
 	["smg1"] = 30,
 	["ar2"] = 30,
 	["sniperpenetratedround"] = 10,
+
 	-- irregular
 	["nmrih_flare"] = 6,
 	["gasoline"] = 400,
@@ -114,31 +166,42 @@ GM.AmmoTypes = {
 	["lighter"] = 1
 }
 
--- Guns that can be modded
+-- guns that can be modded
 GM.ModdableGuns = {
 	-- scope
 	["tfa_nmrih_m16_ch"] = "tfa_nmrih_m16_rt",
 	["tfa_nmrih_sako_is"] = "tfa_nmrih_sako",
+
 	-- extended mag
 	["tfa_nmrih_rug1022"] = "tfa_nmrih_rug1022_25",
+
 	-- bayonet (why tho)
 	["tfa_nmrih_sks_nb"] = "tfa_nmrih_sks",
 }
 
--- Player models (HL2 rebels for now)
+-- player models
 GM.PlayerModels = {
-	"models/player/Group03/Female_01.mdl",
-	"models/player/Group03/Female_02.mdl",
-	"models/player/Group03/Female_03.mdl",
-	"models/player/Group03/Female_04.mdl",
-	"models/player/Group03/Female_06.mdl",
-	"models/player/group03/male_01.mdl",
-	"models/player/Group03/Male_02.mdl",
-	"models/player/Group03/male_03.mdl",
-	"models/player/Group03/Male_04.mdl",
-	"models/player/Group03/Male_05.mdl",
-	"models/player/Group03/Male_06.mdl",
-	"models/player/Group03/Male_07.mdl",
-	"models/player/Group03/Male_08.mdl",
-	"models/player/Group03/Male_09.mdl"
+	-- minihack:
+	-- seperate groups of similar models into
+	-- tables so they don't have a huge chance
+	-- of being picked over other models
+	{
+		-- less female models, sexism smh
+		"models/player/Group03/Female_01.mdl",
+		"models/player/Group03/Female_02.mdl",
+		"models/player/Group03/Female_03.mdl",
+		"models/player/Group03/Female_04.mdl",
+		"models/player/Group03/Female_06.mdl",
+		"models/player/group03/male_01.mdl",
+		"models/player/Group03/Male_02.mdl",
+		"models/player/Group03/male_03.mdl",
+		"models/player/Group03/Male_04.mdl",
+		"models/player/Group03/Male_05.mdl",
+		"models/player/Group03/Male_06.mdl",
+		"models/player/Group03/Male_07.mdl",
+		"models/player/Group03/Male_08.mdl",
+		"models/player/Group03/Male_09.mdl"
+	},
+	"models/player/alyx.mdl",
+	"models/player/eli.mdl"
 }
