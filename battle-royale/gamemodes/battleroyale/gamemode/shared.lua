@@ -124,6 +124,24 @@ GM.ModdableGuns = {
 	["tfa_nmrih_sks_nb"] = "tfa_nmrih_sks",
 }
 
+-- Player models
+GM.PlayerModels = {
+	"models/player/Group03/Female_01.mdl",
+	"models/player/Group03/Female_02.mdl",
+	"models/player/Group03/Female_03.mdl",
+	"models/player/Group03/Female_04.mdl",
+	"models/player/Group03/Female_06.mdl",
+	"models/player/group03/male_01.mdl",
+	"models/player/Group03/Male_02.mdl",
+	"models/player/Group03/male_03.mdl",
+	"models/player/Group03/Male_04.mdl",
+	"models/player/Group03/Male_05.mdl",
+	"models/player/Group03/Male_06.mdl",
+	"models/player/Group03/Male_07.mdl",
+	"models/player/Group03/Male_08.mdl",
+	"models/player/Group03/Male_09.mdl"
+}
+
 -- Perk enums
 PERK_NONE = 1
 PERK_BOXER = 2
@@ -139,9 +157,7 @@ function GM:Initialize()
 	-- but TFA won't get off his ass and fix
 	-- his shit, so I have to hide the errors
 	-- his shitty addon creates
-	error = function(args, level) print(args) end
-	Error = function(args) print(args) end
-	ErrorNoHalt = function(args) print(args) end
+	hook.Remove("MenuDrawLuaErrors")
 	-- jk bby I love you and your addons but
 	-- please accept a PR or two to fix this
 end

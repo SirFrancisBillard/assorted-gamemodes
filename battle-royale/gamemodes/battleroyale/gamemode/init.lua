@@ -10,7 +10,7 @@ game.ConsoleCommand("sbox_noclip 0\n")
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
 
-function GM:PlayerSpawnObject()
+function GM:PlayerSpawnObject(ply)
 	return ply:IsAdmin()
 end
 
@@ -121,9 +121,14 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 end
 
 function GM:PlayerSpawn(ply)
+	self.BaseClass.PlayerSpawn(self, ply)
+
 	player_manager.SetPlayerClass(ply, "player_sandbox")
 	ply:StripWeapons()
 	ply:Give("weapon_fists") -- bare hands
+
+	ply:SetWalkSpeed(150)
+	ply:SetRunSpeed(250)
 
 	ply:SetNWInt("br_perk", PERK_NONE)
 	ply.chose_perk = false
@@ -131,7 +136,18 @@ function GM:PlayerSpawn(ply)
 	net.Start("br_openperkmenu")
 	net.Send(ply)
 
+	ply:SetModel(self.PlayerModels[math.random(1, #self.PlayerModels)])
 	ply:SetupHands()
+end
+
+function GM:PlayerSetHandsModel(ply, ent)
+	local simplemodel = player_manager.TranslateToPlayerModelName(ply:GetModel())
+	local info = player_manager.TranslatePlayerHands(simplemodel)
+	if info then
+		ent:SetModel(info.model)
+		ent:SetSkin(info.skin)
+		ent:SetBodyGroups(info.body)
+	end
 end
 
 function GM:GetFallDamage(ply, speed)

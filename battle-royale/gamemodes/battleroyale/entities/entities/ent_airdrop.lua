@@ -10,7 +10,7 @@ ENT.AdminOnly = true
 
 if SERVER then
 	function ENT:Initialize()
-		self:SetModel("models/Items/ammocrate_smg1.mdl")
+		self:SetModel("models/props_junk/wood_crate001a.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
@@ -18,7 +18,7 @@ if SERVER then
 		self:PhysWake()
 		-- whoever stands under this is
 		-- gonna be one unlucky wanker
-		self:SetVelocity(Vector(0, 0, -2000))
+		self:SetVelocity(Vector(0, 0, -20000))
 	end
 
 	function ENT:Use(ply)

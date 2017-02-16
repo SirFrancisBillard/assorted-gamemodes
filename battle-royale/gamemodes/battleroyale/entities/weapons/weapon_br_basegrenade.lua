@@ -135,7 +135,6 @@ function SWEP:Throw()
    elseif SERVER then
       local ply = self.Owner
       if not IsValid(ply) then return end
-	  ply:EmitSound("stupid-ttt/allahu/akbar_" .. math.random(1, 10) .. ".wav")
 
       if self.was_thrown then return end
 
@@ -165,7 +164,7 @@ end
 -- subclasses must override with their own grenade ent
 function SWEP:GetGrenadeName()
    ErrorNoHalt("SWEP BASEGRENADE ERROR: GetGrenadeName not overridden! This is probably wrong!\n")
-   return "ttt_firegrenade_proj"
+   return "weapon_br_basegrenade"
 end
 
 
@@ -249,6 +248,6 @@ end
 
 function SWEP:OnRemove()
    if CLIENT and IsValid(self.Owner) and self.Owner == LocalPlayer() and self.Owner:Alive() then
-      RunConsoleCommand("use", "weapon_ttt_unarmed")
+      RunConsoleCommand("use", "weapon_fists")
    end
 end

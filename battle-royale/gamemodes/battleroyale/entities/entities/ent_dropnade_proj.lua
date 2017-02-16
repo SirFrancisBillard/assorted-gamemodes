@@ -2,7 +2,7 @@
 AddCSLuaFile()
 
 ENT.Type = "anim"
-ENT.Base = "ttt_basegrenade_proj"
+ENT.Base = "ent_br_basegrenade_proj"
 ENT.Model = Model("models/weapons/w_eq_smokegrenade_thrown.mdl")
 
 
@@ -24,34 +24,38 @@ if CLIENT then
 		local em = ParticleEmitter(center)
 
 		local r = self:GetRadius()
-		for i=1, 20 do
-			local prpos = VectorRand() * r
-			prpos.z = prpos.z + 32
-			local p = em:Add(table.Random(smokeparticles), center + prpos)
-			if p then
-				local gray = math.random(75, 200)
-				p:SetColor(gray, gray, gray)
-				p:SetStartAlpha(255)
-				p:SetEndAlpha(200)
-				p:SetVelocity(Vector(0, 0, 1200))
-				p:SetLifeTime(0)
-            
-				p:SetDieTime(math.Rand(50, 70))
+		for i = 1, 20, 0.5 do
+			timer.Simple(i, function()
+				local prpos = VectorRand() * r
+				prpos.z = prpos.z + 32
+				local p = em:Add(table.Random(smokeparticles), center + prpos)
+				if p then
+					local gray = math.random(200, 250)
+					p:SetColor(gray, 0, gray)
+					p:SetStartAlpha(255)
+					p:SetEndAlpha(200)
+					p:SetVelocity(Vector(0, 0, 100))
+					p:SetLifeTime(0)
 
-				p:SetStartSize(math.random(140, 150))
-				p:SetEndSize(math.random(1, 40))
-				p:SetRoll(math.random(-180, 180))
-				p:SetRollDelta(math.Rand(-0.1, 0.1))
-				p:SetAirResistance(600)
+					p:SetDieTime(math.Rand(15, 20))
 
-				p:SetCollide(true)
-				p:SetBounce(0.4)
+					p:SetStartSize(math.random(140, 150))
+					p:SetEndSize(math.random(1, 40))
+					p:SetRoll(math.random(-180, 180))
+					p:SetRollDelta(math.Rand(-0.1, 0.1))
+					p:SetAirResistance(0)
 
-				p:SetLighting(false)
-			end
+					p:SetCollide(true)
+					p:SetBounce(0.4)
+
+					p:SetLighting(false)
+				end
+			end)
 		end
-
-		em:Finish()
+		timer.Simple(21, function()
+			if not IsValid(em) then return end
+			em:Finish()
+		end)
 	end
 end
 
