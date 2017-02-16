@@ -7,18 +7,6 @@ DeriveGamemode("sandbox")
 
 include("sh_config.lua")
 
--- Perk enums
-PERK_NONE = 1
-PERK_BOXER = 2
-PERK_CANNIBAL = 3
-PERK_GRINDER = 4
-PERK_LOOTER = 5
-PERK_MASKSMAN = 6
-PERK_PSYCHO = 7
-PERK_RAGE = 8
-
-PERK_MAX = PERK_RAGE
-
 function GM:Initialize()
 	-- this seems like a fucking stupid idea
 	-- but TFA won't get off his ass and fix
