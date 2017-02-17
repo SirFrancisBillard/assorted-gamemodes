@@ -18,6 +18,27 @@ local function GetGender(ply)
 	return ply.model_table and ply.model_table.gender or GENDER_MALE
 end
 
+function GM:PlayerKillstreak(ply)
+	-- if this ever runs, we have a serious problem
+	if not type(ply.killstreak) == "number" then
+		ply.killstreak = 0
+		return
+	end
+	-- temp
+	-- add something better here
+	if ply.killstreak % 5 == 0 then
+		ply:ChatPrint("Killstreak: " .. string.Comma(ply.killstreak))
+		ply:ChatPrint("Airdrop inbound")
+
+		local drop = ents.Create("ent_dropnade_proj")
+		drop:SetPos(ply:GetPos())
+		drop:Spawn()
+
+		-- disable collisions with owner
+		drop:SetOwner(ply)
+	end
+end
+
 function GM:PlayerSpawnObject(ply)
 	return ply:IsAdmin()
 end
@@ -137,10 +158,10 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	ply:AddDeaths(1)
 
 	if attacker:IsValid() && attacker:IsPlayer() then
-		if attacker == ply then
-			attacker:AddFrags(-1)
-		else
+		if not attacker == ply then
 			attacker:AddFrags(1)
+			attacker.killstreak = attacker.killstreak + 1
+			self:PlayerKillstreak(attacker)
 		end
 	end
 end
@@ -167,6 +188,8 @@ function GM:PlayerSpawn(ply)
 	local mdl_choice = self.PlayerModels[math.random(1, #self.PlayerModels)]
 	ply:SetModel(mdl_choice[math.random(1, #mdl_choice)])
 	ply.model_table = mdl_choice
+
+	ply.killstreak = 0
 
 	ply:SetupHands()
 end
