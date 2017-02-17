@@ -153,7 +153,8 @@ GM.WeaponTypes = {
 		["tfa_nmrih_cleaver"] = true,
 		["tfa_nmrih_kknife"] = true,
 		["tfa_nmrih_hatchet"] = true,
-		["tfa_nmrih_machete"] = true
+		["tfa_nmrih_machete"] = true,
+		["tfa_nmrih_fireaxe"] = true
 	},
 	Marksman = {
 		["tfa_nmrih_jae700"] = true,
