@@ -21,6 +21,7 @@ PERK_LOOTER = NextEnum()
 PERK_MARKSMAN = NextEnum()
 PERK_PSYCHO = NextEnum()
 PERK_RAGE = NextEnum()
+PERK_REGEN = NextEnum()
 
 -- used for quick perk validation
 -- (to be validated) < PERK_MAX
@@ -29,7 +30,7 @@ PERK_MAX = ENUM_CURRENT
 -- make these the old way because they are
 -- way too simple to require a function
 GENDER_MALE = "male"
-GENDER_FEMALe = "female"
+GENDER_FEMALE = "female"
 
 GM.PerkInfo = {
 	[PERK_NONE] = {
@@ -67,6 +68,10 @@ GM.PerkInfo = {
 	[PERK_RAGE] = {
 		name = "Rage",
 		desc = "Deal more damage the more you are injured."
+	},
+	[PERK_REGEN] = {
+		name = "Regen",
+		desc = "Automatically heal when on low health."
 	}
 }
 
