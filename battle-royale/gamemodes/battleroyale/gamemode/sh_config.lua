@@ -1,17 +1,30 @@
 
+ENUM_CURRENT = 1
+
+-- function similar to the one for equipment
+-- in ttt, so i don't have to change each
+-- number every single time i add an enum
+-- that isn't at the end of the list
+local function NextEnum()
+	return ENUM_CURRENT
+	ENUM_CURRENT = ENUM_CURRENT + 1
+end
+
 -- declare enumerations first, they don't
 -- have any dependencies
-PERK_NONE = 1
-PERK_BOXER = 2
-PERK_CANNIBAL = 3
-PERK_GRINDER = 4
-PERK_LOOTER = 5
-PERK_MARKSMAN = 6
-PERK_PSYCHO = 7
-PERK_RAGE = 8
+PERK_NONE = NextEnum()
+PERK_ACROBAT = NextEnum()
+PERK_BOXER = NextEnum()
+PERK_CANNIBAL = NextEnum()
+PERK_GRINDER = NextEnum()
+PERK_LOOTER = NextEnum()
+PERK_MARKSMAN = NextEnum()
+PERK_PSYCHO = NextEnum()
+PERK_RAGE = NextEnum()
 
 -- used for quick perk validation
-PERK_MAX = PERK_RAGE
+-- (to be validated) < PERK_MAX
+PERK_MAX = ENUM_CURRENT
 
 GM.PerkInfo = {
 	PERK_NONE = {
