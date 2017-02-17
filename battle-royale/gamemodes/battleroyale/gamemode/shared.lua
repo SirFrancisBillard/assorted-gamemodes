@@ -12,7 +12,7 @@ function GM:Initialize()
 	-- but TFA won't get off his ass and fix
 	-- his shit, so I have to hide the errors
 	-- his shitty addon creates
-	hook.Remove("MenuDrawLuaErrors")
+	hook.Remove("DrawOverlay", "MenuDrawLuaErrors")
 	-- jk bby I love you and your addons but
 	-- please accept a PR or two to fix this
 end
