@@ -45,9 +45,14 @@ end
 
 function GM:EntityTakeDamage(ply, dmg)
 	local atk = dmg:GetAttacker()
+	local hg = ply:LastHitGroup()
 	-- hurt sounds
 	if IsValid(ply) and ply:IsPlayer() end
 		local gen = GetGender(ply)
+		-- this is the order of priority for
+		-- where something is in the table
+		local snd = GM.HurtSounds[hg] or GM.HurtSounds[gen][hg] or GM.HurtSounds[gen]["generic"]
+		ply:EmitSound(snd)
 	end
 	-- perks
 	if IsValid(ply) and IsValid(atk) and ply:IsPlayer() and atk:IsPlayer() then
