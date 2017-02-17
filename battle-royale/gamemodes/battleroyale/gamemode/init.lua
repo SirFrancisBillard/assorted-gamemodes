@@ -132,6 +132,11 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		end
 	end
 
+	if rag.loot_armor < 1 and #rag.loot_weapons < 1 and #rag.loot_ammo < 1 then
+		-- we don't have anything, might as well be looted
+		rag.is_looted = true
+	end
+
 	-- nonsolid to players, but can be picked up and shot
 	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	timer.Simple(1, function() if IsValid(rag) then rag:CollisionRulesChanged() end end)
