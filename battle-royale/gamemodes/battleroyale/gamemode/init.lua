@@ -1,6 +1,6 @@
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
-AddCSLuaFile("sh_init.lua")
+AddCSLuaFile("sh_config.lua")
 
 include("shared.lua")
 
@@ -42,19 +42,14 @@ function GM:EntityTakeDamage(ply, dmg)
 			dmg:ScaleDamage(1.4)
 			return
 		end
-		-- Acrobat: Take less damage from falling
-		if atk_perk == PERK_ACROBAT and dmg:IsDamageType(DMG_FALL) then
-			dmg:ScaleDamage(0.05)
-			return
-		end
 		-- Boxer: Deal more damage with fists
 		if atk_perk == PERK_BOXER and wep:GetClass() == "weapon_fists" then
-			dmg:ScaleDamage(1.2)
+			dmg:ScaleDamage(6)
 			return
 		elseif wep:GetClass() == "weapon_fists" then
-			-- fist are op as shit so nerf them
+			-- fists really shit so buff them
 			-- by default
-			dmg:ScaleDamage(0.5)
+			dmg:ScaleDamage(2)
 		end
 	end
 end
@@ -76,6 +71,8 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	rag.player_corpse = true
 	rag.is_looted = false
 
+	rag:SetNWString("player_nick", ply:Nick())
+
 	rag.loot_armor = 0
 	if ply:Armor() > 0 then
 		rag.loot_armor = ply:Armor()
@@ -83,7 +80,8 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 
 	rag.loot_weapons = {}
 	for k, v in pairs(ply:GetWeapons()) do
-		table.insert(rag.loot_weapons, v)
+		if v:GetClass() == "weapon_fists" then continue end
+		table.insert(rag.loot_weapons, v:GetClass())
 	end
 
 	rag.loot_ammo = {}
@@ -175,7 +173,12 @@ function GM:PlayerSetHandsModel(ply, ent)
 end
 
 function GM:GetFallDamage(ply, speed)
-	return speed / 8
+	-- Acrobat: Take less damage from falling
+	if ply:GetNWInt("br_perk") == PERK_ACROBAT then
+		return 5
+	else
+		return speed / 8
+	end
 end
 
 net.Receive("br_selectperk", function(len, ply)

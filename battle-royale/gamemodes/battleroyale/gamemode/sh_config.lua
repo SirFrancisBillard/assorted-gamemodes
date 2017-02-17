@@ -1,13 +1,13 @@
 
-ENUM_CURRENT = 1
+ENUM_CURRENT = 0
 
 -- function similar to the one for equipment
 -- in ttt, so i don't have to change each
 -- number every single time i add an enum
 -- that isn't at the end of the list
 local function NextEnum()
-	return ENUM_CURRENT
 	ENUM_CURRENT = ENUM_CURRENT + 1
+	return ENUM_CURRENT
 end
 
 -- declare enumerations first, they don't
@@ -27,35 +27,39 @@ PERK_RAGE = NextEnum()
 PERK_MAX = ENUM_CURRENT
 
 GM.PerkInfo = {
-	PERK_NONE = {
+	[PERK_NONE] = {
 		name = "None",
 		desc = "No perk selected"
 	},
-	PERK_BOXER = {
+	[PERK_ACROBAT] = {
+		name = "Acrobat",
+		desc = "Take very little fall damage"
+	},
+	[PERK_BOXER] = {
 		name = "Boxer",
 		desc = "Deal more damage with fists."
 	},
-	PERK_CANNIBAL = {
+	[PERK_CANNIBAL] = {
 		name = "Cannibal",
 		desc = "Eat corpses to regain health." -- fuckin' metal
 	},
-	PERK_GRINDER = {
+	[PERK_GRINDER] = {
 		name = "Grinder",
 		desc = "Gain 25% of damage dealt as armor."
 	},
-	PERK_LOOTER = {
+	[PERK_LOOTER] = {
 		name = "Looter",
 		desc = "Loot corpses for their weapons and equipment."
 	},
-	PERK_MARKSMAN = {
+	[PERK_MARKSMAN] = {
 		name = "Marksman",
 		desc = "Deal more damage with DMRs and revolvers."
 	},
-	PERK_PSYCHO = {
+	[PERK_PSYCHO] = {
 		name = "Psycho",
 		desc = "Deal more damage with blades."
 	},
-	PERK_RAGE = {
+	[PERK_RAGE] = {
 		name = "Rage",
 		desc = "Deal more damage the more you are injured."
 	}
@@ -98,7 +102,6 @@ GM.LootTable = {
 	Okay = {
 		["tfa_nmrih_tnt"] = true,
 		["tfa_nmrih_mp5"] = true,
-		["tfa_nmrih_870"] = true,
 		["tfa_nmrih_rug1022"] = true,
 		["tfa_nmrih_sks_nb"] = true,
 		["tfa_nmrih_sako_is"] = true,
@@ -137,7 +140,8 @@ GM.LootTable = {
 		["tfa_nmrih_tnt"] = true,
 		["tfa_nmrih_superx3"] = true,
 		["tfa_nmrih_m92fs"] = true,
-		["tfa_nmrih_mp5"] = true
+		["tfa_nmrih_mp5"] = true,
+		["tfa_nmrih_870"] = true
 	},
 }
 
