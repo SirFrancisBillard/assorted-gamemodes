@@ -26,6 +26,11 @@ PERK_RAGE = NextEnum()
 -- (to be validated) < PERK_MAX
 PERK_MAX = ENUM_CURRENT
 
+-- make these the old way because they are
+-- way too simple to require a function
+GENDER_MALE = "male"
+GENDER_FEMALe = "female"
+
 GM.PerkInfo = {
 	[PERK_NONE] = {
 		name = "None",
@@ -197,6 +202,91 @@ GM.ModdableGuns = {
 	["tfa_nmrih_sks_nb"] = "tfa_nmrih_sks",
 }
 
+-- hurt sounds
+GM.HurtSounds = {
+	[HITGROUP_HEAD] = {
+		Sound("physics/flesh/flesh_squishy_impact_hard1.wav"),
+		Sound("physics/flesh/flesh_squishy_impact_hard2.wav"),
+		Sound("physics/flesh/flesh_squishy_impact_hard3.wav"),
+		Sound("physics/flesh/flesh_squishy_impact_hard4.wav")
+	},
+	[GENDER_MALE] = {
+		["generic"] = {
+			Sound("vo/npc/male01/pain01.wav"),
+			Sound("vo/npc/male01/pain02.wav"),
+			Sound("vo/npc/male01/pain03.wav"),
+			Sound("vo/npc/male01/pain04.wav"),
+			Sound("vo/npc/male01/pain05.wav"),
+			Sound("vo/npc/male01/pain06.wav"),
+			Sound("vo/npc/male01/pain07.wav"),
+			Sound("vo/npc/male01/pain08.wav"),
+			Sound("vo/npc/male01/pain09.wav"),
+			Sound("vo/ravenholm/monk_pain01"),
+			Sound("vo/ravenholm/monk_pain02"),
+			Sound("vo/ravenholm/monk_pain03"),
+			Sound("vo/ravenholm/monk_pain04"),
+			Sound("vo/ravenholm/monk_pain05"),
+			Sound("vo/ravenholm/monk_pain06"),
+			Sound("vo/ravenholm/monk_pain07"),
+			Sound("vo/ravenholm/monk_pain08"),
+			Sound("vo/ravenholm/monk_pain09"),
+			Sound("vo/ravenholm/monk_pain10"),
+			Sound("vo/ravenholm/monk_pain12"),
+			Sound("vo/npc/male01/moan01.wav"),
+			Sound("vo/npc/male01/moan02.wav"),
+			Sound("vo/npc/male01/moan03.wav"),
+			Sound("vo/npc/male01/moan04.wav"),
+			Sound("vo/npc/male01/moan05.wav"),
+		},
+		[HITGROUP_LEFTARM] = {
+			Sound("vo/npc/male01/myarm01.wav"),
+			Sound("vo/npc/male01/myarm02.wav")
+		},
+		[HITGROUP_LEFTLEG] = {
+			Sound("vo/npc/male01/myleg01.wav"),
+			Sound("vo/npc/male01/myleg02.wav")
+		},
+		[HITGROUP_STOMACH] = {
+			Sound("vo/npc/male01/mygut02.wav"),
+			Sound("vo/npc/male01/hitingut01.wav"),
+			Sound("vo/npc/male01/hitingut02.wav")
+		}
+	}
+	[GENDER_FEMALE] = {
+		["generic"] = {
+			Sound("vo/npc/female01/pain01.wav"),
+			Sound("vo/npc/female01/pain02.wav"),
+			Sound("vo/npc/female01/pain03.wav"),
+			Sound("vo/npc/female01/pain04.wav"),
+			Sound("vo/npc/female01/pain05.wav"),
+			Sound("vo/npc/female01/pain06.wav"),
+			Sound("vo/npc/female01/pain07.wav"),
+			Sound("vo/npc/female01/pain08.wav"),
+			Sound("vo/npc/female01/pain09.wav"),
+			Sound("vo/npc/female01/moan01.wav"),
+			Sound("vo/npc/female01/moan02.wav"),
+			Sound("vo/npc/female01/moan03.wav"),
+			Sound("vo/npc/female01/moan04.wav"),
+			Sound("vo/npc/female01/moan05.wav")
+		},
+		[HITGROUP_LEFTARM] = {
+			Sound("vo/npc/female01/myarm01.wav"),
+			Sound("vo/npc/female01/myarm02.wav")
+		},
+		[HITGROUP_RIGHTARM] = GM.HurtSounds[HITGROUP_LEFTARM],
+		[HITGROUP_LEFTLEG] = {
+			Sound("vo/npc/female01/myleg01.wav"),
+			Sound("vo/npc/female01/myleg02.wav")
+		},
+		[HITGROUP_RIGHTLEG] = GM.HurtSounds[HITGROUP_LEFTLEG],
+		[HITGROUP_STOMACH] = {
+			Sound("vo/npc/female01/mygut02.wav"),
+			Sound("vo/npc/female01/hitingut01.wav"),
+			Sound("vo/npc/female01/hitingut02.wav")
+		}
+	}
+}
+
 -- player models
 GM.PlayerModels = {
 	-- minihack:
@@ -204,6 +294,7 @@ GM.PlayerModels = {
 	-- tables so they don't have a huge chance
 	-- of being picked over other models
 	{
+		gender = GENDER_MALE,
 		"models/player/group03/male_01.mdl",
 		"models/player/Group03/Male_02.mdl",
 		"models/player/Group03/male_03.mdl",
@@ -216,6 +307,7 @@ GM.PlayerModels = {
 	},
 	{
 		-- less female models, sexism smh
+		gender = GENDER_FEMALE,
 		"models/player/Group03/Female_01.mdl",
 		"models/player/Group03/Female_02.mdl",
 		"models/player/Group03/Female_03.mdl",
@@ -223,17 +315,31 @@ GM.PlayerModels = {
 		"models/player/Group03/Female_06.mdl"
 	},
 	{
+		gender = GENDER_MALE,
 		"models/player/arctic.mdl",
 		"models/player/guerilla.mdl",
 		"models/player/leet.mdl",
 		"models/player/phoenix.mdl"
 	},
 	{
+		gender = GENDER_MALE,
 		"models/player/dod_american.mdl",
 		"models/player/dod_german.mdl"
 	},
-	"models/player/alyx.mdl",
-	"models/player/eli.mdl",
-	"models/player/magnusson.mdl",
-	"models/player/monk.mdl"
+	{
+		gender = GENDER_FEMALE,
+		"models/player/alyx.mdl"
+	},
+	{
+		gender = GENDER_MALE,
+		"models/player/eli.mdl"
+	},
+	{
+		gender = GENDER_MALE,
+		"models/player/magnusson.mdl"
+	},
+	{
+		gender = GENDER_MALE
+		"models/player/monk.mdl"
+	}
 }
