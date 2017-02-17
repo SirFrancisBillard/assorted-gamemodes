@@ -4,20 +4,23 @@ AddCSLuaFile("sh_config.lua")
 
 include("shared.lua")
 
+-- disable all the game-breaking stuff
 game.ConsoleCommand("sbox_weapons 0\n")
 game.ConsoleCommand("sbox_godmode 0\n")
 game.ConsoleCommand("sbox_noclip 0\n")
 
+-- pool network strings
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
 
 -- we need this so we don't just assume
 local function GetGender(ply)
-	-- if they don't have a gender we'll
-	-- assume they're male (sexism smh)
+	-- if they don't have a gender we'll assume they're male
+	-- (sexism smh)
 	return ply.model_table and ply.model_table.gender or GENDER_MALE
 end
 
+-- called on the attacker of every kill
 function GM:PlayerKillstreak(ply)
 	-- if this ever runs, we have a serious problem
 	if not type(ply.killstreak) == "number" then
@@ -27,6 +30,8 @@ function GM:PlayerKillstreak(ply)
 	-- temp
 	-- add something better here
 	if ply.killstreak % 5 == 0 then
+		-- i will give 400 bucks to whomever can get
+		-- this string.Comma to make a difference
 		ply:ChatPrint("Killstreak: " .. string.Comma(ply.killstreak))
 		ply:ChatPrint("Airdrop inbound")
 
@@ -49,8 +54,7 @@ function GM:EntityTakeDamage(ply, dmg)
 	-- hurt sounds
 	if IsValid(ply) and ply:IsPlayer() end
 		local gen = GetGender(ply)
-		-- this is the order of priority for
-		-- where something is in the table
+		-- this is the order of priority for where something is in the table
 		local snd = GM.HurtSounds[hg] or GM.HurtSounds[gen][hg] or GM.HurtSounds[gen]["generic"]
 		ply:EmitSound(snd)
 	end
@@ -60,33 +64,32 @@ function GM:EntityTakeDamage(ply, dmg)
 		local ply_perk = atk:GetNWInt("br_perk", PERK_NONE)
 		local atk_perk = atk:GetNWInt("br_perk", PERK_NONE)
 		if not IsValid(wep) then return end
-		-- Grinder: Get armor for hurting people
+		-- grinder: get armor for hurting people
 		if atk_perk == PERK_GRINDER and atk:Armor() < 40 then
 			atk:SetArmor(math.Clamp(atk:Armor() + math.Round(dmg:GetDamage() / 4), 0, 40))
 			return
 		end
-		-- Psycho: Deal double damage with blades
+		-- psycho: deal double damage with blades
 		if atk_perk == PERK_PSYCHO and self.WeaponTypes.Blades[wep:GetClass()] then
 			dmg:ScaleDamage(2)
 			return
 		end
-		-- Rage: Deal more damage the lower your health
+		-- rage: deal more damage the lower your health
 		if atk_perk == PERK_RAGE then
 			dmg:ScaleDamage(1 + ((100 - atk:Health()) / 100))
 			return
 		end
-		-- Marksman: Deal more damage with rifles
+		-- marksman: deal more damage with rifles
 		if atk_perk == PERK_MARKSMAN and self.WeaponTypes.Marksman[wep:GetClass()] then
 			dmg:ScaleDamage(1.4)
 			return
 		end
-		-- Boxer: Deal more damage with fists
+		-- boxer: deal more damage with fists
 		if atk_perk == PERK_BOXER and wep:GetClass() == "weapon_fists" then
 			dmg:ScaleDamage(6)
 			return
 		elseif wep:GetClass() == "weapon_fists" then
-			-- fists really shit so buff them
-			-- by default
+			-- fists really shit so buff them by default
 			dmg:ScaleDamage(2)
 		end
 	end
@@ -189,7 +192,6 @@ function GM:PlayerSpawn(ply)
 	net.Start("br_openperkmenu")
 	net.Send(ply)
 
-	-- support subtables in the main table
 	local mdl_choice = self.PlayerModels[math.random(1, #self.PlayerModels)]
 	ply:SetModel(mdl_choice[math.random(1, #mdl_choice)])
 	ply.model_table = mdl_choice
@@ -210,7 +212,7 @@ function GM:PlayerSetHandsModel(ply, ent)
 end
 
 function GM:GetFallDamage(ply, speed)
-	-- Acrobat: Take less damage from falling
+	-- acrobat: take less fall damage
 	if ply:GetNWInt("br_perk") == PERK_ACROBAT then
 		return 5
 	else
