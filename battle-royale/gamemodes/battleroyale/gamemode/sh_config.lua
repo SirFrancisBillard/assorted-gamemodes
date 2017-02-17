@@ -199,12 +199,6 @@ GM.PlayerModels = {
 	-- tables so they don't have a huge chance
 	-- of being picked over other models
 	{
-		-- less female models, sexism smh
-		"models/player/Group03/Female_01.mdl",
-		"models/player/Group03/Female_02.mdl",
-		"models/player/Group03/Female_03.mdl",
-		"models/player/Group03/Female_04.mdl",
-		"models/player/Group03/Female_06.mdl",
 		"models/player/group03/male_01.mdl",
 		"models/player/Group03/Male_02.mdl",
 		"models/player/Group03/male_03.mdl",
@@ -215,6 +209,26 @@ GM.PlayerModels = {
 		"models/player/Group03/Male_08.mdl",
 		"models/player/Group03/Male_09.mdl"
 	},
+	{
+		-- less female models, sexism smh
+		"models/player/Group03/Female_01.mdl",
+		"models/player/Group03/Female_02.mdl",
+		"models/player/Group03/Female_03.mdl",
+		"models/player/Group03/Female_04.mdl",
+		"models/player/Group03/Female_06.mdl"
+	},
+	{
+		"models/player/arctic.mdl",
+		"models/player/guerilla.mdl",
+		"models/player/leet.mdl",
+		"models/player/phoenix.mdl"
+	},
+	{
+		"models/player/dod_american.mdl",
+		"models/player/dod_german.mdl"
+	},
 	"models/player/alyx.mdl",
-	"models/player/eli.mdl"
+	"models/player/eli.mdl",
+	"models/player/magnusson.mdl",
+	"models/player/monk.mdl"
 }
