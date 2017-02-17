@@ -140,7 +140,9 @@ function GM:PlayerSpawn(ply)
 
 	player_manager.SetPlayerClass(ply, "player_sandbox")
 	ply:StripWeapons()
-	ply:Give("weapon_fists") -- bare hands
+
+	-- bare hands
+	ply:Give("weapon_fists")
 
 	ply:SetWalkSpeed(150)
 	ply:SetRunSpeed(250)
@@ -151,7 +153,14 @@ function GM:PlayerSpawn(ply)
 	net.Start("br_openperkmenu")
 	net.Send(ply)
 
-	ply:SetModel(self.PlayerModels[math.random(1, #self.PlayerModels)])
+	-- support subtables in the main table
+	local mdl_choice = self.PlayerModels[math.random(1, #self.PlayerModels)]
+	if type(mdl_choice) == "table" then
+		ply:SetModel(mdl_choice[math.random(1, #mdl_choice)])
+	else
+		ply:SetModel(mdl_choice)
+	end
+
 	ply:SetupHands()
 end
 
@@ -173,5 +182,6 @@ net.Receive("br_selectperk", function(len, ply)
 	local perk = net.ReadInt(5)
 	if perk <= PERK_MAX and not ply.chose_perk then
 		ply:SetNWInt("br_perk", perk)
+		ply.chose_perk = true
 	end
 end)
