@@ -11,12 +11,24 @@ game.ConsoleCommand("sbox_noclip 0\n")
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
 
+-- we need this so we don't just assume
+local function GetGender(ply)
+	-- if they don't have a gender we'll
+	-- assume they're male (sexism smh)
+	return ply.model_table and ply.model_table.gender or GENDER_MALE
+end
+
 function GM:PlayerSpawnObject(ply)
 	return ply:IsAdmin()
 end
 
 function GM:EntityTakeDamage(ply, dmg)
 	local atk = dmg:GetAttacker()
+	-- hurt sounds
+	if IsValid(ply) and ply:IsPlayer() end
+		local gen = GetGender(ply)
+	end
+	-- perks
 	if IsValid(ply) and IsValid(atk) and ply:IsPlayer() and atk:IsPlayer() then
 		local wep = atk:GetActiveWeapon()
 		local ply_perk = atk:GetNWInt("br_perk", PERK_NONE)
@@ -99,7 +111,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	SafeRemoveEntityDelayed(rag, 60)
 
 	-- position the bones
-	local num = rag:GetPhysicsObjectCount()-1
+	local num = rag:GetPhysicsObjectCount() - 1
 	local v = ply:GetVelocity()
 
 	-- bullets have a lot of force, which feels better when shooting props,
@@ -108,7 +120,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		v = v / 5
 	end
 
-	for i=0, num do
+	for i = 0, num do
 		local bone = rag:GetPhysicsObjectNum(i)
 		if IsValid(bone) then
 			local bp, ba = ply:GetBonePosition(rag:TranslatePhysBoneToBone(i))
@@ -153,11 +165,8 @@ function GM:PlayerSpawn(ply)
 
 	-- support subtables in the main table
 	local mdl_choice = self.PlayerModels[math.random(1, #self.PlayerModels)]
-	if type(mdl_choice) == "table" then
-		ply:SetModel(mdl_choice[math.random(1, #mdl_choice)])
-	else
-		ply:SetModel(mdl_choice)
-	end
+	ply:SetModel(mdl_choice[math.random(1, #mdl_choice)])
+	ply.model_table = mdl_choice
 
 	ply:SetupHands()
 end
