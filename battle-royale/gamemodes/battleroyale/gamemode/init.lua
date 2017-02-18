@@ -28,11 +28,13 @@ GM.RegenPlayers = {}
 
 -- called on the attacker of every kill
 function GM:PlayerKillstreak(ply)
+
 	-- if this ever runs, we have a serious problem
 	if not type(ply.killstreak) == "number" then
 		ply.killstreak = 0
 		return
 	end
+
 	-- temp
 	-- add something better here
 	if ply.killstreak % 5 == 0 then
@@ -42,11 +44,20 @@ function GM:PlayerKillstreak(ply)
 		ply:ChatPrint("Airdrop inbound")
 
 		local drop = ents.Create("ent_dropnade_proj")
-		drop:SetPos(ply:GetPos())
-		drop:Spawn()
-
-		-- disable collisions with owner
+		drop:SetPos(ply:GetPos() + Vector(0, 0, 16))
+		
 		drop:SetOwner(ply)
+		drop:SetThrower(ply)
+
+		drop:SetGravity(0.4)
+		drop:SetFriction(0.2)
+		drop:SetElasticity(0.45)
+
+		drop:Spawn()
+		drop:PhysWake()
+
+		-- must be called after the drop initializes
+		drop:SetDetonateExact(CurTime() + 1)
 	end
 end
 
@@ -127,7 +138,6 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	rag:SetNWBool("player_corpse", true)
 	rag:SetNWString("player_nick", ply:Nick())
 
-
 	rag.loot_armor = 0
 	if ply:Armor() > 0 then
 		rag.loot_armor = ply:Armor()
@@ -160,8 +170,6 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 
 	-- position the bones
 	local num = rag:GetPhysicsObjectCount() - 1
-	local v = ply:GetVelocity()
-
 	for i = 0, num do
 		local bone = rag:GetPhysicsObjectNum(i)
 		if IsValid(bone) then
@@ -171,15 +179,14 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 				bone:SetAngles(ba)
 			end
 
-			-- not sure if this will work:
-			bone:SetVelocity(v)
+			bone:SetVelocity(vector_origin)
 		end
 	end
 
 	ply:AddDeaths(1)
 
-	if attacker:IsValid() && attacker:IsPlayer() then
-		if not attacker == ply then
+	if IsValid(attacker) and attacker:IsPlayer() then
+		if ply ~= attacker then
 			attacker:AddFrags(1)
 			attacker.killstreak = attacker.killstreak + 1
 			self:PlayerKillstreak(attacker)

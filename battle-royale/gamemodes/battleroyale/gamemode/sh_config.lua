@@ -241,7 +241,7 @@ GM.HurtSounds = {
 			Sound("vo/npc/male01/moan02.wav"),
 			Sound("vo/npc/male01/moan03.wav"),
 			Sound("vo/npc/male01/moan04.wav"),
-			Sound("vo/npc/male01/moan05.wav"),
+			Sound("vo/npc/male01/moan05.wav")
 		},
 		[HITGROUP_LEFTARM] = {
 			Sound("vo/npc/male01/myarm01.wav"),
