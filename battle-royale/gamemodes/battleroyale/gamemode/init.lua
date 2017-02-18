@@ -20,6 +20,8 @@ local function GetGender(ply)
 	return ply.model_table and ply.model_table.gender or GENDER_MALE
 end
 
+GM.RegenPlayers = {}
+
 -- called on the attacker of every kill
 function GM:PlayerKillstreak(ply)
 	-- if this ever runs, we have a serious problem
