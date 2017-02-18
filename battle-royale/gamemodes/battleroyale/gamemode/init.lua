@@ -46,10 +46,6 @@ function GM:PlayerKillstreak(ply)
 	end
 end
 
-function GM:PlayerSpawnObject(ply)
-	return ply:IsAdmin()
-end
-
 function GM:EntityTakeDamage(ply, dmg)
 	local atk = dmg:GetAttacker()
 	local hg = ply:LastHitGroup()
@@ -227,6 +223,23 @@ function GM:GetFallDamage(ply, speed)
 	else
 		return speed / 8
 	end
+end
+
+function GM:PlayerCanHearPlayersVoice(l, t)
+	if not IsValid(l) or not IsValid(t) then return false end
+	local l_wep = l:GetActiveWeapon()
+	local t_wep = t:GetActiveWeapon()
+	if l:GetPos():Distance(t:GetPos()) <= 1024 then
+		return true, true
+	elseif IsValid(l_wep) and IsValid(t_wep) and l_wep:GetClass() == "weapon_walkietalkie" and t_wep:GetClass() == "weapon_walkietalkie" then
+		return true, false
+	else
+		return false
+	end
+end
+
+function GM:PlayerSpawnObject(ply)
+	return ply:IsAdmin()
 end
 
 net.Receive("br_selectperk", function(len, ply)
