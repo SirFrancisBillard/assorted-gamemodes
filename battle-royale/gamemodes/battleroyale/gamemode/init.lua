@@ -12,6 +12,10 @@ game.ConsoleCommand("sbox_noclip 0\n")
 -- pool network strings
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
+util.AddNetworkString("br_headshotsound")
+
+-- resources
+resource.AddFile("sound/rust/headshot.wav")
 
 -- we need this so we don't just assume
 local function GetGender(ply)
@@ -48,13 +52,23 @@ end
 
 function GM:EntityTakeDamage(ply, dmg)
 	local atk = dmg:GetAttacker()
-	local hg = ply:LastHitGroup()
+	-- headshot sounds
+	if IsValid(ply) and ply:IsPlayer() and ply:LastHitGroup() == HITGROUP_HEAD then
+		net.Start("br_headshotsound")
+		net.Send(ply)
+		local atk = dmg:GetAttacker()
+		if IsValid(atk) and atk:IsPlayer() then
+			net.Start("br_headshotsound")
+			net.Send(atk)
+		end
+	end
 	-- hurt sounds
-	if IsValid(ply) and ply:IsPlayer() end
+	if IsValid(ply) and ply:IsPlayer() then
+		local hg = ply:LastHitGroup()
 		local gen = GetGender(ply)
 		-- this is the order of priority for where something is in the table
-		local snd = GM.HurtSounds[hg] or GM.HurtSounds[gen][hg] or GM.HurtSounds[gen]["generic"]
-		ply:EmitSound(snd)
+		local snd_table = self.HurtSounds[hg] or self.HurtSounds[gen][hg] or self.HurtSounds[gen]["generic"]
+		ply:EmitSound(snd_table[math.random(1, #snd_table)])
 	end
 	-- perks
 	if IsValid(ply) and IsValid(atk) and ply:IsPlayer() and atk:IsPlayer() then
@@ -110,7 +124,9 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	rag.player_corpse = true
 	rag.is_looted = false
 
+	rag:SetNWBool("player_corpse", true)
 	rag:SetNWString("player_nick", ply:Nick())
+
 
 	rag.loot_armor = 0
 	if ply:Armor() > 0 then
@@ -145,12 +161,6 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	-- position the bones
 	local num = rag:GetPhysicsObjectCount() - 1
 	local v = ply:GetVelocity()
-
-	-- bullets have a lot of force, which feels better when shooting props,
-	-- but makes bodies fly, so dampen that here
-	if dmg:IsDamageType(DMG_BULLET) or dmg:IsDamageType(DMG_SLASH) then
-		v = v / 5
-	end
 
 	for i = 0, num do
 		local bone = rag:GetPhysicsObjectNum(i)

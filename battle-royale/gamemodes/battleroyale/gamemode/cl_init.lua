@@ -21,7 +21,7 @@ function GM:HUDDrawTargetID()
 
 	if trace.Entity:IsPlayer() then
 		text = trace.Entity:Nick()
-	elseif not type(trace.Entity:GetNWString("player_nick", 1)) == 1 then
+	elseif trace.Entity:GetNWBool("player_corpse", false) then
 		text = trace.Entity:GetNWString("player_nick", "Unknown")
 	else
 		return
@@ -122,4 +122,8 @@ net.Receive("br_openperkmenu", function(len)
 		-- PerkModels[#PerkModels]:DockMargin(5, 0, 0, 0)
 		-- PerkModels[#PerkModels]:SetModel(v.model)
 	end
+end)
+
+net.Receive("br_headshotsound", function(len)
+	sound.Play(Sound("Bullet_Impact.Headshot"), LocalPlayer():GetPos())
 end)

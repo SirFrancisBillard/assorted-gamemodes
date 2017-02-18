@@ -7,6 +7,15 @@ DeriveGamemode("sandbox")
 
 include("sh_config.lua")
 
+sound.Add({
+	name = "Bullet_Impact.Headshot",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 150,
+	pitch = {95, 110},
+	sound = "rust/headshot.wav"
+})
+
 function GM:Initialize()
 	-- this seems like a fucking stupid idea
 	-- but TFA won't get off his ass and fix

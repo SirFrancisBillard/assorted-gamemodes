@@ -1,7 +1,7 @@
 "battleroyale"
 {
 	"base"		"sandbox"
-	"title"		"Battle Royale"
+	"title"		"Battle Royale: Brawl"
 	"maps"		"^ttt_"
 	"menusystem"	"1"
 	"workshopid"	""

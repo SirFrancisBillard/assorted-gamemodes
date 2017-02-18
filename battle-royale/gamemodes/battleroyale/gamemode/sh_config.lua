@@ -256,7 +256,7 @@ GM.HurtSounds = {
 			Sound("vo/npc/male01/hitingut01.wav"),
 			Sound("vo/npc/male01/hitingut02.wav")
 		}
-	}
+	},
 	[GENDER_FEMALE] = {
 		["generic"] = {
 			Sound("vo/npc/female01/pain01.wav"),
@@ -278,12 +278,10 @@ GM.HurtSounds = {
 			Sound("vo/npc/female01/myarm01.wav"),
 			Sound("vo/npc/female01/myarm02.wav")
 		},
-		[HITGROUP_RIGHTARM] = GM.HurtSounds[HITGROUP_LEFTARM],
 		[HITGROUP_LEFTLEG] = {
 			Sound("vo/npc/female01/myleg01.wav"),
 			Sound("vo/npc/female01/myleg02.wav")
 		},
-		[HITGROUP_RIGHTLEG] = GM.HurtSounds[HITGROUP_LEFTLEG],
 		[HITGROUP_STOMACH] = {
 			Sound("vo/npc/female01/mygut02.wav"),
 			Sound("vo/npc/female01/hitingut01.wav"),
@@ -291,6 +289,12 @@ GM.HurtSounds = {
 		}
 	}
 }
+
+GM.HurtSounds[GENDER_MALE][HITGROUP_RIGHTARM] = GM.HurtSounds[GENDER_MALE][HITGROUP_LEFTARM]
+GM.HurtSounds[GENDER_MALE][HITGROUP_RIGHTLEG] = GM.HurtSounds[GENDER_MALE][HITGROUP_LEFTLEG]
+
+GM.HurtSounds[GENDER_FEMALE][HITGROUP_RIGHTARM] = GM.HurtSounds[GENDER_FEMALE][HITGROUP_LEFTARM]
+GM.HurtSounds[GENDER_FEMALE][HITGROUP_RIGHTLEG] = GM.HurtSounds[GENDER_FEMALE][HITGROUP_LEFTLEG]
 
 -- player models
 GM.PlayerModels = {
@@ -344,7 +348,7 @@ GM.PlayerModels = {
 		"models/player/magnusson.mdl"
 	},
 	{
-		gender = GENDER_MALE
+		gender = GENDER_MALE,
 		"models/player/monk.mdl"
 	}
 }
