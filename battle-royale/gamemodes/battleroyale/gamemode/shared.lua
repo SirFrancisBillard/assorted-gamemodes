@@ -15,6 +15,17 @@ function GM:Initialize()
 	hook.Remove("DrawOverlay", "MenuDrawLuaErrors")
 	-- jk bby I love you and your addons but
 	-- please accept a PR or two to fix this
+
+	if SERVER then
+		local function RegenPlayers()
+			for k, v in pairs(self.RegenPlayers) do
+				if v and IsValid(k) and k:IsPlayer() and k:Alive() and k:GetNWInt("br_perk", PERK_NONE) == PERK_REGEN and k:Health() < k:GetMaxHealth() then
+					k:SetHealth(math.Clamp(k:Health() + 5, 0, k:GetMaxHealth()))
+				end
+			end
+		end
+		timer.Create("br_regentimer", 5, 0, RegenPlayers)
+	end
 end
 
 function GM:KeyRelease(ply, key)
