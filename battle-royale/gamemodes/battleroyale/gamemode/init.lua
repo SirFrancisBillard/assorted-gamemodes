@@ -177,6 +177,8 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 			self:PlayerKillstreak(attacker)
 		end
 	end
+
+	self.RegenPlayers[ply] = nil
 end
 
 function GM:PlayerSpawn(ply)
@@ -230,5 +232,8 @@ net.Receive("br_selectperk", function(len, ply)
 	if perk <= PERK_MAX and not ply.chose_perk then
 		ply:SetNWInt("br_perk", perk)
 		ply.chose_perk = true
+		if perk == PERK_REGEN then
+			GAMEMODE.RegenPlayers[ply] = true
+		end
 	end
 end)
