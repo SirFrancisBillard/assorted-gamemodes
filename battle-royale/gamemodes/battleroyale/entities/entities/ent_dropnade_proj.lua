@@ -72,7 +72,7 @@ function ENT:Explode(tr)
 		local pos = self:GetPos()
 		timer.Simple(20, function()
 			local drop = ents.Create("ent_airdrop")
-			drop:SetPos(pos + Vector(0, 0, 1000))
+			drop:SetPos(pos + Vector(0, 0, 128))
 			drop:Spawn()
 		end)
 

@@ -52,6 +52,9 @@ if SERVER then
 			local loot = ents.Create(item)
 			loot:SetPos(self:GetPos() + Vector(0, 0, 32))
 			loot:Spawn()
+			local res = math.random(20, 80)
+			ply:SetNWInt("br_resources", ply:GetNWInt("br_resources", 0) + res)
+			ply:ChatPrint("+" .. string.Comma(res) .. " resources")
 		end
 	end
 else

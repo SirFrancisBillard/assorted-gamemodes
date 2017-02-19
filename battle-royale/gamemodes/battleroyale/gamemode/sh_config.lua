@@ -81,6 +81,11 @@ GM.Config = {
 	CorpseDespawnTime = 60,
 }
 
+GM.DefaultWeapons = {
+	["weapon_fists"] = true,
+	["weapon_buildingtool"] = true
+}
+
 -- stuff you can get from containers
 GM.LootTable = {
 	Bad = {
@@ -329,11 +334,6 @@ GM.PlayerModels = {
 		"models/player/guerilla.mdl",
 		"models/player/leet.mdl",
 		"models/player/phoenix.mdl"
-	},
-	{
-		gender = GENDER_MALE,
-		"models/player/dod_american.mdl",
-		"models/player/dod_german.mdl"
 	},
 	{
 		gender = GENDER_FEMALE,

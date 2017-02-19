@@ -10,15 +10,15 @@ ENT.AdminOnly = true
 
 if SERVER then
 	function ENT:Initialize()
-		self:SetModel("models/props_junk/wood_crate001a.mdl")
+		self:SetModel("models/Items/item_item_crate.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
 		self:SetSequence(1)
 		self:PhysWake()
-		-- whoever stands under this is
-		-- gonna be one unlucky wanker
-		self:SetVelocity(Vector(0, 0, -20000))
+		-- whoever stands under this is gonna be one unlucky wanker
+		self:SetAbsVelocity(Vector(0, 0, -20000))
+		self:EmitSound(Sound("physics/wood/wood_crate_impact_hard" .. math.random(1, 5) .. ".wav"))		
 	end
 
 	function ENT:Use(ply)

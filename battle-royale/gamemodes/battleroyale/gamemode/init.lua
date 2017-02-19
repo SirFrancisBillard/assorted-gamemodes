@@ -28,7 +28,6 @@ GM.RegenPlayers = {}
 
 -- called on the attacker of every kill
 function GM:PlayerKillstreak(ply)
-
 	-- if this ever runs, we have a serious problem
 	if not type(ply.killstreak) == "number" then
 		ply.killstreak = 0
@@ -145,7 +144,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 
 	rag.loot_weapons = {}
 	for k, v in pairs(ply:GetWeapons()) do
-		if v:GetClass() == "weapon_fists" then continue end
+		if self.DefaultWeapons[v:GetClass()] then continue end
 		table.insert(rag.loot_weapons, v:GetClass())
 	end
 
@@ -202,11 +201,17 @@ function GM:PlayerSpawn(ply)
 	player_manager.SetPlayerClass(ply, "player_sandbox")
 	ply:StripWeapons()
 
-	-- bare hands
-	ply:Give("weapon_fists")
+	-- default stuff
+	for k, v in pairs(self.DefaultWeapons) do
+		if v then
+			ply:Give(k)
+		end
+	end
 
 	ply:SetWalkSpeed(150)
 	ply:SetRunSpeed(250)
+
+	ply:SetNWInt("br_resources", 0)
 
 	ply:SetNWInt("br_perk", PERK_NONE)
 	ply.chose_perk = false
