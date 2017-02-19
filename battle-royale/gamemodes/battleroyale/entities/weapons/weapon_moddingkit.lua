@@ -7,7 +7,7 @@ AddCSLuaFile()
 SWEP.HoldType = "normal"
 
 SWEP.PrintName = "Gun Modding Kit"
-SWEP.Instructions = "Left click and switch to a weapon to mod the weapon.\nRight click for list of moddable weapons."
+SWEP.Instructions = "Left click and switch to a weapon to mod that weapon.\nRight click for a list of moddable weapons."
 
 SWEP.Slot = 5
 SWEP.ViewModelFOV = 10

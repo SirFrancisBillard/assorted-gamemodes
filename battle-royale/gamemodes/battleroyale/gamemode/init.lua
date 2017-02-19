@@ -15,7 +15,14 @@ util.AddNetworkString("br_selectperk")
 util.AddNetworkString("br_headshotsound")
 
 -- resources
-resource.AddFile("sound/rust/headshot.wav")
+for i = 1, 9 do
+	resource.AddFile("sound/battle-royale/food/eat" .. i .. ".wav")
+end
+resource.AddFile("sound/battle-royale/armor.wav")
+resource.AddFile("sound/battle-royale/headshot.wav")
+resource.AddFile("sound/battle-royale/loot.wav")
+resource.AddFile("sound/battle-royale/plane_close.wav")
+resource.AddFile("sound/battle-royale/plane_far.wav")
 
 -- we need this so we don't just assume
 local function GetGender(ply)
@@ -103,7 +110,7 @@ function GM:EntityTakeDamage(ply, dmg)
 		end
 		-- marksman: deal more damage with rifles
 		if atk_perk == PERK_MARKSMAN and self.WeaponTypes.Marksman[wep:GetClass()] then
-			dmg:ScaleDamage(1.4)
+			dmg:ScaleDamage(1.6)
 			return
 		end
 		-- boxer: deal more damage with fists
@@ -162,7 +169,11 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 
 	-- nonsolid to players, but can be picked up and shot
 	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	timer.Simple(1, function() if IsValid(rag) then rag:CollisionRulesChanged() end end)
+	timer.Simple(1, function()
+		if IsValid(rag) then
+			rag:CollisionRulesChanged()
+		end
+	end)
 
 	-- clean corpse in a minute
 	SafeRemoveEntityDelayed(rag, 60)
@@ -198,6 +209,14 @@ end
 function GM:PlayerSpawn(ply)
 	self.BaseClass.PlayerSpawn(self, ply)
 
+	local spawns = ents.FindByClass("ent_spawnpoint")
+	if #spawns > 0 then
+		local spawn = spawns[math.random(1, #spawns)]
+		if IsValid(spawn) then
+			ply:SetPos(spawn:GetPos() + Vector(0, 0, 16))
+		end
+	end
+
 	player_manager.SetPlayerClass(ply, "player_sandbox")
 	ply:StripWeapons()
 
@@ -207,6 +226,7 @@ function GM:PlayerSpawn(ply)
 			ply:Give(k)
 		end
 	end
+	ply:SelectWeapon("weapon_fists")
 
 	ply:SetWalkSpeed(150)
 	ply:SetRunSpeed(250)
@@ -260,8 +280,28 @@ function GM:PlayerCanHearPlayersVoice(l, t)
 	end
 end
 
+function GM:PlayerCanPickupWeapon(ply, wep)
+	return not ply:HasWeapon(wep:GetClass())
+end
+
 function GM:PlayerSpawnObject(ply)
 	return ply:IsAdmin()
+end
+
+function GM:PlayerSwitchFlashlight(ply, enabled)
+	return not ply.flashlight_switch and ply:Alive()
+end
+
+function GM:PlayerSwitchWeapon(ply, old, new)
+	-- the flashlight_switch variable is used so the annoying flashlight_switch
+	-- noise doesn't play twice because of how tfa handles holstering
+	if IsValid(old) and old:GetClass() == "tfa_nmrih_maglite" and not ply.flashlight_switch then
+		ply:Flashlight(false)
+		ply.flashlight_switch = true
+	elseif IsValid(new) and new:GetClass() == "tfa_nmrih_maglite" then
+		ply.flashlight_switch = false
+		ply:Flashlight(true)
+	end
 end
 
 net.Receive("br_selectperk", function(len, ply)

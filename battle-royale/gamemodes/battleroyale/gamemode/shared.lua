@@ -7,15 +7,6 @@ DeriveGamemode("sandbox")
 
 include("sh_config.lua")
 
-sound.Add({
-	name = "Bullet_Impact.Headshot",
-	channel = CHAN_AUTO,
-	volume = 1.0,
-	level = 150,
-	pitch = {95, 110},
-	sound = "rust/headshot.wav"
-})
-
 function GM:Initialize()
 	-- this seems like a fucking stupid idea
 	-- but TFA won't get off his ass and fix
@@ -50,24 +41,22 @@ function GM:KeyRelease(ply, key)
 
 		if tr.Hit and IsValid(tr.Entity) and tr.Entity.player_corpse then
 			local perk = ply:GetNWInt("br_perk", PERK_NONE)
-			if perk == PERK_CANNIBAL and ply:Health() < ply:GetMaxHealth() then
+			if perk == PERK_CANNIBAL and ply:Health() < ply:GetMaxHealth() and tr.Entity.is_looted then
 				ply:SetHealth(math.Clamp(ply:Health() + 20, 0, ply:GetMaxHealth()))
-				-- ply:EmitSound("eating sound from rust or something")
+				ply:EmitSound(Sound("Food.Eat"))
 				SafeRemoveEntity(tr.Entity)
 			end
-			if perk == PERK_LOOTER then
-				if tr.Entity.is_looted then
-					ply:ChatPrint("There is nothing on this corpse.")
-					return
-				end
-				tr.Entity.is_looted = true
-				ply:SetArmor(math.min(ply:Armor() + tr.Entity.loot_armor))
-				for k, v in pairs(tr.Entity.loot_weapons) do
-					ply:Give(v)
-				end
-				for k, v in pairs(tr.Entity.loot_ammo) do
-					ply:GiveAmmo(v, k)
-				end
+			if tr.Entity.is_looted then
+				ply:ChatPrint("There is nothing on this corpse.")
+				return
+			end
+			tr.Entity.is_looted = true
+			ply:SetArmor(math.min(ply:Armor() + tr.Entity.loot_armor))
+			for k, v in pairs(tr.Entity.loot_weapons) do
+				ply:Give(v)
+			end
+			for k, v in pairs(tr.Entity.loot_ammo) do
+				ply:GiveAmmo(v, k)
 			end
 		end
 	end

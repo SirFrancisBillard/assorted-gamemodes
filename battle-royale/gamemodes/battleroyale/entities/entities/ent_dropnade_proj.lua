@@ -9,9 +9,16 @@ ENT.Model = Model("models/weapons/w_eq_smokegrenade_thrown.mdl")
 AccessorFunc( ENT, "radius", "Radius", FORCE_NUMBER )
 
 function ENT:Initialize()
-   if not self:GetRadius() then self:SetRadius(20) end
+	if not self:GetRadius() then self:SetRadius(20) end
 
-   return self.BaseClass.Initialize(self)
+	-- make sure the airdrop can travel as fast as it needs to
+	local settings = physenv.GetPerformanceSettings()
+	if settings.MaxVelocity < 3000 then
+		settings.MaxVelocity = 3000
+		physenv.SetPerformanceSettings(settings)
+	end
+
+	return self.BaseClass.Initialize(self)
 end
 
 if CLIENT then
@@ -70,6 +77,17 @@ function ENT:Explode(tr)
 		end
 
 		local pos = self:GetPos()
+
+		timer.Simple(16, function()
+			local plane = pos + Vector(0, 0, 512)
+			sound.Play("battle-royale/plane_close.wav", plane, 150, 100)
+			sound.Play("battle-royale/plane_close.wav", plane, 150, 100)
+			sound.Play("battle-royale/plane_close.wav", plane, 150, 100)
+			for key,ply in pairs(player.GetAll())do
+				ply:EmitSound("battle-royale/plane_far.wav", 70, 100)
+			end
+		end)
+
 		timer.Simple(20, function()
 			local drop = ents.Create("ent_airdrop")
 			drop:SetPos(pos + Vector(0, 0, 128))

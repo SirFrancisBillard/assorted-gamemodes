@@ -7,45 +7,56 @@ ENT.Base = "base_entity"
 -- today we're gonna be opening a
 -- package sent to me by my sponsor
 ENT.PrintName = "Loot Crate"
+ENT.Category = "Battle Royale"
 
 ENT.Spawnable = true
 ENT.AdminOnly = true
 
-local color_red = Color(255, 0, 0)
-local color_green = Color(0, 255, 0)
+ENT.RenderGroup = RENDERGROUP_OPAQUE
+
+local model_closed = "models/props/CS_militia/footlocker01_closed.mdl"
+local model_open = "models/props/CS_militia/footlocker01_open.mdl"
 
 if SERVER then
 	function ENT:Initialize()
-		self:SetModel("models/Items/ammocrate_smg1.mdl")
+		self:SetModel(model_closed)
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
-		self:SetSequence(1)
 		self:PhysWake()
-		self:SetColor(color_green)
 	end
 
 	function ENT:Use(ply)
-		-- checking colors instead of a dedicated variable
+		-- checking the model instead of a dedicated variable
 		-- seems like a sloppy way of doing this, but
 		-- minimizing the need for networked variables is
-		-- good and the default color functions are already
+		-- good and the default model functions are already
 		-- networked and this only runs on the server anyway.
-		if IsValid(ply) and ply:IsPlayer() and self:GetColor().g == color_green.g then
-			self:SetColor(color_red)
+		if IsValid(ply) and ply:IsPlayer() and self:GetModel():lower() == model_closed:lower() then
+			self:SetModel(model_open)
 			-- todo: config for the time here
 			timer.Simple(60, function()
 				if not IsValid(self) then return end
-				self:SetColor(color_green)
+				self:SetModel(model_closed)
 			end)
 			local randy = math.random(1, 100)
 			local tab
-			if randy <= 50 then
-				tab = table.GetKeys(GAMEMODE.LootTable.Bad)
-			elseif randy <= 85 then
-				tab = table.GetKeys(GAMEMODE.LootTable.Okay)
+			if ply:GetNWInt("br_perk", PERK_NONE) == PERK_LOOTER then
+				if randy <= 30 then
+					tab = table.GetKeys(GAMEMODE.LootTable.Bad)
+				elseif randy <= 75 then
+					tab = table.GetKeys(GAMEMODE.LootTable.Okay)
+				else
+					tab = table.GetKeys(GAMEMODE.LootTable.Good)
+				end
 			else
-				tab = table.GetKeys(GAMEMODE.LootTable.Good)
+				if randy <= 60 then
+					tab = table.GetKeys(GAMEMODE.LootTable.Bad)
+				elseif randy <= 90 then
+					tab = table.GetKeys(GAMEMODE.LootTable.Okay)
+				else
+					tab = table.GetKeys(GAMEMODE.LootTable.Good)
+				end
 			end
 			if not tab then return end
 			local item = tab[math.random(1, #tab)]
@@ -55,6 +66,7 @@ if SERVER then
 			local res = math.random(20, 80)
 			ply:SetNWInt("br_resources", ply:GetNWInt("br_resources", 0) + res)
 			ply:ChatPrint("+" .. string.Comma(res) .. " resources")
+			self:EmitSound("Loot.Open")
 		end
 	end
 else

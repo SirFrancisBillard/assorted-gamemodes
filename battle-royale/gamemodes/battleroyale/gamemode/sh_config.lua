@@ -32,6 +32,47 @@ PERK_MAX = ENUM_CURRENT
 GENDER_MALE = "male"
 GENDER_FEMALE = "female"
 
+-- soundscripts
+sound.Add({
+	name = "Bullet_Impact.Headshot",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 150,
+	pitch = {95, 110},
+	sound = "battle-royale/headshot.wav"
+})
+
+sound.Add({
+	name = "Kevlar.Equip",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = "battle-royale/armor.wav"
+})
+
+sound.Add({
+	name = "Loot.Open",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = "battle-royale/loot.wav"
+})
+
+local eatsounds = {}
+for i = 1, 9 do
+	table.insert(eatsounds, "battle-royale/food/eat" .. i .. ".wav")
+end
+sound.Add({
+	name = "Food.Eat",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = eatsounds
+})
+
 GM.PerkInfo = {
 	[PERK_NONE] = {
 		name = "None",
@@ -55,7 +96,7 @@ GM.PerkInfo = {
 	},
 	[PERK_LOOTER] = {
 		name = "Looter",
-		desc = "Loot corpses for their weapons and equipment."
+		desc = "Receive better loot more often."
 	},
 	[PERK_MARKSMAN] = {
 		name = "Marksman",
@@ -110,7 +151,10 @@ GM.LootTable = {
 		["tfa_nmrih_spade"] = true,
 		["tfa_nmrih_wrench"] = true,
 
-		["weapon_moddingkit"] = true,
+		["ent_kevlar"] = true,
+		["ent_kevlar"] = true,
+		["ent_kevlar"] = true,
+
 		["weapon_moddingkit"] = true,
 		["weapon_moddingkit"] = true
 	},
@@ -143,6 +187,14 @@ GM.LootTable = {
 		["tfa_nmrih_sw686"] = true,
 		["tfa_nmrih_sw686"] = true,
 
+		["ent_kevlar"] = true,
+		["ent_kevlar"] = true,
+		["ent_kevlar"] = true,
+
+		["ent_ammobox"] = true,
+		["ent_ammobox"] = true,
+		["ent_ammobox"] = true,
+
 		["weapon_dropgrenade"] = true,
 		["weapon_dropgrenade"] = true,
 		["weapon_dropgrenade"] = true
@@ -157,7 +209,7 @@ GM.LootTable = {
 		["tfa_nmrih_m92fs"] = true,
 		["tfa_nmrih_mp5"] = true,
 		["tfa_nmrih_870"] = true
-	},
+	}
 }
 
 -- weapon types
