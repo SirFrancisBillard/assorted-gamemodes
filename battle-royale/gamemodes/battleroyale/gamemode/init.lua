@@ -327,7 +327,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 	if IsValid(old) and old:GetClass() == "tfa_nmrih_maglite" and not ply.flashlight_switch then
 		ply:Flashlight(false)
 		ply.flashlight_switch = true
-	elseif IsValid(new) and new:GetClass() == "tfa_nmrih_maglite" and ply.flashlight_switch then
+	elseif IsValid(new) and new:GetClass() == "tfa_nmrih_maglite" and  ply.flashlight_switch then
 		ply.flashlight_switch = false
 		ply:Flashlight(true)
 	end
