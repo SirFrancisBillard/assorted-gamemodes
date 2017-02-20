@@ -13,7 +13,7 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE
 
 if SERVER then
 	function ENT:Initialize()
-		self:SetModel("models/Items/item_item_crate.mdl")
+		self:SetModel("models/props_c17/SuitCase_Passenger_Physics.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
@@ -23,7 +23,7 @@ if SERVER then
 	function ENT:Use(ply)
 		if IsValid(ply) and ply:IsPlayer() and ply:Armor() < 100 then
 			ply:SetArmor(100)
-			-- ply:EmitSound("zipper sound or something")
+			ply:EmitSound("Kevlar.Equip")
 			self:Remove()
 		end
 	end

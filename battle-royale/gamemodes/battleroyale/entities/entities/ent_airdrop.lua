@@ -19,7 +19,6 @@ if SERVER then
 		self:SetSolid(SOLID_VPHYSICS)
 		self:PhysWake()
 		-- whoever stands under this is gonna be one unlucky wanker
-		local phys = self:GetPhysicsObject()
 		timer.Simple(.1, function()
 			if IsValid(self) then
 				self:GetPhysicsObject():AddVelocity(Vector(0, 0, -100) * math.Rand(2000, 3000))

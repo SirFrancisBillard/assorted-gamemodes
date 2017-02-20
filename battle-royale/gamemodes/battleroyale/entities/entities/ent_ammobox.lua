@@ -13,7 +13,7 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE
 
 if SERVER then
 	function ENT:Initialize()
-		self:SetModel("models/props_c17/SuitCase_Passenger_Physics.mdl")
+		self:SetModel("models/Items/BoxSRounds.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)

@@ -7,7 +7,11 @@ AddCSLuaFile()
 SWEP.HoldType = "normal"
 
 SWEP.PrintName = "Gun Modding Kit"
+SWEP.Category = "Battle Royale"
 SWEP.Instructions = "Left click and switch to a weapon to mod that weapon.\nRight click for a list of moddable weapons."
+
+SWEP.Spawnable = true
+SWEP.AdminOnly = true
 
 SWEP.Slot = 5
 SWEP.ViewModelFOV = 10

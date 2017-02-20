@@ -58,6 +58,10 @@ function GM:KeyRelease(ply, key)
 			for k, v in pairs(tr.Entity.loot_ammo) do
 				ply:GiveAmmo(v, k)
 			end
+			if tr.Entity.loot_resources > 0 then
+				ply:SetNWInt("br_resources", ply:GetNWInt("br_resources", 0) + tr.Entity.loot_resources)
+				ply:ChatPrint("+" .. tr.Entity.loot_resources " resources")
+			end
 		end
 	end
 end

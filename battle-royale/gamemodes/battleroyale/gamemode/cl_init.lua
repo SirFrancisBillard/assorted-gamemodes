@@ -1,7 +1,48 @@
 include("shared.lua")
 
+surface.CreateFont("BattleRoyale_HUD", {
+	font = "Trebuchet",
+	size = 60,
+})
+
 function GM:ContextMenuOpen()
 	return LocalPlayer():IsAdmin()
+end
+
+function GM:HUDPaint()
+	self.BaseClass.HUDPaint(self)
+
+	local ply = LocalPlayer()
+	local health = "Health: " .. (ply:Health() > 0 and ply:Health() or "Dead")
+	local armor = "Armor: " .. (ply:Armor() > 0 and ply:Armor() or "None")
+	local perk = self.PerkInfo[ply:GetNWInt("br_perk", PERK_NONE)].name or "None"
+	local res = "Resources: " .. (ply:GetNWInt("br_resources", 0) > 0 and ply:GetNWInt("br_resources", 0) or "None")
+	
+	local font = "BattleRoyale_HUD"
+
+	-- move the health up by the height of the armor
+	surface.SetFont(font)
+	local health_offset = select(2, surface.GetTextSize(armor))
+	local perk_offset = select(2, surface.GetTextSize(res))
+
+	draw.SimpleText(health, font, ScrW() / 200, ScrH() - health_offset, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(armor, font, ScrW() / 200, ScrH(), color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+
+	draw.SimpleText(perk, font, ScrW() - (ScrW() / 200), ScrH() - perk_offset, color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(res, font, ScrW() - (ScrW() / 200), ScrH(), color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+end
+
+local hide = {
+	CHudHealth = true,
+	CHudBattery = true
+}
+
+function GM:HUDShouldDraw(name)
+	if hide[name] then
+		return false
+	end
+
+	return true
 end
 
 function GM:HUDDrawTargetID()
@@ -19,6 +60,8 @@ function GM:HUDDrawTargetID()
 		text = trace.Entity:Nick()
 	elseif trace.Entity:GetNWBool("player_corpse", false) then
 		text = trace.Entity:GetNWString("player_nick", "Unknown")
+	elseif trace.Entity:GetNWBool("is_block", false) then
+		text = tostring(trace.Entity:GetNWInt("block_health", 500))
 	else
 		return
 		--text = trace.Entity:GetClass()
@@ -48,8 +91,10 @@ function GM:HUDDrawTargetID()
 	y = y + h + 5
 
 	local text = trace.Entity:Health() .. "%"
-	if trace.Entity:Health() < 1 then
+	if trace.Entity:GetNWBool("player_corpse", false) then
 		text = "Corpse"
+	elseif trace.Entity:GetNWBool("is_block", false) then
+		text = "Block"
 	end
 	local font = "TargetIDSmall"
 

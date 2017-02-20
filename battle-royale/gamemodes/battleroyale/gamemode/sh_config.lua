@@ -10,8 +10,7 @@ local function NextEnum()
 	return ENUM_CURRENT
 end
 
--- declare enumerations first, they don't
--- have any dependencies
+-- declare enumerations first, they don't have any dependencies
 PERK_NONE = NextEnum()
 PERK_ACROBAT = NextEnum()
 PERK_BOXER = NextEnum()
@@ -19,7 +18,9 @@ PERK_CANNIBAL = NextEnum()
 PERK_GRINDER = NextEnum()
 PERK_LOOTER = NextEnum()
 PERK_MARKSMAN = NextEnum()
+PERK_PEACEMAKER = NextEnum()
 PERK_PSYCHO = NextEnum()
+PERK_QUARTERMASTER = NextEnum()
 PERK_RAGE = NextEnum()
 PERK_REGEN = NextEnum()
 
@@ -68,9 +69,35 @@ sound.Add({
 	name = "Food.Eat",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 150,
 	pitch = {95, 110},
 	sound = eatsounds
+})
+
+local blocksounds = {}
+for i = 1, 3 do
+	table.insert(blocksounds, "physics/concrete/concrete_impact_hard" .. i .. ".wav")
+end
+sound.Add({
+	name = "Block.Place",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 150,
+	pitch = {95, 110},
+	sound = blocksounds
+})
+
+local breaksounds = {}
+for i = 2, 3 do
+	table.insert(breaksounds, "physics/concrete/concrete_break" .. i .. ".wav")
+end
+sound.Add({
+	name = "Block.Break",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 150,
+	pitch = {95, 110},
+	sound = breaksounds
 })
 
 GM.PerkInfo = {
@@ -100,11 +127,19 @@ GM.PerkInfo = {
 	},
 	[PERK_MARKSMAN] = {
 		name = "Marksman",
-		desc = "Deal more damage with DMRs and revolvers."
+		desc = "Deal more damage with headshots."
+	},
+	[PERK_PEACEMAKER] = {
+		name = "Peacemaker",
+		desc = "Deal more damage with pistols."
 	},
 	[PERK_PSYCHO] = {
 		name = "Psycho",
 		desc = "Deal more damage with blades."
+	},
+	[PERK_QUARTERMASTER] = {
+		name = "Quartermaster",
+		desc = "Spawn with nearly infinite ammo."
 	},
 	[PERK_RAGE] = {
 		name = "Rage",
@@ -215,6 +250,15 @@ GM.LootTable = {
 -- weapon types
 GM.WeaponTypes = {
 	Blades = {
+		["tfa_nmrih_asaw"] = true,
+		["tfa_nmrih_chainsaw"] = true,
+		["tfa_nmrih_cleaver"] = true,
+		["tfa_nmrih_kknife"] = true,
+		["tfa_nmrih_hatchet"] = true,
+		["tfa_nmrih_machete"] = true,
+		["tfa_nmrih_fireaxe"] = true
+	},
+	Pistols = {
 		["tfa_nmrih_asaw"] = true,
 		["tfa_nmrih_chainsaw"] = true,
 		["tfa_nmrih_cleaver"] = true,

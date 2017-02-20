@@ -69,6 +69,21 @@ end
 
 function GM:EntityTakeDamage(ply, dmg)
 	local atk = dmg:GetAttacker()
+	-- block damage
+	if IsValid(ply) and ply:GetNWBool("is_block", false) then
+		local raw = dmg:GetDamage()
+		if dmg:IsDamageType(DMG_BLAST) then
+			raw = raw * 2
+		else
+			raw = raw * 0.4
+		end
+		ply:SetNWInt("block_health", ply:GetNWInt("block_health", 500) - math.Round(raw))
+		if ply:GetNWInt("block_health", 500) < 1 then
+			ply:EmitSound("Block.Break")
+			ply:Remove()
+		end
+		return
+	end
 	-- headshot sounds
 	if IsValid(ply) and ply:IsPlayer() and ply:LastHitGroup() == HITGROUP_HEAD then
 		net.Start("br_headshotsound")
@@ -98,6 +113,11 @@ function GM:EntityTakeDamage(ply, dmg)
 			atk:SetArmor(math.Clamp(atk:Armor() + math.Round(dmg:GetDamage() / 4), 0, 40))
 			return
 		end
+		-- peacemaker: deal double damage with pistols
+		if atk_perk == PERK_PEACEMAKER and self.WeaponTypes.Pistols[wep:GetClass()] then
+			dmg:ScaleDamage(2)
+			return
+		end
 		-- psycho: deal double damage with blades
 		if atk_perk == PERK_PSYCHO and self.WeaponTypes.Blades[wep:GetClass()] then
 			dmg:ScaleDamage(2)
@@ -108,9 +128,9 @@ function GM:EntityTakeDamage(ply, dmg)
 			dmg:ScaleDamage(1 + ((100 - atk:Health()) / 100))
 			return
 		end
-		-- marksman: deal more damage with rifles
-		if atk_perk == PERK_MARKSMAN and self.WeaponTypes.Marksman[wep:GetClass()] then
-			dmg:ScaleDamage(1.6)
+		-- marksman: deal more damage with headshots
+		if atk_perk == PERK_MARKSMAN and ply:LastHitGroup() == HITGROUP_HEAD then
+			dmg:ScaleDamage(2)
 			return
 		end
 		-- boxer: deal more damage with fists
@@ -166,6 +186,8 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		-- we don't have anything, might as well be looted
 		rag.is_looted = true
 	end
+
+	rag.loot_resources = ply:GetNWInt("br_resources", 0)
 
 	-- nonsolid to players, but can be picked up and shot
 	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
@@ -311,6 +333,12 @@ net.Receive("br_selectperk", function(len, ply)
 		ply.chose_perk = true
 		if perk == PERK_REGEN then
 			GAMEMODE.RegenPlayers[ply] = true
+			return
+		end
+		if perk == PERK_QUARTERMASTER then
+			for k, v in pairs(GAMEMODE.AmmoTypes) do
+				ply:GiveAmmo(v * 10, k)
+			end
 		end
 	end
 end)
