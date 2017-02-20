@@ -95,7 +95,7 @@ sound.Add({
 	name = "Block.Break",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 150,
+	level = 200,
 	pitch = {95, 110},
 	sound = breaksounds
 })
@@ -157,6 +157,7 @@ GM.Config = {
 	CorpseDespawnTime = 60,
 }
 
+-- stuff everybody spawns with
 GM.DefaultWeapons = {
 	["weapon_fists"] = true,
 	["weapon_buildingtool"] = true
@@ -267,6 +268,28 @@ GM.WeaponTypes = {
 		["tfa_nmrih_machete"] = true,
 		["tfa_nmrih_fireaxe"] = true
 	},
+	Melee = {
+		["tfa_nmrih_asaw"] = true,
+		["tfa_nmrih_bat"] = true,
+		["tfa_nmrih_chainsaw"] = true,
+		["tfa_nmrih_bcd"] = true,
+		["tfa_nmrih_cleaver"] = true,
+		["tfa_nmrih_crowbar"] = true,
+		["tfa_nmrih_zippo"] = true,
+		["tfa_nmrih_etool"] = true,
+		["tfa_nmrih_fireaxe"] = true,
+		["tfa_nmrih_fext"] = true,
+		["tfa_nmrih_fubar"] = true,
+		["tfa_nmrih_hatchet"] = true,
+		["tfa_nmrih_kknife"] = true,
+		["tfa_nmrih_lpipe"] = true,
+		["tfa_nmrih_machete"] = true,
+		["tfa_nmrih_maglite"] = true,
+		["tfa_nmrih_pickaxe"] = true,
+		["tfa_nmrih_sledge"] = true,
+		["tfa_nmrih_spade"] = true,
+		["tfa_nmrih_wrench"] = true
+	},
 	Marksman = {
 		["tfa_nmrih_jae700"] = true,
 		["tfa_nmrih_sako"] = true,
@@ -293,6 +316,40 @@ GM.AmmoTypes = {
 	["co2"] = 400,
 	["propane"] = 400,
 	["lighter"] = 1
+}
+
+-- upgrade levels on blocks
+GM.UpgradeLevels = {
+	[1] = {
+		name = "Scaffold",
+		cost = 10,
+		health = 20,
+		mat = ""
+	},
+	[2] = {
+		name = "Wood",
+		cost = 75,
+		health = 200,
+		mat = "phoenix_storms/wood"
+	},
+	[3] = {
+		name = "Stone",
+		cost = 200,
+		health = 500,
+		mat = "brick/brick_model"
+	},
+	[4] = {
+		name = "Sheet Metal",
+		cost = 500,
+		health = 1000,
+		mat = "models/props_pipes/GutterMetal01a"
+	},
+	[5] = {
+		name = "Armored",
+		cost = 1000,
+		health = 5000,
+		mat = "phoenix_storms/dome"
+	}
 }
 
 -- guns that can be modded

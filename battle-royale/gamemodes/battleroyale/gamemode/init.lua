@@ -84,6 +84,13 @@ function GM:EntityTakeDamage(ply, dmg)
 		end
 		return
 	end
+	if IsValid(ply) and IsValid(atk) and atk:IsPlayer() and ply:GetClass() == "ent_node" then
+		local wep = atk:GetActiveWeapon()
+		if IsValid(wep) and self.WeaponTypes.Melee[wep:GetClass()] then
+			atk:SetNWInt("br_resources", atk:GetNWInt("br_resources", 0) + 15)
+			atk:ChatPrint("+15 resources")
+		end
+	end
 	-- headshot sounds
 	if IsValid(ply) and ply:IsPlayer() and ply:LastHitGroup() == HITGROUP_HEAD then
 		net.Start("br_headshotsound")

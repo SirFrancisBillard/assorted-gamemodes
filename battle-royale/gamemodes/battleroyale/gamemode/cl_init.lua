@@ -15,7 +15,7 @@ function GM:HUDPaint()
 	local ply = LocalPlayer()
 	local health = "Health: " .. (ply:Health() > 0 and ply:Health() or "Dead")
 	local armor = "Armor: " .. (ply:Armor() > 0 and ply:Armor() or "None")
-	local perk = self.PerkInfo[ply:GetNWInt("br_perk", PERK_NONE)].name or "None"
+	local perk = "Perk: " .. (self.PerkInfo[ply:GetNWInt("br_perk", PERK_NONE)].name or "None")
 	local res = "Resources: " .. (ply:GetNWInt("br_resources", 0) > 0 and ply:GetNWInt("br_resources", 0) or "None")
 	
 	local font = "BattleRoyale_HUD"

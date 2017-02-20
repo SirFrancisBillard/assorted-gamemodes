@@ -90,7 +90,7 @@ function SWEP:ShouldDropOnDie()
 	return false
 end
 
-local required = 50
+local required = GAMEMODE.UpgradeLevels[1].cost
 local maxdist = 256
 
 function SWEP:PrimaryAttack()
@@ -109,18 +109,52 @@ function SWEP:PrimaryAttack()
 			return
 		end
 		self.Owner:SetNWInt("br_resources", self.Owner:GetNWInt("br_resources", 0) - required)
+		self.Owner:ChatPrint("-" .. required .. " resources")
 		local prop = ents.Create("prop_physics")
 		prop:SetModel(ghostmdl)
 		prop:SetPos(tr.HitPos + tr.HitNormal * 18)
 		prop:Spawn()
 		prop:SetNWBool("is_block", true)
-		prop:SetNWInt("block_health", 500)
+		prop:SetNWInt("upgrade_level", 1)
+		prop:SetNWInt("block_health", GAMEMODE.UpgradeLevels[1].health)
+		prop:SetMaterial(GAMEMODE.UpgradeLevels[1].mat)
 		prop:GetPhysicsObject():EnableMotion(false)
 		prop:EmitSound("Block.Place")
 	end
 end
 
-function SWEP:SecondaryAttack() end
+function SWEP:CanSecondaryAttack()
+	self.Owner:LagCompensation(true)
+	local tr = self.Owner:GetEyeTrace()
+	self.Owner:LagCompensation(false)
+	return tr.Hit and IsValid(tr.Entity) and tr.Entity:GetNWBool("is_block")
+end
+
+function SWEP:SecondaryAttack()
+	self:SetNextSecondaryFire(CurTime() + 0.5)
+	if SERVER and IsValid(self.Owner) then
+		self.Owner:LagCompensation(true)
+		local tr = self.Owner:GetEyeTrace()
+		self.Owner:LagCompensation(false)
+		if not tr.Hit or not IsValid(tr.Entity) then return end
+		local trent = tr.Entity
+		if not trent:GetNWBool("is_block") then
+			self.Owner:ChatPrint("Can't upgrade: Not a block!")
+			return
+		end
+		local block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1)]
+		local next_block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1) + 1]
+		if self.Owner:GetNWInt("br_resources", 0) < block.cost then
+			self.Owner:ChatPrint("Can't upgrade: Not enough resources!")
+			return
+		end
+		self.Owner:SetNWInt("br_resources", self.Owner:GetNWInt("br_resources", 0) - next_block.cost)
+		self.Owner:ChatPrint("-" .. next_block.cost .. " resources")
+		trent:SetNWInt("upgrade_level", trent:GetNWInt("upgrade_level", 1) + 1)
+		trent:SetNWInt("block_health", next_block.health)
+		trent:SetMaterial(next_block.mat)
+	end
+end
 
 function SWEP:Reload() end
 
