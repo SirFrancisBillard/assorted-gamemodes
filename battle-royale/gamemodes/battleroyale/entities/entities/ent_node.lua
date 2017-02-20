@@ -24,12 +24,6 @@ if SERVER then
 			phys:SetMass(1000)
 		end
 	end
-
-	function ENT:Use(ply)
-		if IsValid(ply) and ply:IsPlayer() and ply:Armor() < 100 then
-			
-		end
-	end
 else
 	function ENT:Draw()
 		self:DrawModel()
