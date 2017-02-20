@@ -144,7 +144,11 @@ function SWEP:SecondaryAttack()
 		end
 		local block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1)]
 		local next_block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1) + 1]
-		if self.Owner:GetNWInt("br_resources", 0) < block.cost then
+		if not next_block then
+			self.Owner:ChatPrint("Can't upgrade: Already fully upgraded!")
+			return
+		end
+		if self.Owner:GetNWInt("br_resources", 0) < next_block.cost then
 			self.Owner:ChatPrint("Can't upgrade: Not enough resources!")
 			return
 		end
@@ -197,7 +201,7 @@ if CLIENT then
 		local tr = util.TraceLine({start = spos, endpos = epos, filter = client, mask = MASK_ALL})
 
 		local c = color_green
-		if ply:GetNWInt("br_resources", 0) < required or plytr.HitPos:Distance(LocalPlayer():GetPos()) > maxdist then
+		if self.Owner:GetNWInt("br_resources", 0) < required or plytr.HitPos:Distance(LocalPlayer():GetPos()) > maxdist then
 			c = color_red
 		end
 		local a = 150

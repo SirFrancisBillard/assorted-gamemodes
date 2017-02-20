@@ -60,7 +60,7 @@ function GM:KeyRelease(ply, key)
 			end
 			if tr.Entity.loot_resources > 0 then
 				ply:SetNWInt("br_resources", ply:GetNWInt("br_resources", 0) + tr.Entity.loot_resources)
-				ply:ChatPrint("+" .. tr.Entity.loot_resources " resources")
+				ply:ChatPrint("+" .. tr.Entity.loot_resources .. " resources")
 			end
 		end
 	end

@@ -87,8 +87,8 @@ function GM:EntityTakeDamage(ply, dmg)
 	if IsValid(ply) and IsValid(atk) and atk:IsPlayer() and ply:GetClass() == "ent_node" then
 		local wep = atk:GetActiveWeapon()
 		if IsValid(wep) and self.WeaponTypes.Melee[wep:GetClass()] then
-			atk:SetNWInt("br_resources", atk:GetNWInt("br_resources", 0) + 15)
-			atk:ChatPrint("+15 resources")
+			atk:SetNWInt("br_resources", atk:GetNWInt("br_resources", 0) + 25)
+			atk:ChatPrint("+25 resources")
 		end
 	end
 	-- headshot sounds
@@ -327,7 +327,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 	if IsValid(old) and old:GetClass() == "tfa_nmrih_maglite" and not ply.flashlight_switch then
 		ply:Flashlight(false)
 		ply.flashlight_switch = true
-	elseif IsValid(new) and new:GetClass() == "tfa_nmrih_maglite" then
+	elseif IsValid(new) and new:GetClass() == "tfa_nmrih_maglite" and ply.flashlight_switch then
 		ply.flashlight_switch = false
 		ply:Flashlight(true)
 	end
