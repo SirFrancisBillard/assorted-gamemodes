@@ -2,7 +2,7 @@ include("shared.lua")
 
 surface.CreateFont("BattleRoyale_HUD", {
 	font = "Trebuchet",
-	size = 60,
+	size = 24,
 })
 
 function GM:ContextMenuOpen()
@@ -25,11 +25,11 @@ function GM:HUDPaint()
 	local health_offset = select(2, surface.GetTextSize(armor))
 	local perk_offset = select(2, surface.GetTextSize(res))
 
-	draw.SimpleText(health, font, ScrW() / 200, ScrH() - health_offset, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-	draw.SimpleText(armor, font, ScrW() / 200, ScrH(), color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(health, font, ScrW() / 400, ScrH() - health_offset, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(armor, font, ScrW() / 400, ScrH(), color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
-	draw.SimpleText(perk, font, ScrW() - (ScrW() / 200), ScrH() - perk_offset, color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
-	draw.SimpleText(res, font, ScrW() - (ScrW() / 200), ScrH(), color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(perk, font, ScrW() - (ScrW() / 400), ScrH() - perk_offset, color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText(res, font, ScrW() - (ScrW() / 400), ScrH(), color_white, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 end
 
 local hide = {
@@ -94,7 +94,7 @@ function GM:HUDDrawTargetID()
 	if trace.Entity:GetNWBool("player_corpse", false) then
 		text = "Corpse"
 	elseif trace.Entity:GetNWBool("is_block", false) then
-		text = "Block"
+		text = self.UpgradeLevels[trace.Entity:GetNWInt("upgrade_level", 1)].name .. (trace.Entity:GetClass() == "ent_door" and " Door" or " Block")
 	end
 	local font = "TargetIDSmall"
 

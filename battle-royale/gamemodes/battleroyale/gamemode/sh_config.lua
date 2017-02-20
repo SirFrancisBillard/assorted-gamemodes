@@ -61,6 +61,33 @@ sound.Add({
 	sound = "battle-royale/loot.wav"
 })
 
+sound.Add({
+	name = "Door.Locked",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = "buttons/weapon_cant_buy.wav"
+})
+
+sound.Add({
+	name = "Door.Open",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = "buttons/blip2.wav"
+})
+
+sound.Add({
+	name = "Door.Auth",
+	channel = CHAN_AUTO,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = "buttons/bell1.wav"
+})
+
 local eatsounds = {}
 for i = 1, 9 do
 	table.insert(eatsounds, "battle-royale/food/eat" .. i .. ".wav")
@@ -69,7 +96,7 @@ sound.Add({
 	name = "Food.Eat",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 150,
+	level = 100,
 	pitch = {95, 110},
 	sound = eatsounds
 })
@@ -82,7 +109,7 @@ sound.Add({
 	name = "Block.Place",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 150,
+	level = 100,
 	pitch = {95, 110},
 	sound = blocksounds
 })
@@ -95,7 +122,7 @@ sound.Add({
 	name = "Block.Break",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 200,
+	level = 100,
 	pitch = {95, 110},
 	sound = breaksounds
 })
@@ -160,7 +187,8 @@ GM.Config = {
 -- stuff everybody spawns with
 GM.DefaultWeapons = {
 	["weapon_fists"] = true,
-	["weapon_buildingtool"] = true
+	["weapon_buildingtool"] = true,
+	["weapon_hammer"] = true
 }
 
 -- stuff you can get from containers

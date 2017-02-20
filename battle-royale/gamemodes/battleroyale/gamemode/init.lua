@@ -13,6 +13,8 @@ game.ConsoleCommand("sbox_noclip 0\n")
 util.AddNetworkString("br_openperkmenu")
 util.AddNetworkString("br_selectperk")
 util.AddNetworkString("br_headshotsound")
+util.AddNetworkString("br_openkeypadmenu")
+util.AddNetworkString("br_sendkeypadcode")
 
 -- resources
 for i = 1, 9 do
@@ -73,7 +75,7 @@ function GM:EntityTakeDamage(ply, dmg)
 	if IsValid(ply) and ply:GetNWBool("is_block", false) then
 		local raw = dmg:GetDamage()
 		if dmg:IsDamageType(DMG_BLAST) then
-			raw = raw * 2
+			raw = raw
 		else
 			raw = raw * 0.4
 		end
@@ -89,6 +91,9 @@ function GM:EntityTakeDamage(ply, dmg)
 		if IsValid(wep) and self.WeaponTypes.Melee[wep:GetClass()] then
 			atk:SetNWInt("br_resources", atk:GetNWInt("br_resources", 0) + 25)
 			atk:ChatPrint("+25 resources")
+		elseif IsValid(wep) and wep:GetClass() == "tfa_nmrih_tnt" then
+			atk:SetNWInt("br_resources", atk:GetNWInt("br_resources", 0) + 400)
+			atk:ChatPrint("+400 resources")
 		end
 	end
 	-- headshot sounds

@@ -2,9 +2,9 @@ AddCSLuaFile()
 
 SWEP.HoldType = "pistol"
 
-SWEP.PrintName = "Building Tool"
+SWEP.PrintName = "Upgrading Hammer"
 SWEP.Category = "Battle Royale"
-SWEP.Instructions = "Left click to place an object. Right click to choose object."
+SWEP.Instructions = "Left click to repair an object. Right click to upgrade an object."
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = true
@@ -15,8 +15,8 @@ SWEP.ViewModelFOV = 54
 SWEP.Base = "weapon_br_base"
 
 SWEP.UseHands = true
-SWEP.ViewModel = "models/weapons/c_pistol.mdl"
-SWEP.WorldModel = "models/weapons/w_pistol.mdl"
+SWEP.ViewModel = "models/weapons/c_crowbar.mdl"
+SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
 
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
@@ -31,55 +31,9 @@ SWEP.Secondary.Ammo = "none"
 SWEP.ViewModelFlip = false
 
 local maxrange = 256
-local ghostmdl = Model("models/hunter/blocks/cube075x075x075.mdl")
-
-function SWEP:Initialize()
-	if CLIENT then
-		-- create ghosted indicator
-		local ghost = ents.CreateClientProp(ghostmdl)
-		if IsValid(ghost) then
-			ghost:SetPos(self:GetPos())
-			ghost:Spawn()
-
-			-- PhysPropClientside whines here about not being able to parse the
-			-- physmodel. This is not important as we won't use that anyway, and it
-			-- happens in sandbox as well for the ghosted ents used there.
-
-			ghost:SetSolid(SOLID_NONE)
-			ghost:SetMoveType(MOVETYPE_NONE)
-			ghost:SetNotSolid(true)
-			ghost:SetRenderMode(RENDERMODE_TRANSCOLOR)
-			ghost:AddEffects(EF_NOSHADOW)
-			ghost:SetNoDraw(true)
-
-			self.Ghost = ghost
-		end
-	end
-
-	return self.BaseClass.Initialize(self)
-end
-
-function SWEP:PreDrop()
-	-- OnDrop does not happen on client
-	self:CallOnClient("HideGhost", "")
-end
-
-function SWEP:HideGhost()
-	if IsValid(self.Ghost) then
-		self.Ghost:SetNoDraw(true)
-	end
-end
-
-function SWEP:Holster()
-	if CLIENT and IsValid(self.Ghost) then
-		self.Ghost:SetNoDraw(true)
-	end
-
-	return self.BaseClass.Holster(self)
-end
 
 function SWEP:GetClass()
-	return "weapon_buildingtool"
+	return "weapon_hammer"
 end
 
 function SWEP:ShouldDropOnDie()
@@ -90,36 +44,43 @@ local required = GAMEMODE.UpgradeLevels[1].cost
 local maxdist = 256
 
 function SWEP:PrimaryAttack()
-	self:SetNextPrimaryFire(CurTime() + 0.1)
+	return -- REMOVE
+end
+
+function SWEP:CanSecondaryAttack()
+	self.Owner:LagCompensation(true)
+	local tr = self.Owner:GetEyeTrace()
+	self.Owner:LagCompensation(false)
+	return tr.Hit and IsValid(tr.Entity) and tr.Entity:GetNWBool("is_block")
+end
+
+function SWEP:SecondaryAttack()
+	self:SetNextSecondaryFire(CurTime() + 0.1)
 	if SERVER and IsValid(self.Owner) then
 		self.Owner:LagCompensation(true)
 		local tr = self.Owner:GetEyeTrace()
 		self.Owner:LagCompensation(false)
-		if not tr.Hit then return end
-		if tr.HitPos:Distance(self.Owner:GetPos()) > maxdist then
-			self.Owner:ChatPrint("Can't place: Too far away!")
+		if not tr.Hit or not IsValid(tr.Entity) then return end
+		local trent = tr.Entity
+		if not trent:GetNWBool("is_block") then
+			self.Owner:ChatPrint("Can't upgrade: Not a block!")
 			return
 		end
-		if self.Owner:GetNWInt("br_resources", 0) < required then
-			self.Owner:ChatPrint("Can't place: Not enough resources!")
+		local block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1)]
+		local next_block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1) + 1]
+		if not next_block then
+			self.Owner:ChatPrint("Can't upgrade: Already fully upgraded!")
 			return
 		end
-		self.Owner:SetNWInt("br_resources", self.Owner:GetNWInt("br_resources", 0) - required)
-		self.Owner:ChatPrint("-" .. required .. " resources")
-		local prop = ents.Create("prop_physics")
-		prop:SetModel(ghostmdl)
-		local pos = tr.HitPos + tr.HitNormal * 18
-		pos.x = math.Round(pos.x / 36) * 36
-		pos.y = math.Round(pos.y / 36) * 36
-		pos.z = math.Round(pos.z / 36) * 36
-		prop:SetPos(pos)
-		prop:Spawn()
-		prop:SetNWBool("is_block", true)
-		prop:SetNWInt("upgrade_level", 1)
-		prop:SetNWInt("block_health", GAMEMODE.UpgradeLevels[1].health)
-		prop:SetMaterial(GAMEMODE.UpgradeLevels[1].mat)
-		prop:GetPhysicsObject():EnableMotion(false)
-		prop:EmitSound("Block.Place")
+		if self.Owner:GetNWInt("br_resources", 0) < next_block.cost then
+			self.Owner:ChatPrint("Can't upgrade: Not enough resources!")
+			return
+		end
+		self.Owner:SetNWInt("br_resources", self.Owner:GetNWInt("br_resources", 0) - next_block.cost)
+		self.Owner:ChatPrint("-" .. next_block.cost .. " resources")
+		trent:SetNWInt("upgrade_level", trent:GetNWInt("upgrade_level", 1) + 1)
+		trent:SetNWInt("block_health", next_block.health)
+		trent:SetMaterial(next_block.mat)
 	end
 end
 
