@@ -1,0 +1,20 @@
+"prison"
+{
+	"base"		"base"
+	"title"		"Prison Life"
+	"maps"		"^sk_"
+	"menusystem"	"1"
+	"workshopid"	""
+
+	"settings"
+	{
+		1
+		{
+			"name"		"convar1"
+			"text"		"Convar Text"
+			"help"		"What is this convar"
+			"type"		"Numeric"
+			"default"	"1"
+		}
+	}
+}
