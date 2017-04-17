@@ -1,4 +1,7 @@
 AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+
+include("shared.lua")
 
 local fol = GM.FolderName .. "/gamemode/modules/"
 local files, folders = file.Find(fol .. "*", "LUA")
