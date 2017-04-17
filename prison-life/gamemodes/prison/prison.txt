@@ -1,8 +1,8 @@
 "prison"
 {
 	"base"		"base"
-	"title"		"Prison Life"
-	"maps"		"^sk_"
+	"title"		"DarkRP"
+	"maps"		"^rp_"
 	"menusystem"	"1"
 	"workshopid"	""
 
