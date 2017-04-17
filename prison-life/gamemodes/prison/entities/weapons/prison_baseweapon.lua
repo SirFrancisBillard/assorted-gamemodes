@@ -8,8 +8,7 @@ end
 SWEP.PrintName = "Prison Life Base Weapon"
 SWEP.Instructions = [[
 <color=green>[PRIMARY FIRE]</color> Fire a bullet.
-<color=green>[SECONDARY FIRE]</color> Fan the hammer.
-Fanning provides a greater fire rate with heavily reduced accuracy.]]
+Weapon description.]]
 
 SWEP.ViewModel = "models/weapons/c_357.mdl"
 SWEP.WorldModel = "models/weapons/w_357.mdl"
@@ -29,6 +28,9 @@ SWEP.Primary.Damage = 40
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 4
 SWEP.Primary.Sound = Sound("Weapon_357.Single")
+SWEP.Primary.Force = 40
+SWEP.Primary.Tracer = 1
+SWEP.Primary.TracerType = "Pistol"
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
@@ -42,10 +44,9 @@ SWEP.AutoSwitchFrom = false
 SWEP.Slot = 0
 SWEP.SlotPos = 1
 SWEP.DrawAmmo = true
-SWEP.DrawCrosshair = true
+SWEP.DrawCrosshair = false
 
 SWEP.HoldType = "revolver"
-SWEP.SingleReload = false
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
@@ -70,10 +71,10 @@ function SWEP:PrimaryAttack()
 	bullet.Num = self.Primary.NumShots
 	bullet.Src = self.Owner:GetShootPos()
 	bullet.Dir = self.Owner:GetAimVector()
-	bullet.Tracer = 1
-	bullet.Force = 20
+	bullet.Tracer = self.Primary.Tracer
+	bullet.Force = self.Primary.Force
 	bullet.Damage = self.Primary.Damage
-	bullet.AmmoType = "Pistol"
+	bullet.AmmoType = self.Primary.TracerType
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	bullet.Spread = Vector(self.Primary.Cone, self.Primary.Cone, 0)
 
