@@ -1,3 +1,4 @@
+include("shared.lua")
 
 local function LoadModules()
 	local root = GM.FolderName .. "/gamemode/modules/"
