@@ -24,7 +24,7 @@ function PLAYER:SetModel()
 end
 
 function PLAYER:Spawn()
-	self.Player:SetHasKeycard(false)
+	self.Player:SetHasKeycard(true)
 
 	self:SetModel()
 	self.Player:SetupHands()
