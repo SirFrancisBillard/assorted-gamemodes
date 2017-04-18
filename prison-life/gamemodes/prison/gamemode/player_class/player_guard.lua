@@ -23,4 +23,14 @@ function PLAYER:SetModel()
 	self.Player:SetupHands()
 end
 
+function PLAYER:Spawn()
+	self.Player:SetHasKeycard(false)
+
+	self:SetModel()
+	self.Player:SetupHands()
+
+	self.Player:SetWalkSpeed(150)
+	self.Player:SetRunSpeed(250)
+end
+
 player_manager.RegisterClass("player_guard", PLAYER, "player_prisonbase")
