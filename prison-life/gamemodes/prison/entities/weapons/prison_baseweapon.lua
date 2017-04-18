@@ -32,6 +32,13 @@ SWEP.Primary.SoundFar = false
 SWEP.Primary.Force = 40
 SWEP.Primary.Tracer = 1
 SWEP.Primary.TracerType = "Pistol"
+SWEP.Primary.Distance = 56756
+
+local SnapSound = Sound("Bullet.Snap")
+
+SWEP.Primary.Callback = function(ply, tr, dmg)
+	EmitSound(SnapSound, tr.HitPos, ply:EntIndex())
+end
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
@@ -87,6 +94,8 @@ function SWEP:PrimaryAttack()
 	bullet.AmmoType = self.Primary.TracerType
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	bullet.Spread = Vector(self.Primary.Cone, self.Primary.Cone, 0)
+	bullet.Distance = self.Primary.Distance
+	bullet.Callback = self.Primary.Callback
 
 	self.Owner:FireBullets(bullet)
 	self.Owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * self.Primary.Recoil, math.Rand(-0.1, 0.1) * self.Primary.Recoil, 0))
