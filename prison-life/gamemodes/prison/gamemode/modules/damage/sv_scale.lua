@@ -4,6 +4,6 @@ function GM:ScalePlayerDamage(ply, hit, dmg)
 	end
 
 	if hit == HITGROUP_LEFTLEG or hit == HITGROUP_RIGHTLEG then
-		dmginfo:ScaleDamage(0.25)
+		dmg:ScaleDamage(0.5)
 	end
 end
