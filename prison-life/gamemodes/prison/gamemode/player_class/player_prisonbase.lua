@@ -21,7 +21,6 @@ function PLAYER:Spawn()
 	self.Player:SetHasKeycard(false)
 
 	self:SetModel()
-	self.Player:SetupHands()
 
 	self.Player:SetWalkSpeed(150)
 	self.Player:SetRunSpeed(250)
