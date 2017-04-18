@@ -20,14 +20,12 @@ function PLAYER:SetModel()
 	util.PrecacheModel(modelname)
 	self.Player:SetModel(modelname)
 	self.Player:SetPlayerColor(Vector(0, 0, 1))
-	self.Player:SetupHands()
 end
 
 function PLAYER:Spawn()
 	self.Player:SetHasKeycard(true)
 
 	self:SetModel()
-	self.Player:SetupHands()
 
 	self.Player:SetWalkSpeed(150)
 	self.Player:SetRunSpeed(250)
