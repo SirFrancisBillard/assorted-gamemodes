@@ -14,6 +14,7 @@ end
 
 function PLAYER:SetupDataTables()
 	self.Player:NetworkVar("Bool", 0, "HasKeycard")
+	self.Player:NetworkVar("Entity", 0, "OwnedVehicle")
 	self.Player:NetworkVar("Int", 0, "Stamina")
 end
 
