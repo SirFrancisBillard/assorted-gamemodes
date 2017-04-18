@@ -27,7 +27,8 @@ SWEP.Primary.Delay = 0.6
 SWEP.Primary.Damage = 40
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 4
-SWEP.Primary.Sound = Sound("Weapon_357.Single")
+SWEP.Primary.SoundNear = Sound("Weapon_357.Single")
+SWEP.Primary.SoundFar = false
 SWEP.Primary.Force = 40
 SWEP.Primary.Tracer = 1
 SWEP.Primary.TracerType = "Pistol"
@@ -48,12 +49,15 @@ SWEP.DrawCrosshair = false
 
 SWEP.HoldType = "revolver"
 
-SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
+SWEP.CSMuzzleFlashes = true
+SWEP.CSMuzzleX = true
+
+SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
-function SWEP:Initialize()
-	self.BaseClass.Initialize(self)
+SWEP.ReloadRate = 1
 
+function SWEP:Initialize()
 	self:SetHoldType(self.HoldType)
 end
 
@@ -65,7 +69,13 @@ function SWEP:PrimaryAttack()
 	if not self:CanPrimaryAttack() then return end
 
 	self:ShootEffects()
-	self:EmitSound(ShootSound)
+
+	if self.Primary.SoundFar then
+		self:EmitSound(self.Primary.SoundNear)
+		self:EmitSound(self.Primary.SoundFar)
+	else
+		self:EmitSound(self.Primary.SoundNear)
+	end
 
 	local bullet = {}
 	bullet.Num = self.Primary.NumShots
@@ -79,7 +89,7 @@ function SWEP:PrimaryAttack()
 	bullet.Spread = Vector(self.Primary.Cone, self.Primary.Cone, 0)
 
 	self.Owner:FireBullets(bullet)
-	owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * self.Primary.Recoil, math.Rand(-0.1, 0.1) * self.Primary.Recoil, 0))
+	self.Owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * self.Primary.Recoil, math.Rand(-0.1, 0.1) * self.Primary.Recoil, 0))
 
 	local eyeang = self.Owner:EyeAngles()
 	eyeang.pitch = eyeang.pitch - self.Primary.Recoil
@@ -126,8 +136,6 @@ end
 function SWEP:Deploy()
 	self.reloading = false
 	self.reload_timer = 0
-
-	return self.BaseClass.Deploy(self)
 end
 
 function SWEP:GetViewModelPosition(pos, ang)
@@ -149,4 +157,13 @@ function SWEP:GetViewModelPosition(pos, ang)
 	pos = pos + Offset.z * u
 
 	return pos, ang
+end
+
+if CLIENT then
+	SWEP.CrosshairRadius = 5
+	SWEP.CrosshairColor = Color(0, 255, 0, 255)
+
+	function SWEP:DrawHUD()
+		surface.DrawCircle(ScrW() / 2, ScrH() / 2, self.CrosshairRadius, self.CrosshairColor)
+	end
 end

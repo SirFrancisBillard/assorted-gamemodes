@@ -83,7 +83,7 @@ sound.Add({
 
 sound.Add({
 	name = "Weapon_AK47.Far",
-	channel = CHAN_WEAPON,
+	channel = CHAN_STATIC,
 	volume = 1.0,
 	level = 140,
 	pitch = {95, 110},
@@ -101,7 +101,7 @@ sound.Add({
 
 sound.Add({
 	name = "Weapon_Flaregun.Far",
-	channel = CHAN_WEAPON,
+	channel = CHAN_STATIC,
 	volume = 1.0,
 	level = 140,
 	pitch = {95, 110},
@@ -119,7 +119,7 @@ sound.Add({
 
 sound.Add({
 	name = "Weapon_M4A1.Far",
-	channel = CHAN_WEAPON,
+	channel = CHAN_STATIC,
 	volume = 1.0,
 	level = 140,
 	pitch = {95, 110},
@@ -137,9 +137,27 @@ sound.Add({
 
 sound.Add({
 	name = "Weapon_Pistol.Far",
-	channel = CHAN_WEAPON,
+	channel = CHAN_STATIC,
 	volume = 1.0,
 	level = 140,
 	pitch = {95, 110},
 	sound = {"prison/weapons/pistol_dist.wav"}
+})
+
+sound.Add({
+	name = "Weapon_Shotgun.Near",
+	channel = CHAN_WEAPON,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = {"prison/weapons/shotgun.wav"}
+})
+
+sound.Add({
+	name = "Weapon_Shotgun.Far",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 140,
+	pitch = {95, 110},
+	sound = {"prison/weapons/shotgun_dist.wav"}
 })

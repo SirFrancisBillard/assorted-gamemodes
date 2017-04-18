@@ -3,8 +3,6 @@ DEFINE_BASECLASS("player_prisonbase")
 local PLAYER = {}
 
 PLAYER.DisplayName = "Guard"
-PLAYER.WalkSpeed = 150
-PLAYER.RunSpeed = 250
 
 function PLAYER:Loadout()
 	self.Player:RemoveAllAmmo()
@@ -22,6 +20,7 @@ function PLAYER:SetModel()
 	util.PrecacheModel(modelname)
 	self.Player:SetModel(modelname)
 	self.Player:SetPlayerColor(Vector(0, 0, 1))
+	self.Player:SetupHands()
 end
 
 player_manager.RegisterClass("player_guard", PLAYER, "player_prisonbase")

@@ -15,12 +15,16 @@ end
 function PLAYER:SetupDataTables()
 	self.Player:NetworkVar("Bool", 0, "HasKeycard")
 	self.Player:NetworkVar("Entity", 0, "OwnedVehicle")
-	self.Player:NetworkVar("Int", 0, "Stamina")
 end
 
 function PLAYER:Spawn()
-	self.Player:SetHasKeyCard(false)
-	self.Player:SetStamina(100)
+	self.Player:SetHasKeycard(false)
+
+	self:SetModel()
+	self.Player:SetupHands()
+
+	self.Player:SetWalkSpeed(150)
+	self.Player:SetRunSpeed(250)
 end
 
 player_manager.RegisterClass("player_prisonbase", PLAYER, "player_default")
