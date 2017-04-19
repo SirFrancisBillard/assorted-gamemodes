@@ -91,6 +91,24 @@ sound.Add({
 })
 
 sound.Add({
+	name = "Weapon_Deagle.Near",
+	channel = CHAN_WEAPON,
+	volume = 1.0,
+	level = 100,
+	pitch = {95, 110},
+	sound = {"prison/weapons/deagle.wav"}
+})
+
+sound.Add({
+	name = "Weapon_Deagle.Far",
+	channel = CHAN_STATIC,
+	volume = 1.0,
+	level = 140,
+	pitch = {95, 110},
+	sound = {"prison/weapons/deagle_dist.wav"}
+})
+
+sound.Add({
 	name = "Weapon_Flaregun.Near",
 	channel = CHAN_WEAPON,
 	volume = 1.0,

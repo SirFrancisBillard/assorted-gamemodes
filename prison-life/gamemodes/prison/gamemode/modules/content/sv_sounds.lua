@@ -14,6 +14,8 @@ resource.AddFile("sound/prison/player/headshot.wav")
 
 resource.AddFile("sound/prison/weapons/ak47.wav")
 resource.AddFile("sound/prison/weapons/ak47_dist.wav")
+resource.AddFile("sound/prison/weapons/deagle.wav")
+resource.AddFile("sound/prison/weapons/deagle_dist.wav")
 resource.AddFile("sound/prison/weapons/flaregun.wav")
 resource.AddFile("sound/prison/weapons/flaregun_dist.wav")
 resource.AddFile("sound/prison/weapons/m4a1.wav")
