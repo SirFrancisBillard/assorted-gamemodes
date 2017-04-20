@@ -21,7 +21,7 @@ end
 function GM:PlayerJoinTeam(ply, teamid)
 	local iOldTeam = ply:Team()
 
-	if ply:Alive() then
+	if ply:Alive() and not teamid == TEAM_CRIMINAL then
 		if iOldTeam == TEAM_SPECTATOR or iOldTeam == TEAM_UNASSIGNED then
 			ply:KillSilent()
 		else

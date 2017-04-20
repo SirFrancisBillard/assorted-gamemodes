@@ -1,6 +1,6 @@
 function GM:PlayerSpawn(ply)
 	ply:UnSpectate()
-	pl:SetupHands()
+	ply:SetupHands()
 
 	player_manager.OnPlayerSpawn(ply)
 	player_manager.RunClass(ply, "Spawn")

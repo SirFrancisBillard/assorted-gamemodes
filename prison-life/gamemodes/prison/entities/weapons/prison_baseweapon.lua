@@ -65,6 +65,7 @@ SWEP.ViewModelAng = Vector(0, 0, 0)
 SWEP.ReloadRate = 1
 
 function SWEP:Initialize()
+	util.PrecacheSound(SnapSound)
 	self:SetHoldType(self.HoldType)
 end
 
