@@ -26,7 +26,7 @@ SWEP.Primary.Cone = 0.008
 SWEP.Primary.Delay = 0.1
 SWEP.Primary.Damage = 20
 SWEP.Primary.NumShots = 1
-SWEP.Primary.Recoil = 0.6
+SWEP.Primary.Recoil = 0.8
 SWEP.Primary.SoundNear = Sound("Weapon_AK47.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_AK47.Far")
 

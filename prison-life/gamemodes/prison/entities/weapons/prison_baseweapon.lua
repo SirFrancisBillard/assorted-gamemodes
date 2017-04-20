@@ -37,7 +37,7 @@ SWEP.Primary.Distance = 56756
 local SnapSound = Sound("Bullet.Snap")
 
 SWEP.Primary.Callback = function(ply, tr, dmg)
-	EmitSound(SnapSound, tr.HitPos, ply:EntIndex())
+	sound.Play(SnapSound, tr.HitPos)
 end
 
 SWEP.Secondary.ClipSize = -1
@@ -65,7 +65,6 @@ SWEP.ViewModelAng = Vector(0, 0, 0)
 SWEP.ReloadRate = 1
 
 function SWEP:Initialize()
-	util.PrecacheSound(SnapSound)
 	self:SetHoldType(self.HoldType)
 end
 
@@ -101,9 +100,11 @@ function SWEP:PrimaryAttack()
 	self.Owner:FireBullets(bullet)
 	self.Owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * self.Primary.Recoil, math.Rand(-0.1, 0.1) * self.Primary.Recoil, 0))
 
-	local eyeang = self.Owner:EyeAngles()
-	eyeang.pitch = eyeang.pitch - self.Primary.Recoil
-	self.Owner:SetEyeAngles(eyeang)
+	if SERVER then
+		local eyeang = self.Owner:EyeAngles()
+		eyeang.pitch = eyeang.pitch - self.Primary.Recoil
+		self.Owner:SetEyeAngles(eyeang)
+	end
 
 	if self.Owner:GetAmmoCount(self.Primary.Ammo) > self.Primary.DefaultClip then
 		self.Owner:SetAmmo(self.Primary.DefaultClip, self.Primary.Ammo)

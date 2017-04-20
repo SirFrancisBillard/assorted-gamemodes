@@ -2,15 +2,12 @@ AddCSLuaFile()
 
 SWEP.Base = "prison_baseweapon"
 
-SWEP.PrintName = "Shank"
+SWEP.PrintName = "Handcuffs"
 SWEP.Instructions = [[
-<color=green>[PRIMARY FIRE]</color> Stab.
+<color=green>[PRIMARY FIRE]</color> Arrest a criminal.]]
 
-<color=red>A piece of scrap metal sharpened to a point.
-Can kill with a few good stabs.</color>]]
-
-SWEP.ViewModel = "models/weapons/cstrike/c_knife_t.mdl"
-SWEP.WorldModel = "models/weapons/w_knife_t.mdl"
+SWEP.ViewModel = "models/weapons/c_stunstick.mdl"
+SWEP.WorldModel = "models/weapons/w_stunstick.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.DefaultClip = -1
@@ -18,9 +15,9 @@ SWEP.Primary.Automatic = false
 
 SWEP.Primary.Delay = 0.8
 SWEP.Primary.Damage = 30
-SWEP.Primary.Sound = Sound("Prison.Knife")
+SWEP.Primary.Sound = Sound("Prison.Handcuff")
 
-SWEP.HoldType = "knife"
+SWEP.HoldType = "melee"
 
 SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
@@ -42,7 +39,7 @@ function SWEP:PrimaryAttack()
 	local tr_main = util.TraceLine({start = spos, endpos = sdest, filter = self.Owner, mask = MASK_SHOT_HULL})
 	local hitEnt = tr_main.Entity
 
-	if IsValid(hitEnt) or tr_main.HitWorld then
+	if IsValid(hitEnt) or and hitEnt:IsPlayer() and hitEnt:Team() == TEAM_CRIMINAL then
 		self:EmitSound(self.Primary.Sound)
 		self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
 
