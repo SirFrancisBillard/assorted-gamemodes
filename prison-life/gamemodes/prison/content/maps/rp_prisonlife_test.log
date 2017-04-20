@@ -1,0 +1,130 @@
+
+
+
+materialPath: C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Source\cstrike\materials
+Loading C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.vmf
+Could not locate 'GameData' key in c:\program files (x86)\steam\steamapps\common\counter-strike source\cstrike\gameinfo.txt
+fixing up env_cubemap materials on brush sides...
+0...1...2...3...4...5...6...7...8...9...100...1...2...3...4...5...6...7...8...9...10Processing areas...done (0)
+Building Faces...done (0)
+FixTjuncs...
+PruneNodes...
+WriteBSP...
+done (0)
+writing C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.prt...Building visibility clusters...
+done (0)
+Creating default LDR cubemaps for env_cubemap using skybox materials:
+   skybox/sky_day01_01*.vmt
+ ! Run buildcubemaps in the engine to get the correct cube maps.
+Creating default HDR cubemaps for env_cubemap using skybox materials:
+   skybox/sky_day01_01*.vmt
+ ! Run buildcubemaps in the engine to get the correct cube maps.
+Finding displacement neighbors...
+Finding lightmap sample positions...
+Displacement Alpha : 0...1...2...3...4...5...6...7...8...9...10
+Building Physics collision data...
+done (0) (7812 bytes)
+Placing detail props : 0...1...2...3...4...5...6...7...8...9...10
+Compacting texture/material tables...
+Reduced 46 texinfos to 34
+Reduced 9 texdatas to 9 (196 bytes to 196)
+Writing C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.bsp
+Wrote ZIP buffer, estimated size 105917, actual size 105703
+0 seconds elapsed
+
+
+
+4 threads
+reading c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.bsp
+reading c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.prt
+  24 portalclusters
+  50 numportals
+0...1...2...3...4...5...6...7...8...9...100...1...2...3...4...5...6...7...8...9...10Optimized: 0 visible clusters (0.00%)
+Total clusters visible: 432
+Average clusters visible: 18
+Building PAS...
+Average clusters audible: 24
+visdatasize:340  compressed from 384
+writing c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.bsp
+0 seconds elapsed
+
+
+
+[Reading texlights from 'lights.rad']
+[2 texlights parsed from 'lights.rad']
+
+Loading c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.bsp
+105 faces
+10984 square feet [1581824.00 square inches]
+0 Displacements
+0 Square Feet [0.00 Square Inches]
+105 patches before subdivision
+895 patches after subdivision
+2 direct lights
+0...1...2...3...4...5...6...7...8...9...100...1...2...3...4...5...6...7...8...9...10transfers 44732, max 130
+transfer lists:   0.3 megs
+0...1...2...3...4...5...6...7...8...9...10	Bounce #1 added RGB(7245, 6492, 5527)
+0...1...2...3...4...5...6...7...8...9...10	Bounce #2 added RGB(780, 392, 242)
+0...1...2...3...4...5...6...7...8...9...10	Bounce #3 added RGB(120, 46, 24)
+0...1...2...3...4...5...6...7...8...9...10	Bounce #4 added RGB(16, 4, 1)
+0...1...2...3...4...5...6...7...8...9...10	Bounce #5 added RGB(2, 0, 0)
+0...1...2...3...4...5...6...7...8...9...10	Bounce #6 added RGB(0, 0, 0)
+Build Patch/Sample Hash Table(s).....Done<0.0001 sec>
+0...1...2...3...4...5...6...7...8...9...10FinalLightFace Done
+0 of 0 (0% of) surface lights went in leaf ambient cubes.
+0...1...2...3...4...5...6...7...8...9...10Writing leaf ambient...done
+Ready to Finish
+
+Object names       Objects/Maxobjs  Memory / Maxmem  Fullness 
+------------       ---------------  ---------------  -------- 
+models                   5/1024          240/49152    ( 0.5%) 
+brushes                 19/8192          228/98304    ( 0.2%) 
+brushsides             114/65536         912/524288   ( 0.2%) 
+planes                 104/65536        2080/1310720  ( 0.2%) 
+vertexes               131/65536        1572/786432   ( 0.2%) 
+nodes                   83/65536        2656/2097152  ( 0.1%) 
+texinfos                34/12288        2448/884736   ( 0.3%) 
+texdata                  9/2048          288/65536    ( 0.4%) 
+dispinfos                0/0               0/0        ( 0.0%) 
+disp_verts               0/0               0/0        ( 0.0%) 
+disp_tris                0/0               0/0        ( 0.0%) 
+disp_lmsamples           0/0               0/0        ( 0.0%) 
+faces                  105/65536        5880/3670016  ( 0.2%) 
+hdr faces                0/65536           0/3670016  ( 0.0%) 
+origfaces               58/65536        3248/3670016  ( 0.1%) 
+leaves                  89/65536        2848/2097152  ( 0.1%) 
+leaffaces              123/65536         246/131072   ( 0.2%) 
+leafbrushes             40/65536          80/131072   ( 0.1%) 
+areas                    2/256            16/2048     ( 0.8%) 
+surfedges              680/512000       2720/2048000  ( 0.1%) 
+edges                  355/256000       1420/1024000  ( 0.1%) 
+LDR worldlights          2/8192          176/720896   ( 0.0%) 
+HDR worldlights          0/8192            0/720896   ( 0.0%) 
+leafwaterdata            0/32768           0/393216   ( 0.0%) 
+waterstrips              0/32768           0/327680   ( 0.0%) 
+waterverts               0/65536           0/786432   ( 0.0%) 
+waterindices             0/65536           0/131072   ( 0.0%) 
+cubemapsamples           0/1024            0/16384    ( 0.0%) 
+overlays                 0/512             0/180224   ( 0.0%) 
+LDR lightdata         [variable]       12516/0        ( 0.0%) 
+HDR lightdata         [variable]           0/0        ( 0.0%) 
+visdata               [variable]         340/16777216 ( 0.0%) 
+entdata               [variable]        1453/393216   ( 0.4%) 
+LDR ambient table       89/65536         356/262144   ( 0.1%) 
+HDR ambient table       89/65536         356/262144   ( 0.1%) 
+LDR leaf ambient       391/65536       10948/1835008  ( 0.6%) 
+HDR leaf ambient        89/65536        2492/1835008  ( 0.1%) 
+occluders                0/0               0/0        ( 0.0%) 
+occluder polygons        0/0               0/0        ( 0.0%) 
+occluder vert ind        0/0               0/0        ( 0.0%) 
+detail props          [variable]           1/12       ( 8.3%) 
+static props          [variable]           1/12       ( 8.3%) 
+pakfile               [variable]      105703/0        ( 0.0%) 
+physics               [variable]        7812/4194304  ( 0.2%) 
+physics terrain       [variable]           2/1048576  ( 0.0%) 
+
+Level flags = 0
+
+Total triangle count: 238
+Writing c:\program files (x86)\steam\steamapps\common\garrysmod\garrysmod\gamemodes\prison\content\maps\rp_prisonlife_test.bsp
+0 seconds elapsed
