@@ -84,6 +84,7 @@ end
 
 function SWEP:PrimaryAttack()
 	if not self:CanPrimaryAttack() then return end
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
 	self:ShootEffects()
 
@@ -104,7 +105,6 @@ function SWEP:PrimaryAttack()
 	bullet.Force = self.Primary.Force
 	bullet.Damage = self.Primary.Damage
 	bullet.AmmoType = self.Primary.TracerType
-	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 	bullet.Spread = Vector(self.Primary.Cone, self.Primary.Cone, 0)
 	bullet.Distance = self.Primary.Distance
 	bullet.Callback = self.Primary.Callback
