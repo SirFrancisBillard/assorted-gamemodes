@@ -87,17 +87,12 @@ function SWEP:PrimaryAttack()
 
 	self:ShootEffects()
 
+	self:EmitSound(self.Primary.SoundNear)
 	if CLIENT then
 		local dist = LocalPlayer():GetShootPosition():DistToSqr(self:GetPos())
 
-		if self.Primary.SoundFar then
-			if dist < 1000000 or self.Owner == LocalPlayer() then
-				self:EmitSound(self.Primary.SoundNear)
-			else
-				self:EmitSound(self.Primary.SoundFar)
-			end
-		else
-			self:EmitSound(self.Primary.SoundNear)
+		if self.Primary.SoundFar and dist < 1000000 or self.Owner == LocalPlayer() then
+			self:EmitSound(self.Primary.SoundFar)
 		end
 	end
 
