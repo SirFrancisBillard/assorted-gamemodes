@@ -64,12 +64,22 @@ SWEP.ViewModelAng = Vector(0, 0, 0)
 
 SWEP.ReloadRate = 1
 
+function SWEP:SetupDataTables()
+	self:NetworkVar("Bool", 0, "Reloading")
+	self:NetworkVar("Bool", 1, "NeedsReload")
+	self:NetworkVar("Int", 0, "ReloadTimer")
+end
+
 function SWEP:Initialize()
 	self:SetHoldType(self.HoldType)
+
+	self:SetReloading(false)
+	self:SetNeedsReload(false)
+	self:SetReloadTimer(0)
 end
 
 function SWEP:CanPrimaryAttack()
-	return self.Owner:GetAmmoCount(self.Primary.Ammo) > 0 and not self.reloading
+	return self.Owner:GetAmmoCount(self.Primary.Ammo) > 0 and not self:GetReloading()
 end
 
 function SWEP:PrimaryAttack()
@@ -77,6 +87,7 @@ function SWEP:PrimaryAttack()
 
 	self:ShootEffects()
 
+	if CLIENT then
 	if self.Primary.SoundFar then
 		self:EmitSound(self.Primary.SoundNear)
 		self:EmitSound(self.Primary.SoundFar)
@@ -113,40 +124,41 @@ function SWEP:PrimaryAttack()
 	self.Owner:RemoveAmmo(1, self.Primary.Ammo)
 
 	if self.Owner:GetAmmoCount(self.Primary.Ammo) < 1 then
-		self.needs_reload = true
+		self:SetNeedsReload(true)
 	end
 end
 
 function SWEP:CanSecondaryAttack() return false end
 
 function SWEP:Reload()
-	if not IsFirstTimePredicted() or self.Owner:GetAmmoCount(self.Primary.Ammo) >= self.Primary.DefaultClip or self.reloading then return end
+	if not IsFirstTimePredicted() or self.Owner:GetAmmoCount(self.Primary.Ammo) >= self.Primary.DefaultClip or self:GetReloading() then return end
 
 	self:SendWeaponAnim(ACT_VM_RELOAD)
 	self.Owner:GetViewModel():SetPlaybackRate(self.ReloadRate)
 	self.Owner:SetAnimation(PLAYER_RELOAD)
 
-	self.reload_timer = CurTime() + (self:SequenceDuration() * (1 / self.ReloadRate))
-	self.reloading = true
+	self.CachedReloadTime = (self:SequenceDuration() * (1 / self.ReloadRate)
+	self:SetReloadTimer(CurTime() + self.CachedReloadTime))
+	self:SetReloading(true)
 end
 
 function SWEP:Think()
-	if self.needs_reload then
-		self.needs_reload = false
+	if self:GetNeedsReload() then
+		self:SetNeedsReload(false)
 		self:Reload()
 	end
 
-	if self.reloading and self.reload_timer <= CurTime() then
-		self.reloading = false
-		self.reload_timer = 0
+	if self:GetReloading() and self:GetReloadTimer() <= CurTime() then
+		self:SetReloading(false)
+		self:SetReloadTimer(0)
 
 		self.Owner:SetAmmo(self.Primary.DefaultClip, self.Primary.Ammo)
 	end
 end
 
 function SWEP:Deploy()
-	self.reloading = false
-	self.reload_timer = 0
+	self:SetReloading(false)
+	self:SetReloadTimer(0)
 end
 
 function SWEP:GetViewModelPosition(pos, ang)
@@ -176,5 +188,16 @@ if CLIENT then
 
 	function SWEP:DrawHUD()
 		surface.DrawCircle(ScrW() / 2, ScrH() / 2, self.CrosshairRadius, self.CrosshairColor)
+
+		if self:GetReloading() then
+			local frac = (self:GetReloadTimer() - CurTime()) / self.CachedReloadTime
+			local x = ScrW() / 2
+			local y = (ScrH() / 2) + (ScrH() / 6)
+			local w = ScrW() / 4
+			local h = ScrH() / 20
+
+			surface.SetDrawColor(Color(255 - (255 * frac), 255 * frac, 0))
+			surface.DrawRect(x, y, w * frac, h)
+		end
 	end
 end
