@@ -38,7 +38,7 @@ sound.Add({
 	name = "Bullet_Impact.Headshot",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 150,
+	level = 100,
 	pitch = {95, 110},
 	sound = "battle-royale/headshot.wav"
 })
@@ -47,7 +47,7 @@ sound.Add({
 	name = "Kevlar.Equip",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 50,
 	pitch = {95, 110},
 	sound = "battle-royale/armor.wav"
 })
@@ -56,7 +56,7 @@ sound.Add({
 	name = "Loot.Open",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 65,
 	pitch = {95, 110},
 	sound = "battle-royale/loot.wav"
 })
@@ -65,7 +65,7 @@ sound.Add({
 	name = "Door.Locked",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 50,
 	pitch = {95, 110},
 	sound = "buttons/weapon_cant_buy.wav"
 })
@@ -74,7 +74,7 @@ sound.Add({
 	name = "Door.Open",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 50,
 	pitch = {95, 110},
 	sound = "buttons/blip2.wav"
 })
@@ -83,7 +83,7 @@ sound.Add({
 	name = "Door.Auth",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 50,
 	pitch = {95, 110},
 	sound = "buttons/bell1.wav"
 })
@@ -96,7 +96,7 @@ sound.Add({
 	name = "Food.Eat",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 30,
 	pitch = {95, 110},
 	sound = eatsounds
 })
@@ -109,7 +109,7 @@ sound.Add({
 	name = "Block.Place",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 60,
 	pitch = {95, 110},
 	sound = blocksounds
 })
@@ -122,7 +122,7 @@ sound.Add({
 	name = "Block.Break",
 	channel = CHAN_AUTO,
 	volume = 1.0,
-	level = 100,
+	level = 60,
 	pitch = {95, 110},
 	sound = breaksounds
 })
