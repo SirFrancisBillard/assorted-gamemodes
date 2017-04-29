@@ -13,21 +13,44 @@ SWEP.UseHands = true
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 
-SWEP.Primary.Delay = 0.8
-SWEP.Primary.Damage = 30
+SWEP.Primary.Delay = 0.5
+SWEP.Primary.Cooldown = 10
 SWEP.Primary.Sound = Sound("Prison.Handcuff")
 
-SWEP.HoldType = "melee"
+SWEP.HoldType = "slam"
 
 SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
+function SWEP:CanPrimaryAttack()
+	if not IsValid(self) or not IsValid(self.Owner) or not self.Owner:IsPlayer() then
+		return false 
+	end
+
+	if not self.Owner:Team() == TEAM_GUARD then
+		if SERVER then
+			self.Owner:ChatPrint("You must be a guard to use handcuffs!")
+		end
+
+		return false
+	end
+
+	if not self.Owner:GetArrestTimer() < CurTime() then
+		if SERVER then
+			self.Owner:ChatPrint("You need to wait another " .. math.Comma(math.ceil(self.Owner:GetArrestTimer() - CurTime())) .. " seconds before arresting someone!")
+		end
+
+		return false
+	end
+
+	return true
+end
+
 function SWEP:PrimaryAttack()
-	self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+	if not self:CanPrimaryAttack() then return end
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-
-	if not IsValid(self.Owner) then return end
 
 	if self.Owner.LagCompensation then -- for some reason not always true
 		self.Owner:LagCompensation(true)
@@ -36,52 +59,13 @@ function SWEP:PrimaryAttack()
 	local spos = self.Owner:GetShootPos()
 	local sdest = spos + (self.Owner:GetAimVector() * 70)
 
-	local tr_main = util.TraceLine({start = spos, endpos = sdest, filter = self.Owner, mask = MASK_SHOT_HULL})
-	local hitEnt = tr_main.Entity
+	local tr = util.TraceLine({start = spos, endpos = sdest, filter = self.Owner, mask = MASK_SHOT_HULL})
+	local hitEnt = tr.Entity
 
-	if IsValid(hitEnt) or and hitEnt:IsPlayer() and hitEnt:Team() == TEAM_CRIMINAL then
+	if IsValid(hitEnt) and hitEnt:CanArrest() then
+		hitEnt:Arrest()
+		self.Owner:SetArrestTimer(CurTime() + self.Primary.Cooldown)
 		self:EmitSound(self.Primary.Sound)
-		self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
-
-		if not (CLIENT and (not IsFirstTimePredicted())) then
-			local edata = EffectData()
-			edata:SetStart(spos)
-			edata:SetOrigin(tr_main.HitPos)
-			edata:SetNormal(tr_main.Normal)
-			edata:SetSurfaceProp(tr_main.SurfaceProps)
-			edata:SetHitBox(tr_main.HitBox)
-			edata:SetEntity(hitEnt)
-
-			if hitEnt:IsPlayer() or hitEnt:GetClass() == "prop_ragdoll" then
-				util.Effect("BloodImpact", edata)
-				self.Owner:LagCompensation(false)
-				self.Owner:FireBullets({Num = 1, Src = spos, Dir = self.Owner:GetAimVector(), Spread = Vector(0, 0, 0), Tracer = 0, Force = 1, Damage = 0})
-			else
-				util.Effect("Impact", edata)
-			end
-		end
-	else
-		-- miss
-		self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-	end
-
-
-	if SERVER then
-		-- do another trace that sees nodraw stuff like func_button
-		local tr_all = nil
-		tr_all = util.TraceLine({start = spos, endpos = sdest, filter = self.Owner})
-
-		if hitEnt and hitEnt:IsValid() then
-			local dmg = DamageInfo()
-			dmg:SetDamage(self.Primary.Damage)
-			dmg:SetAttacker(self.Owner)
-			dmg:SetInflictor(self)
-			dmg:SetDamageForce(self.Owner:GetAimVector() * 1500)
-			dmg:SetDamagePosition(self.Owner:GetPos())
-			dmg:SetDamageType(DMG_SLASH)
-
-			hitEnt:DispatchTraceAttack(dmg, spos + (self.Owner:GetAimVector() * 3), sdest)
-		end
 	end
 
 	if self.Owner.LagCompensation then
