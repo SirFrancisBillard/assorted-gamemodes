@@ -72,110 +72,33 @@ sound.Add({
 
 -- Weapons
 
-sound.Add({
-	name = "Weapon_AK47.Near",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 100,
-	pitch = {95, 110},
-	sound = {"prison/weapons/ak47.wav"}
-})
+local function RegisterWeaponScript(id, name)
+	sound.Add({
+		name = name .. ".Near",
+		channel = CHAN_WEAPON,
+		volume = 1.0,
+		level = 100,
+		pitch = {95, 110},
+		sound = {"battleroyale/weapons/" .. id .. ".wav"}
+	})
 
-sound.Add({
-	name = "Weapon_AK47.Far",
-	channel = CHAN_STATIC,
-	volume = 1.0,
-	level = 140,
-	pitch = {95, 110},
-	sound = {"prison/weapons/ak47_dist.wav"}
-})
+	sound.Add({
+		name = name .. ".Far",
+		channel = CHAN_WEAPON,
+		volume = 1.0,
+		level = 0,
+		pitch = {95, 110},
+		sound = {"battleroyale/weapons/" .. id .. "_dist.wav"}
+	})
+end
 
-sound.Add({
-	name = "Weapon_Deagle.Near",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 100,
-	pitch = {95, 110},
-	sound = {"prison/weapons/deagle.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Deagle.Far",
-	channel = CHAN_STATIC,
-	volume = 1.0,
-	level = 140,
-	pitch = {95, 110},
-	sound = {"prison/weapons/deagle_dist.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Flaregun.Near",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 100,
-	pitch = {95, 110},
-	sound = {"prison/weapons/flaregun.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Flaregun.Far",
-	channel = CHAN_STATIC,
-	volume = 1.0,
-	level = 140,
-	pitch = {95, 110},
-	sound = {"prison/weapons/flaregun_dist.wav"}
-})
-
-sound.Add({
-	name = "Weapon_M4A1.Near",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 100,
-	pitch = {95, 110},
-	sound = {"prison/weapons/m4a1.wav"}
-})
-
-sound.Add({
-	name = "Weapon_M4A1.Far",
-	channel = CHAN_STATIC,
-	volume = 1.0,
-	level = 140,
-	pitch = {95, 110},
-	sound = {"prison/weapons/m4a1_dist.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Pistol.Near",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 100,
-	pitch = {95, 110},
-	sound = {"prison/weapons/pistol.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Pistol.Far",
-	channel = CHAN_STATIC,
-	volume = 1.0,
-	level = 140,
-	pitch = {95, 110},
-	sound = {"prison/weapons/pistol_dist.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Shotgun.Near",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 100,
-	pitch = {95, 110},
-	sound = {"prison/weapons/shotgun.wav"}
-})
-
-sound.Add({
-	name = "Weapon_Shotgun.Far",
-	channel = CHAN_STATIC,
-	volume = 1.0,
-	level = 140,
-	pitch = {95, 110},
-	sound = {"prison/weapons/shotgun_dist.wav"}
-})
+RegisterWeaponScript("ak47", "Weapon_AK47")
+RegisterWeaponScript("deagle", "Weapon_Deagle")
+RegisterWeaponScript("flaregun", "Weapon_Flaregun")
+RegisterWeaponScript("glock", "Weapon_Glock")
+RegisterWeaponScript("m4a1", "Weapon_M4A1")
+RegisterWeaponScript("m249", "Weapon_M249")
+RegisterWeaponScript("mp5", "Weapon_MP5")
+RegisterWeaponScript("pistol", "Weapon_Pistol")
+RegisterWeaponScript("shotgun", "Weapon_Shotgun")
+RegisterWeaponScript("sniper", "Weapon_Sniper")

@@ -61,9 +61,11 @@ function SWEP:SetupDataTables()
 end
 
 function SWEP:Initialize()
+	self:SetCurrentObject(OBJ_BLOCK)
+
 	if CLIENT then
 		-- create ghosted indicator
-		local ghost = ents.CreateClientProp(ghostmdl)
+		local ghost = ents.CreateClientProp(self.ObjectProperties[OBJ_BLOCK].entity_model)
 		if IsValid(ghost) then
 			ghost:SetPos(self:GetPos())
 			ghost:Spawn()
@@ -157,7 +159,7 @@ function SWEP:SecondaryAttack()
 	local nxt = cur + 1
 
 	if #self.ObjectProperties < nxt then
-		nxt = 1
+		nxt = OBJ_BLOCK
 	end
 
 	self:SetCurrentObject(nxt)
@@ -177,7 +179,7 @@ if CLIENT then
 
 	function SWEP:UpdateGhost(pos, c, a)
 		if IsValid(self.Ghost) then
-			if self.Ghost:GetPos() != pos then
+			if self.Ghost:GetPos() ~= pos then
 				self.Ghost:SetPos(pos)
 				self.Ghost:SetAngles(angle_zero)
 				self.Ghost:SetColor(Color(c.r, c.g, c.b, a))

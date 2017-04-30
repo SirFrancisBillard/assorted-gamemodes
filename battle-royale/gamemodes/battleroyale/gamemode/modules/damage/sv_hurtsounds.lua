@@ -1,6 +1,11 @@
 
-hook.Add("EntityTakeDamage", "BattleRoyale.HurtSounds", function(ent, dmg)
+local function GetGender(ply)
+	return ply.model_table and ply.model_table.gender or GENDER_MALE
+end
+
+hook.Add("EntityTakeDamage", "BattleRoyale.HurtSounds", function(ply, dmg)
 	-- hurt sounds
+	ply.hurtsound_cooldown = ply.hurtsound_cooldown or 0
 	if IsValid(ply) and ply:IsPlayer() and ply.hurtsound_cooldown < CurTime() then
 		ply.hurtsound_cooldown = CurTime() + 1
 
@@ -8,7 +13,7 @@ hook.Add("EntityTakeDamage", "BattleRoyale.HurtSounds", function(ent, dmg)
 		local gen = GetGender(ply)
 
 		-- this is the order of priority for where something is in the table
-		local snd_table = self.HurtSounds[hg] or self.HurtSounds[gen][hg] or self.HurtSounds[gen]["generic"]
+		local snd_table = GAMEMODE.HurtSounds[hg] or GAMEMODE.HurtSounds[gen][hg] or GAMEMODE.HurtSounds[gen]["generic"]
 		ply:EmitSound(snd_table[math.random(1, #snd_table)])
 	end
 end)
