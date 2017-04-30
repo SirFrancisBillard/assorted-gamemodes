@@ -1,9 +1,6 @@
 AddCSLuaFile()
 
-game.AddAmmoType({name = "prisonlifeammogeneric"})
-if CLIENT then
-	language.Add("prisonlifeammogeneric_ammo", "Bullets")
-end
+GAMEMODE:RegisterAmmo("generic")
 
 SWEP.PrintName = "Prison Life Base Weapon"
 SWEP.Instructions = [[
@@ -20,7 +17,7 @@ SWEP.AdminOnly = false
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = "prisonlifeammogeneric"
+SWEP.Primary.Ammo = "battleroyale_generic"
 
 SWEP.Primary.Cone = 0.03
 SWEP.Primary.Delay = 0.6
@@ -132,7 +129,7 @@ end
 function SWEP:CanSecondaryAttack() return false end
 
 function SWEP:Reload()
-	if not IsFirstTimePredicted() or self.Owner:GetAmmoCount(self.Primary.Ammo) >= self.Primary.DefaultClip or self:GetReloading() then return end
+	if not IsFirstTimePredicted() or self.Owner:GetAmmoCount(self.Primary.Ammo) >= self.Primary.DefaultClip or self:GetReloading() then return false end
 
 	self:SendWeaponAnim(ACT_VM_RELOAD)
 	self.Owner:GetViewModel():SetPlaybackRate(self.ReloadRate)
@@ -140,6 +137,8 @@ function SWEP:Reload()
 
 	self:SetReloadTimer(CurTime() + self:SequenceDuration() * (1 / self.ReloadRate))
 	self:SetReloading(true)
+
+	return true
 end
 
 function SWEP:Think()

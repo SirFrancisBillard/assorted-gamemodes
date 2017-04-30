@@ -1,9 +1,6 @@
 AddCSLuaFile()
 
-game.AddAmmoType({name = "prisonm4a1"})
-if CLIENT then
-	language.Add("prisonm4a1_ammo", "M4A1 Bullets")
-end
+GAMEMODE:RegisterAmmo("m4a1")
 
 SWEP.Base = "prison_baseweapon"
 
@@ -20,7 +17,7 @@ SWEP.SlotPos = 1
 
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Automatic = true
-SWEP.Primary.Ammo = "prisonm4a1"
+SWEP.Primary.Ammo = "battleroyale_m4a1"
 
 SWEP.Primary.Cone = 0.002
 SWEP.Primary.Delay = 0.1

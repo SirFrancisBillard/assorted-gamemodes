@@ -1,10 +1,10 @@
 AddCSLuaFile()
 
-GAMEMODE:RegisterAmmo("ak47")
+GAMEMODE:RegisterAmmo("m249")
 
 SWEP.Base = "prison_baseweapon"
 
-SWEP.PrintName = "AK-47"
+SWEP.PrintName = "M249"
 SWEP.Instructions = [[
 <color=green>[PRIMARY FIRE]</color> Fire a bullet.]]
 
@@ -15,17 +15,17 @@ SWEP.UseHands = true
 SWEP.Slot = 2
 SWEP.SlotPos = 1
 
-SWEP.Primary.DefaultClip = 30
+SWEP.Primary.DefaultClip = 200
 SWEP.Primary.Automatic = true
-SWEP.Primary.Ammo = "battleroyale_ak47"
+SWEP.Primary.Ammo = "battleroyale_m249"
 
 SWEP.Primary.Cone = 0.008
-SWEP.Primary.Delay = 0.1
+SWEP.Primary.Delay = 0.04
 SWEP.Primary.Damage = 20
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 0.8
-SWEP.Primary.SoundNear = Sound("Weapon_AK47.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_AK47.Far")
+SWEP.Primary.SoundNear = Sound("Weapon_M249.Near")
+SWEP.Primary.SoundFar = Sound("Weapon_M249.Far")
 
 SWEP.HoldType = "ar2"
 
