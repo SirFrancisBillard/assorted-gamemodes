@@ -80,11 +80,11 @@ function ENT:Explode(tr)
 
 		timer.Simple(16, function()
 			local plane = pos + Vector(0, 0, 512)
-			sound.Play("battle-royale/plane_close.wav", plane, 150, 100)
-			sound.Play("battle-royale/plane_close.wav", plane, 150, 100)
-			sound.Play("battle-royale/plane_close.wav", plane, 150, 100)
+			sound.Play("battleroyale/plane_close.wav", plane, 150, 100)
+			sound.Play("battleroyale/plane_close.wav", plane, 150, 100)
+			sound.Play("battleroyale/plane_close.wav", plane, 150, 100)
 			for key,ply in pairs(player.GetAll())do
-				ply:EmitSound("battle-royale/plane_far.wav", 70, 100)
+				ply:EmitSound("battleroyale/plane_far.wav", 70, 100)
 			end
 		end)
 

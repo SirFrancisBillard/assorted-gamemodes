@@ -39,9 +39,9 @@ if SERVER then
 			end)
 			local randy = math.random(1, 100)
 			local tab
-			if randy <= 60 then
+			if randy <= 80 then
 				tab = table.GetKeys(GAMEMODE.LootTable.Bad)
-			elseif randy <= 90 then
+			elseif randy <= 95 then
 				tab = table.GetKeys(GAMEMODE.LootTable.Okay)
 			else
 				tab = table.GetKeys(GAMEMODE.LootTable.Good)
@@ -51,7 +51,7 @@ if SERVER then
 			local loot = ents.Create(item)
 			loot:SetPos(self:GetPos() + Vector(0, 0, 32))
 			loot:Spawn()
-			ply:GiveResources(math.random(20, 80))
+			ply:GiveResources(math.random(200, 500))
 			self:EmitSound("Loot.Open")
 		end
 	end

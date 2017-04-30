@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 SWEP.YupWeAreFists = true
 
-SWEP.Base = "prison_baseweapon"
+SWEP.Base = "battleroyale_baseweapon"
 
 SWEP.PrintName = "Fists"
 SWEP.Instructions = [[

@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 GAMEMODE:RegisterAmmo("sniper")
 
-SWEP.Base = "prison_baseweapon"
+SWEP.Base = "battleroyale_baseweapon"
 
 SWEP.PrintName = "Sniper Rifle"
 SWEP.Instructions = [[
@@ -25,8 +25,8 @@ SWEP.Primary.Delay = 1.5
 SWEP.Primary.Damage = 15
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 0.6
-SWEP.Primary.SoundNear = Sound("Weapon_Deagle.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_Deagle.Far")
+SWEP.Primary.SoundNear = Sound("Weapon_Sniper.Near")
+SWEP.Primary.SoundFar = Sound("Weapon_Sniper.Far")
 
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 

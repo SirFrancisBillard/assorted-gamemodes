@@ -32,10 +32,6 @@ SWEP.ViewModelFlip = false
 
 local maxrange = 256
 
-function SWEP:GetClass()
-	return "weapon_hammer"
-end
-
 function SWEP:ShouldDropOnDie()
 	return false
 end
@@ -72,12 +68,11 @@ function SWEP:SecondaryAttack()
 			self.Owner:ChatPrint("Can't upgrade: Already fully upgraded!")
 			return
 		end
-		if self.Owner:GetNWInt("br_resources", 0) < next_block.cost then
+		if self.Owner:GetResources() < next_block.cost then
 			self.Owner:ChatPrint("Can't upgrade: Not enough resources!")
 			return
 		end
-		self.Owner:SetNWInt("br_resources", self.Owner:GetNWInt("br_resources", 0) - next_block.cost)
-		self.Owner:ChatPrint("-" .. next_block.cost .. " resources")
+		self.Owner:TakeResources(next_block.cost)
 		trent:SetNWInt("upgrade_level", trent:GetNWInt("upgrade_level", 1) + 1)
 		trent:SetNWInt("block_health", next_block.health)
 		trent:SetMaterial(next_block.mat)

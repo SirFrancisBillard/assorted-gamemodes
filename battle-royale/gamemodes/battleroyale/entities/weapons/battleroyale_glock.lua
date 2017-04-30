@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 GAMEMODE:RegisterAmmo("glock")
 
-SWEP.Base = "prison_baseweapon"
+SWEP.Base = "battleroyale_baseweapon"
 
 SWEP.PrintName = "Glock-18"
 SWEP.Instructions = [[
@@ -24,8 +24,8 @@ SWEP.Primary.Delay = 0.14
 SWEP.Primary.Damage = 15
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 0.8
-SWEP.Primary.SoundNear = Sound("Weapon_Pistol.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_Pistol.Far")
+SWEP.Primary.SoundNear = Sound("Weapon_Glock.Near")
+SWEP.Primary.SoundFar = Sound("Weapon_Glock.Far")
 
 SWEP.HoldType = "revolver"
 

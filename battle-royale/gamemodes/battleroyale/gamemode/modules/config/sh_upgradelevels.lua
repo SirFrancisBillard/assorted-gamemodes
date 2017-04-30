@@ -3,25 +3,25 @@
 GM.UpgradeLevels = {
 	[1] = {
 		name = "Scaffold",
-		cost = 10,
+		cost = 20,
 		health = 20,
 		mat = ""
 	},
 	[2] = {
 		name = "Wood",
-		cost = 75,
+		cost = 50,
 		health = 200,
 		mat = "phoenix_storms/wood"
 	},
 	[3] = {
 		name = "Stone",
-		cost = 200,
+		cost = 125,
 		health = 500,
 		mat = "brick/brick_model"
 	},
 	[4] = {
 		name = "Sheet Metal",
-		cost = 500,
+		cost = 250,
 		health = 1000,
 		mat = "models/props_pipes/GutterMetal01a"
 	},

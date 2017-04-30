@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 GAMEMODE:RegisterAmmo("m4a1")
 
-SWEP.Base = "prison_baseweapon"
+SWEP.Base = "battleroyale_baseweapon"
 
 SWEP.PrintName = "M4A1"
 SWEP.Instructions = [[

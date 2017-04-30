@@ -78,10 +78,6 @@ function SWEP:Holster()
 	return self.BaseClass.Holster(self)
 end
 
-function SWEP:GetClass()
-	return "weapon_buildingtool"
-end
-
 function SWEP:ShouldDropOnDie()
 	return false
 end
@@ -100,12 +96,11 @@ function SWEP:PrimaryAttack()
 			self.Owner:ChatPrint("Can't place: Too far away!")
 			return
 		end
-		if self.Owner:GetNWInt("br_resources", 0) < required then
+		if self.Owner:GetResources() < required then
 			self.Owner:ChatPrint("Can't place: Not enough resources!")
 			return
 		end
-		self.Owner:SetNWInt("br_resources", self.Owner:GetNWInt("br_resources", 0) - required)
-		self.Owner:ChatPrint("-" .. required .. " resources")
+		self.Owner:TakeResources(required)
 		local prop = ents.Create("prop_physics")
 		prop:SetModel(ghostmdl)
 		local pos = tr.HitPos + tr.HitNormal * 18
@@ -165,7 +160,7 @@ if CLIENT then
 		local tr = util.TraceLine({start = spos, endpos = epos, filter = client, mask = MASK_ALL})
 
 		local c = color_green
-		if self.Owner:GetNWInt("br_resources", 0) < required or plytr.HitPos:Distance(LocalPlayer():GetPos()) > maxdist then
+		if self.Owner:GetResources() < required or plytr.HitPos:Distance(LocalPlayer():GetPos()) > maxdist then
 			c = color_red
 		end
 		local a = 150

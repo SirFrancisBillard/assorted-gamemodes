@@ -18,9 +18,6 @@ function GM:KeyRelease(ply, key)
 			for k, v in pairs(tr.Entity.loot_weapons) do
 				ply:Give(v)
 			end
-			for k, v in pairs(tr.Entity.loot_ammo) do
-				ply:GiveAmmo(v, k)
-			end
 			if tr.Entity.loot_resources > 0 then
 				ply:GiveResources(tr.Entity.loot_resources)
 			end

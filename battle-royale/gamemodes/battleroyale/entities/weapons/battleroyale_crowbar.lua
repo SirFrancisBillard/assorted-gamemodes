@@ -2,23 +2,23 @@ AddCSLuaFile()
 
 SWEP.Base = "battleroyale_baseweapon"
 
-SWEP.PrintName = "Knife"
+SWEP.PrintName = "Crowbar"
 SWEP.Instructions = [[
-<color=green>[PRIMARY FIRE]</color> Stab.]]
+<color=green>[PRIMARY FIRE]</color> Swing.]]
 
-SWEP.ViewModel = "models/weapons/cstrike/c_knife_t.mdl"
-SWEP.WorldModel = "models/weapons/w_knife_t.mdl"
+SWEP.ViewModel = "models/weapons/c_crowbar.mdl"
+SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
 SWEP.UseHands = true
 
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = true
 SWEP.Primary.AmmoType = "none"
 
-SWEP.Primary.Delay = 0.4
-SWEP.Primary.Damage = 30
+SWEP.Primary.Delay = 0.8
+SWEP.Primary.Damage = 45
 SWEP.Primary.Sound = Sound("Weapon_Knife.Hit")
 
-SWEP.HoldType = "knife"
+SWEP.HoldType = "melee"
 
 SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
@@ -44,7 +44,7 @@ function SWEP:PrimaryAttack()
 
 	if IsValid(hitEnt) or tr_main.HitWorld then
 		self:EmitSound(self.Primary.Sound)
-		self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
+		self:SendWeaponAnim(ACT_VM_HITCENTER)
 
 		if not (CLIENT and (not IsFirstTimePredicted())) then
 			local edata = EffectData()
@@ -65,7 +65,7 @@ function SWEP:PrimaryAttack()
 		end
 	else
 		-- miss
-		self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+		self:SendWeaponAnim(ACT_VM_MISSCENTER)
 	end
 
 

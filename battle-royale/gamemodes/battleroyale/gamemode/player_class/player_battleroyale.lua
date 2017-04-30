@@ -11,13 +11,13 @@ function PLAYER:Loadout()
 	self.Player:RemoveAllAmmo()
 
 	-- default stuff
-	for k, v in pairs(self.DefaultWeapons) do
+	for k, v in pairs(GAMEMODE.DefaultWeapons) do
 		if v then
-			ply:Give(k)
+			self.Player:Give(k)
 		end
 	end
 
-	ply:SelectWeapon("battleroyale_fists")
+	self.Player:SelectWeapon("battleroyale_fists")
 end
 
 function PLAYER:SetupDataTables()

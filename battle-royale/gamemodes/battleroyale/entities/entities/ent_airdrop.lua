@@ -45,7 +45,7 @@ if SERVER then
 
 	function ENT:Use(ply)
 		if IsValid(ply) and ply:IsPlayer() then
-			for i = 1, math.random(1, 3) do
+			for i = 1, math.random(1, 2) do
 				local tab = table.GetKeys(GAMEMODE.LootTable.Good)
 				if not tab then return end
 				local item = tab[math.random(1, #tab)]
@@ -54,7 +54,7 @@ if SERVER then
 				loot:Spawn()
 			end
 
-			ply:GiveResources(math.random(200, 400))
+			ply:GiveResources(math.random(2000, 4000))
 
 			self:EmitSound("Loot.Open")
 			self:Remove()

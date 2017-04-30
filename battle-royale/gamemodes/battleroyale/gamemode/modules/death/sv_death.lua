@@ -30,14 +30,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		table.insert(rag.loot_weapons, v:GetClass())
 	end
 
-	rag.loot_ammo = {}
-	for k, v in pairs(self.AmmoTypes) do
-		if ply:GetAmmoCount(v) > 0 then
-			rag.loot_ammo[k] = ply:GetAmmoCount(v)
-		end
-	end
-
-	if rag.loot_armor < 1 and #rag.loot_weapons < 1 and #rag.loot_ammo < 1 then
+	if rag.loot_armor < 1 and #rag.loot_weapons < 1 then
 		-- we don't have anything, might as well be looted
 		rag.is_looted = true
 	end

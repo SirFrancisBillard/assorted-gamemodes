@@ -1,15 +1,15 @@
 AddCSLuaFile()
 
-GAMEMODE:RegisterAmmo("shotgun")
+GAMEMODE:RegisterAmmo("autoshotgun")
 
 SWEP.Base = "battleroyale_baseweapon"
 
-SWEP.PrintName = "Shotgun"
+SWEP.PrintName = "Automatic Shotgun"
 SWEP.Instructions = [[
 <color=green>[PRIMARY FIRE]</color> Fire a shot.]]
 
-SWEP.ViewModel = "models/weapons/cstrike/c_shot_m3super90.mdl"
-SWEP.WorldModel = "models/weapons/w_shot_m3super90.mdl"
+SWEP.ViewModel = "models/weapons/cstrike/c_shot_xm1014.mdl"
+SWEP.WorldModel = "models/weapons/w_shot_xm1014.mdl"
 SWEP.UseHands = true
 
 SWEP.Slot = 2
@@ -17,10 +17,10 @@ SWEP.SlotPos = 1
 
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = "battleroyale_shotgun"
+SWEP.Primary.Ammo = "battleroyale_autoshotgun"
 
 SWEP.Primary.Cone = 0.04
-SWEP.Primary.Delay = 0.8
+SWEP.Primary.Delay = 0.4
 SWEP.Primary.Damage = 15
 SWEP.Primary.NumShots = 8
 SWEP.Primary.Recoil = 5

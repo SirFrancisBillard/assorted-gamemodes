@@ -10,7 +10,7 @@ function GM:HUDPaint()
 	local ply = LocalPlayer()
 	local health = "Health: " .. (ply:Health() > 0 and ply:Health() or "Dead")
 	local armor = "Armor: " .. (ply:Armor() > 0 and ply:Armor() or "None")
-	local res = "Resources: " .. (ply:GetNWInt("br_resources", 0) > 0 and ply:GetNWInt("br_resources", 0) or "None")
+	local res = "Resources: " .. (ply:GetResources() > 0 and ply:GetResources() or "None")
 	
 	local font = "BattleRoyale_HUD"
 

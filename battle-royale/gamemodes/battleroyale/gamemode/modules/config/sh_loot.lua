@@ -28,14 +28,12 @@ GM.LootTable = {
 		["ent_kevlar"] = true,
 		["ent_kevlar"] = true,
 		["ent_kevlar"] = true,
-
-		["weapon_dropgrenade"] = true,
-		["weapon_dropgrenade"] = true,
-		["weapon_dropgrenade"] = true
 	},
 	Good = {
 		["battleroyale_autoshotgun"] = true,
 		["battleroyale_sniper"] = true,
-		["battleroyale_m249"] = true
+		["battleroyale_m249"] = true,
+
+		["weapon_dropgrenade"] = true
 	}
 }
