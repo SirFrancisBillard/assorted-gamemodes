@@ -24,7 +24,7 @@ SWEP.Primary.Cone = 0
 SWEP.Primary.Delay = 1.5
 SWEP.Primary.Damage = 120
 SWEP.Primary.NumShots = 1
-SWEP.Primary.Recoil = 0.6
+SWEP.Primary.Recoil = 2
 SWEP.Primary.SoundNear = Sound("Weapon_Sniper.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_Sniper.Far")
 

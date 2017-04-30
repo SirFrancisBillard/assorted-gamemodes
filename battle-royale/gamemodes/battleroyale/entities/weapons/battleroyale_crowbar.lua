@@ -14,9 +14,10 @@ SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = true
 SWEP.Primary.AmmoType = "none"
 
-SWEP.Primary.Delay = 0.8
+SWEP.Primary.Delay = 0.6
 SWEP.Primary.Damage = 45
-SWEP.Primary.Sound = Sound("Weapon_Knife.Hit")
+SWEP.Primary.Sound = Sound("Weapon_Crowbar.Melee_Hit")
+SWEP.Primary.SoundMiss = Sound("Weapon_Crowbar.Single")
 
 SWEP.HoldType = "melee"
 
@@ -66,6 +67,7 @@ function SWEP:PrimaryAttack()
 	else
 		-- miss
 		self:SendWeaponAnim(ACT_VM_MISSCENTER)
+		self:EmitSound(self.Primary.SoundMiss)
 	end
 
 

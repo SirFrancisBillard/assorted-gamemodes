@@ -17,6 +17,7 @@ SWEP.Primary.AmmoType = "none"
 SWEP.Primary.Delay = 0.4
 SWEP.Primary.Damage = 30
 SWEP.Primary.Sound = Sound("Weapon_Knife.Hit")
+SWEP.Primary.SoundMiss = Sound("Weapon_Crowbar.Single")
 
 SWEP.HoldType = "knife"
 
@@ -66,6 +67,7 @@ function SWEP:PrimaryAttack()
 	else
 		-- miss
 		self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+		self:EmitSound(self.Primary.SoundMiss)
 	end
 
 
