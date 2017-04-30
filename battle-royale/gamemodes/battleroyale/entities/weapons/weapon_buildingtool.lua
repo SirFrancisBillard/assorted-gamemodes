@@ -23,6 +23,8 @@ SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "none"
 
+SWEP.Primary.Sound = Sound("Block.Place")
+
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
@@ -30,8 +32,33 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.ViewModelFlip = false
 
+local OBJ_BLOCK = 1
+local OBJ_DOOR = 2
+
+SWEP.ObjectProperties = {
+	[OBJ_BLOCK] = {
+		name = "Block",
+		health_multiplier = 1,
+		cost_multiplier = 1,
+		created_entity = "prop_physics",
+		entity_model = Model("models/hunter/blocks/cube075x075x075.mdl")
+	},
+	[OBJ_DOOR] = {
+		name = "Door",
+		health_multiplier = 0.5,
+		cost_multiplier = 1,
+		created_entity = "ent_door",
+		entity_model = Model("models/hunter/blocks/cube075x075x075.mdl")
+	}
+}
+
 local maxrange = 256
-local ghostmdl = Model("models/hunter/blocks/cube075x075x075.mdl")
+
+function SWEP:SetupDataTables()
+	self.BaseClass.SetupDataTables(self)
+
+	self:NetworkVar("Int", 0, "CurrentObject")
+end
 
 function SWEP:Initialize()
 	if CLIENT then
@@ -55,6 +82,8 @@ function SWEP:Initialize()
 			self.Ghost = ghost
 		end
 	end
+
+	self:SetCurrentObject(OBJ_BLOCK)
 
 	return self.BaseClass.Initialize(self)
 end
@@ -82,7 +111,7 @@ function SWEP:ShouldDropOnDie()
 	return false
 end
 
-local required = GAMEMODE.UpgradeLevels[1].cost
+local default_cost = GAMEMODE.UpgradeLevels[1].cost
 local maxdist = 256
 
 function SWEP:PrimaryAttack()
@@ -93,16 +122,19 @@ function SWEP:PrimaryAttack()
 		self.Owner:LagCompensation(false)
 		if not tr.Hit then return end
 		if tr.HitPos:Distance(self.Owner:GetPos()) > maxdist then
-			self.Owner:ChatPrint("Can't place: Too far away!")
+			self.Owner:ChatPrint("Cannot place: Too far away!")
 			return
 		end
+		local obj = self.ObjectProperties[self:GetCurrentObject()]
+		if not obj then self:SetCurrentObject(1) return end
+		local required = default_cost * obj.cost_multiplier
 		if self.Owner:GetResources() < required then
-			self.Owner:ChatPrint("Can't place: Not enough resources!")
+			self.Owner:ChatPrint("Cannot place: Not enough resources!")
 			return
 		end
 		self.Owner:TakeResources(required)
-		local prop = ents.Create("prop_physics")
-		prop:SetModel(ghostmdl)
+		local prop = ents.Create(obj.created_entity)
+		prop:SetModel(obj.entity_model)
 		local pos = tr.HitPos + tr.HitNormal * 18
 		pos.x = math.Round(pos.x / 36) * 36
 		pos.y = math.Round(pos.y / 36) * 36
@@ -111,18 +143,31 @@ function SWEP:PrimaryAttack()
 		prop:Spawn()
 		prop:SetNWBool("is_block", true)
 		prop:SetNWInt("upgrade_level", 1)
-		prop:SetNWInt("block_health", GAMEMODE.UpgradeLevels[1].health)
+		prop:SetNWInt("block_health", GAMEMODE.UpgradeLevels[1].health * obj.health_multiplier)
 		prop:SetMaterial(GAMEMODE.UpgradeLevels[1].mat)
 		prop:GetPhysicsObject():EnableMotion(false)
-		prop:EmitSound("Block.Place")
+		prop:EmitSound(self.Primary.Sound)
+	end
+end
+
+function SWEP:SecondaryAttack()
+	self:SetNextSecondaryFire(CurTime() + 0.1)
+
+	local cur = self:GetCurrentObject()
+	local nxt = cur + 1
+
+	if #self.ObjectProperties < nxt then
+		nxt = 1
+	end
+
+	self:SetCurrentObject(nxt)
+
+	if SERVER then
+		self.Owner:ChatPrint("Now placing object: " .. self.ObjectProperties[nxt].name)
 	end
 end
 
 function SWEP:Reload() end
-
-local function around( val )
-	return math.Round( val * (10 ^ 3) ) / (10 ^ 3);
-end
 
 local color_red = Color(255, 0, 0)
 local color_green = Color(0, 255, 0)
@@ -160,6 +205,7 @@ if CLIENT then
 		local tr = util.TraceLine({start = spos, endpos = epos, filter = client, mask = MASK_ALL})
 
 		local c = color_green
+		local required = default_cost * self.ObjectProperties[self:GetCurrentObject()].cost_multiplier
 		if self.Owner:GetResources() < required or plytr.HitPos:Distance(LocalPlayer():GetPos()) > maxdist then
 			c = color_red
 		end

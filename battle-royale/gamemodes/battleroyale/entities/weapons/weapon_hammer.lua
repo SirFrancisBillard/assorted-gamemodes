@@ -59,23 +59,26 @@ function SWEP:SecondaryAttack()
 		if not tr.Hit or not IsValid(tr.Entity) then return end
 		local trent = tr.Entity
 		if not trent:GetNWBool("is_block") then
-			self.Owner:ChatPrint("Can't upgrade: Not a block!")
+			self.Owner:ChatPrint("Cannot upgrade: Not a block!")
 			return
 		end
 		local block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1)]
 		local next_block = GAMEMODE.UpgradeLevels[trent:GetNWInt("upgrade_level", 1) + 1]
 		if not next_block then
-			self.Owner:ChatPrint("Can't upgrade: Already fully upgraded!")
+			self.Owner:ChatPrint("Cannot upgrade: Already fully upgraded!")
 			return
 		end
 		if self.Owner:GetResources() < next_block.cost then
-			self.Owner:ChatPrint("Can't upgrade: Not enough resources!")
+			self.Owner:ChatPrint("Cannot upgrade: Not enough resources!")
 			return
 		end
 		self.Owner:TakeResources(next_block.cost)
 		trent:SetNWInt("upgrade_level", trent:GetNWInt("upgrade_level", 1) + 1)
 		trent:SetNWInt("block_health", next_block.health)
 		trent:SetMaterial(next_block.mat)
+		if type(trent.OnUpgraded) == "function" then
+			trent:OnUpgraded()
+		end
 	end
 end
 

@@ -14,6 +14,9 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.BattleRoyaleDoor = true
 
 if SERVER then
+	util.AddNetworkString("br_openkeypadmenu")
+	util.AddNetworkString("br_sendkeypadcode")
+
 	function ENT:Initialize()
 		self:SetModel("models/hunter/blocks/cube075x075x075.mdl")
 		self:PhysicsInit(SOLID_VPHYSICS)
@@ -48,7 +51,7 @@ if SERVER then
 			self:SetColor(ColorAlpha(self:GetColor(), 200))
 		else
 			self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-			self:SetColor(ColorAlpha(self:GetColor(), 75))
+			self:SetColor(ColorAlpha(self:GetColor(), 50))
 		end
 		self:EmitSound("Door.Open")
 	end
@@ -65,15 +68,19 @@ if SERVER then
 		end
 	end
 
+	function ENT:OnUpgraded()
+		self:SetNWInt("block_health", GAMEMODE.UpgradeLevels[self:GetNWInt("upgrade_level", 1)].health / 2)
+	end
+
 	net.Receive("br_sendkeypadcode", function(len, ply)
 		local ent = net.ReadEntity()
 		local pass = net.ReadString()
 		if not IsValid(ent) or not ent:GetClass() == "ent_door" then
-			ply:ChatPrint("Can't open: Invalid door!")
+			ply:ChatPrint("Cannot open: Invalid door!")
 			return
 		end
 		if not type(pass) == "string" or #pass > 24 then
-			ply:ChatPrint("Can't open: Invalid password!")
+			ply:ChatPrint("Cannot open: Invalid password!")
 			return
 		end
 		-- check if we have a real password yet

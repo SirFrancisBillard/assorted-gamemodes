@@ -22,7 +22,7 @@ SWEP.Primary.Ammo = "battleroyale_sniper"
 
 SWEP.Primary.Cone = 0
 SWEP.Primary.Delay = 1.5
-SWEP.Primary.Damage = 15
+SWEP.Primary.Damage = 120
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 0.6
 SWEP.Primary.SoundNear = Sound("Weapon_Sniper.Near")
@@ -38,7 +38,7 @@ SWEP.ViewModelAng = Vector(0, 0, 0)
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables(self)
 
-	self:NetworkVar("Bool", 0, "Ironsights")
+	self:NetworkVar("Bool", 2, "Ironsights")
 end
 
 function SWEP:SetZoom(state)
@@ -47,7 +47,7 @@ function SWEP:SetZoom(state)
 	elseif IsValid(self.Owner) and self.Owner:IsPlayer() then
 		if state then
 			self.Owner:SetFOV(20, 0.3)
-			elf.Owner:DrawViewModel(false)
+			self.Owner:DrawViewModel(false)
 		else
 			self.Owner:SetFOV(0, 0.2)
 			self.Owner:DrawViewModel(true)
@@ -62,8 +62,7 @@ end
 
 -- add some zoom to ironsights for this gun
 function SWEP:SecondaryAttack()
-	if not self.IronSightsPos then return end
-	if self:GetNextSecondaryFire() > CurTime() then return end
+	if self:GetNextSecondaryFire() > CurTime() or self:GetReloading() then return end
 
 	local bIronsights = not self:GetIronsights()
 
@@ -94,7 +93,7 @@ function SWEP:Holster()
 	self:SetIronsights(false)
 	self:SetZoom(false)
 
-	self.BaseClass.Holster(self)
+	return self.BaseClass.Holster(self)
 end
 
 if CLIENT then
@@ -142,7 +141,7 @@ if CLIENT then
 			surface.SetTexture(scope)
 			surface.SetDrawColor(255, 255, 255, 255)
 
-			surface.DrawTexturedRectRotated(x, y, scope_size, scope_size, 0)
+			--surface.DrawTexturedRectRotated(x, y, scope_size, scope_size, 0)
 		else
 			return self.BaseClass.DrawHUD(self)
 		end
