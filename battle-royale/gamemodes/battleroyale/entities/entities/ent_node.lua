@@ -11,6 +11,8 @@ ENT.AdminOnly = true
 
 ENT.RenderGroup = RENDERGROUP_OPAQUE
 
+ENT.IsHarvestableNode = true
+
 if SERVER then
 	function ENT:Initialize()
 		self:SetModel("models/props/CS_militia/militiarock05.mdl")

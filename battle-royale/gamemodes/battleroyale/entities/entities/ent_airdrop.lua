@@ -53,6 +53,9 @@ if SERVER then
 				loot:SetPos(self:GetPos() + Vector(0, 0, 32))
 				loot:Spawn()
 			end
+
+			ply:GiveResources(math.random(200, 400))
+
 			self:EmitSound("Loot.Open")
 			self:Remove()
 		end

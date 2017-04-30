@@ -11,6 +11,8 @@ ENT.AdminOnly = true
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
+ENT.BattleRoyaleDoor = true
+
 if SERVER then
 	function ENT:Initialize()
 		self:SetModel("models/hunter/blocks/cube075x075x075.mdl")

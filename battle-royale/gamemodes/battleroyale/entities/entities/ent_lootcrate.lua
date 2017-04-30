@@ -27,11 +27,9 @@ if SERVER then
 	end
 
 	function ENT:Use(ply)
-		-- checking the model instead of a dedicated variable
-		-- seems like a sloppy way of doing this, but
-		-- minimizing the need for networked variables is
-		-- good and the default model functions are already
-		-- networked and this only runs on the server anyway.
+		-- checking the model instead of a dedicated variable seems like a sloppy way of doing this, but
+		-- minimizing the need for networked variables is good and the default model functions are already
+		-- networked because this runs on the server.
 		if IsValid(ply) and ply:IsPlayer() and self:GetModel():lower() == model_closed:lower() then
 			self:SetModel(model_open)
 			-- todo: config for the time here
@@ -41,31 +39,19 @@ if SERVER then
 			end)
 			local randy = math.random(1, 100)
 			local tab
-			if ply:GetNWInt("br_perk", PERK_NONE) == PERK_LOOTER then
-				if randy <= 30 then
-					tab = table.GetKeys(GAMEMODE.LootTable.Bad)
-				elseif randy <= 75 then
-					tab = table.GetKeys(GAMEMODE.LootTable.Okay)
-				else
-					tab = table.GetKeys(GAMEMODE.LootTable.Good)
-				end
+			if randy <= 60 then
+				tab = table.GetKeys(GAMEMODE.LootTable.Bad)
+			elseif randy <= 90 then
+				tab = table.GetKeys(GAMEMODE.LootTable.Okay)
 			else
-				if randy <= 60 then
-					tab = table.GetKeys(GAMEMODE.LootTable.Bad)
-				elseif randy <= 90 then
-					tab = table.GetKeys(GAMEMODE.LootTable.Okay)
-				else
-					tab = table.GetKeys(GAMEMODE.LootTable.Good)
-				end
+				tab = table.GetKeys(GAMEMODE.LootTable.Good)
 			end
 			if not tab then return end
 			local item = tab[math.random(1, #tab)]
 			local loot = ents.Create(item)
 			loot:SetPos(self:GetPos() + Vector(0, 0, 32))
 			loot:Spawn()
-			local res = math.random(20, 80)
-			ply:SetNWInt("br_resources", ply:GetNWInt("br_resources", 0) + res)
-			ply:ChatPrint("+" .. string.Comma(res) .. " resources")
+			ply:GiveResources(math.random(20, 80))
 			self:EmitSound("Loot.Open")
 		end
 	end
