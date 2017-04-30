@@ -35,9 +35,9 @@ function SWEP:CanPrimaryAttack()
 		return false
 	end
 
-	if not self.Owner:GetArrestTimer() < CurTime() then
+	if self.Owner:GetArrestTimer() >= CurTime() then
 		if SERVER then
-			self.Owner:ChatPrint("You need to wait another " .. math.Comma(math.ceil(self.Owner:GetArrestTimer() - CurTime())) .. " seconds before arresting someone!")
+			self.Owner:ChatPrint("You need to wait another " .. string.Comma(math.ceil(self.Owner:GetArrestTimer() - CurTime())) .. " seconds before arresting someone!")
 		end
 
 		return false
@@ -62,7 +62,7 @@ function SWEP:PrimaryAttack()
 	local tr = util.TraceLine({start = spos, endpos = sdest, filter = self.Owner, mask = MASK_SHOT_HULL})
 	local hitEnt = tr.Entity
 
-	if IsValid(hitEnt) and hitEnt:CanArrest() then
+	if SERVER and IsValid(hitEnt) and hitEnt:IsPlayer() and hitEnt:CanArrest() then
 		hitEnt:Arrest()
 		self.Owner:SetArrestTimer(CurTime() + self.Primary.Cooldown)
 		self:EmitSound(self.Primary.Sound)

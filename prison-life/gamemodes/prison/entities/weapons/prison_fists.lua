@@ -217,3 +217,5 @@ function SWEP:Think()
 	end
 
 end
+
+function SWEP:Reload() end

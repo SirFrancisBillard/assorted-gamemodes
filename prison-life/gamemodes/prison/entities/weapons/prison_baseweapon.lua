@@ -90,7 +90,7 @@ function SWEP:PrimaryAttack()
 
 	self:EmitSound(self.Primary.SoundNear)
 	if CLIENT then
-		local dist = LocalPlayer():GetShootPosition():DistToSqr(self:GetPos())
+		local dist = LocalPlayer():GetShootPos():DistToSqr(self:GetPos())
 
 		if self.Primary.SoundFar and dist < 1000000 or self.Owner == LocalPlayer() then
 			self:EmitSound(self.Primary.SoundFar)
@@ -138,8 +138,7 @@ function SWEP:Reload()
 	self.Owner:GetViewModel():SetPlaybackRate(self.ReloadRate)
 	self.Owner:SetAnimation(PLAYER_RELOAD)
 
-	self.CachedReloadTime = (self:SequenceDuration() * (1 / self.ReloadRate)
-	self:SetReloadTimer(CurTime() + self.CachedReloadTime))
+	self:SetReloadTimer(CurTime() + self:SequenceDuration() * (1 / self.ReloadRate))
 	self:SetReloading(true)
 end
 
@@ -184,21 +183,10 @@ function SWEP:GetViewModelPosition(pos, ang)
 end
 
 if CLIENT then
-	SWEP.CrosshairRadius = 5
+	SWEP.CrosshairRadius = 4
 	SWEP.CrosshairColor = Color(0, 255, 0, 255)
 
 	function SWEP:DrawHUD()
 		surface.DrawCircle(ScrW() / 2, ScrH() / 2, self.CrosshairRadius, self.CrosshairColor)
-
-		if self:GetReloading() then
-			local frac = (self:GetReloadTimer() - CurTime()) / self.CachedReloadTime
-			local x = ScrW() / 2
-			local y = (ScrH() / 2) + (ScrH() / 6)
-			local w = ScrW() / 4
-			local h = ScrH() / 20
-
-			surface.SetDrawColor(Color(255 - (255 * frac), 255 * frac, 0))
-			surface.DrawRect(x, y, w * frac, h)
-		end
 	end
 end

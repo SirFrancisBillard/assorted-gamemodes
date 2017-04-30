@@ -13,7 +13,7 @@ SWEP.UseHands = true
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 
-SWEP.Primary.Delay = 0.5
+SWEP.Primary.Delay = 4
 SWEP.Primary.Cooldown = 10
 SWEP.Primary.Sound = Sound("Prison.Taser")
 
@@ -22,12 +22,7 @@ SWEP.HoldType = "pistol"
 SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
-function SWEP:CanPrimaryAttack()
-	return not self:GetNeedsReload()
-end
-
 function SWEP:PrimaryAttack()
-	if not self:CanPrimaryAttack() then return end
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
 	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
@@ -44,13 +39,11 @@ function SWEP:PrimaryAttack()
 	local tr = util.TraceLine({start = spos, endpos = sdest, filter = self.Owner, mask = MASK_SHOT_HULL})
 	local hitEnt = tr.Entity
 
-	if IsValid(hitEnt) and self.Owner:CanTase(hitEnt) then
+	if SERVER and IsValid(hitEnt) and hitEnt:IsPlayer() and self.Owner:CanTase(hitEnt) then
 		hitEnt:Tase()
 	end
 
 	if self.Owner.LagCompensation then
 		self.Owner:LagCompensation(false)
 	end
-
-	self:SetNeedsReload(true)
 end

@@ -40,6 +40,7 @@ SWEP.ViewModelAng = Vector(0, 0, 0)
 SWEP.reloadtimer = 0
 
 function SWEP:SetupDataTables()
+	self.BaseClass.SetupDataTables(self)
 	self:DTVar("Bool", 0, "reloading")
 end
 

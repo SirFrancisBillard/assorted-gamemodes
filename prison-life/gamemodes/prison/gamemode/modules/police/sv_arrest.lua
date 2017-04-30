@@ -5,6 +5,6 @@ function PLAYER:CanArrest()
 end
 
 function PLAYER:Arrest()
-	self:SetTeam(TEAM_PRISONER)
+	GAMEMODE:PlayerJoinTeam(self, TEAM_PRISONER)
 	self:Kill()
 end
