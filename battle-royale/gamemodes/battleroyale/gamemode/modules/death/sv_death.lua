@@ -6,7 +6,7 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	if ply:LastHitGroup() == HITGROUP_HEAD then
 		rag_type = RAGTYPE_DECAP
 	end
-	ply:RagdollOnClient(RAGTYPE_BISECT)
+	ply:RagdollOnClient(rag_type)
 
 	local loot = ents.Create("ent_droppedloot")
 	if not IsValid(loot) then return nil end

@@ -26,6 +26,7 @@ GM.RagdollTypes = {
 			[1] = {}
 		},
 		on_create = function(ply, rag)
+			print(ply:GetPos())
 			rag:Remove()
 
 			local top = ClientsideRagdoll("models/Gibs/Fast_Zombie_Torso.mdl")
@@ -34,6 +35,29 @@ GM.RagdollTypes = {
 			top:SetPos(ply:GetShootPos())
 			top:SetAngles(ply:GetAngles())
 
+			-- nonsolid to players, but can be picked up and shot
+			top:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+			timer.Simple(1, function()
+				if IsValid(top) then
+					top:CollisionRulesChanged()
+				end
+			end)
+
+			-- position the bones
+			local num = top:GetPhysicsObjectCount() - 1
+			for i = 0, num do
+				local bone = top:GetPhysicsObjectNum(i)
+				if IsValid(bone) then
+					local bp, ba = ply:GetBonePosition(top:TranslatePhysBoneToBone(i))
+					if bp and ba then
+						bone:SetPos(bp)
+						bone:SetAngles(ba)
+					end
+
+					bone:SetVelocity(vector_origin)
+				end
+			end
+
 			SafeRemoveEntityDelayed(top, 60)
 
 			local bottom = ClientsideRagdoll("models/Gibs/Fast_Zombie_Legs.mdl")
@@ -41,6 +65,29 @@ GM.RagdollTypes = {
 			bottom:DrawShadow(true)
 			bottom:SetPos(ply:GetPos())
 			bottom:SetAngles(ply:GetAngles())
+
+			-- nonsolid to players, but can be picked up and shot
+			bottom:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+			timer.Simple(1, function()
+				if IsValid(bottom) then
+					bottom:CollisionRulesChanged()
+				end
+			end)
+
+			-- position the bones
+			local num = bottom:GetPhysicsObjectCount() - 1
+			for i = 0, num do
+				local bone = bottom:GetPhysicsObjectNum(i)
+				if IsValid(bone) then
+					local bp, ba = ply:GetBonePosition(bottom:TranslatePhysBoneToBone(i))
+					if bp and ba then
+						bone:SetPos(bp)
+						bone:SetAngles(ba)
+					end
+
+					bone:SetVelocity(vector_origin)
+				end
+			end
 
 			SafeRemoveEntityDelayed(bottom, 60)
 		end
