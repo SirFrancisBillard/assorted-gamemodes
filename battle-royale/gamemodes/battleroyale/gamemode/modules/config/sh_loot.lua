@@ -25,8 +25,15 @@ GM.LootTable = {
 	},
 	Good = {
 		["battleroyale_autoshotgun"] = true,
+		["battleroyale_autoshotgun"] = true,
+		["battleroyale_autoshotgun"] = true,
+		["battleroyale_sniper"] = true,
+		["battleroyale_sniper"] = true,
 		["battleroyale_sniper"] = true,
 		["battleroyale_m249"] = true,
+		["battleroyale_m249"] = true,
+		["battleroyale_m249"] = true,
+		["battleroyale_rpg"] = true,
 
 		["weapon_dropgrenade"] = true
 	}

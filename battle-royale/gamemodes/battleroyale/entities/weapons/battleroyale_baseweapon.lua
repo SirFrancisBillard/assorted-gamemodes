@@ -25,7 +25,7 @@ SWEP.Primary.Damage = 40
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 4
 SWEP.Primary.SoundNear = Sound("Weapon_357.Single")
-SWEP.Primary.SoundFar = false
+SWEP.Primary.SoundFar = Sound("Weapon_357.Single")
 SWEP.Primary.Force = 40
 SWEP.Primary.Tracer = 1
 SWEP.Primary.TracerType = "Pistol"
@@ -151,6 +151,8 @@ function SWEP:Think()
 end
 
 function SWEP:Deploy()
+	self:SendWeaponAnim(ACT_VM_DRAW)
+
 	self:SetReloading(false)
 	self:SetReloadTimer(0)
 end

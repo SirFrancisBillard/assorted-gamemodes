@@ -2,9 +2,15 @@
 function GM:DoPlayerDeath(ply, attacker, dmg)
 	if not IsValid(ply) then return end
 
-	local rag_type = math.random(1, RAGTYPE_MAX)
+	local rag_type = 1
 	if ply:LastHitGroup() == HITGROUP_HEAD then
 		rag_type = RAGTYPE_DECAP
+	end
+	if ply:LastHitGroup() == HITGROUP_LEFTLEG or ply:LastHitGroup() == HITGROUP_RIGHTLEG then
+		rag_type = RAGTYPE_AMPUTATE
+	end
+	if dmg:IsExplosionDamage() then
+		rag_type = RAGTYPE_BISECT
 	end
 	ply:RagdollOnClient(rag_type)
 

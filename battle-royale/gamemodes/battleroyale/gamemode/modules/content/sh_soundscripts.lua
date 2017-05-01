@@ -2,30 +2,12 @@
 -- Misc
 
 sound.Add({
-	name = "Prison.Handcuff",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 80,
-	pitch = {95, 110},
-	sound = "prison/handcuff.wav"
-})
-
-sound.Add({
-	name = "Prison.Knife",
+	name = "Weapon_Knife.Hit",
 	channel = CHAN_WEAPON,
 	volume = 1.0,
 	level = 80,
 	pitch = {95, 110},
 	sound = "prison/knife.wav"
-})
-
-sound.Add({
-	name = "Prison.Taser",
-	channel = CHAN_WEAPON,
-	volume = 1.0,
-	level = 80,
-	pitch = {95, 110},
-	sound = "prison/taser.wav"
 })
 
 -- Bullets
@@ -100,5 +82,6 @@ RegisterWeaponScript("m4a1", "Weapon_M4A1")
 RegisterWeaponScript("m249", "Weapon_M249")
 RegisterWeaponScript("mp5", "Weapon_MP5")
 RegisterWeaponScript("pistol", "Weapon_Pistol")
+RegisterWeaponScript("rpg", "Weapon_RPG")
 RegisterWeaponScript("shotgun", "Weapon_Shotgun")
 RegisterWeaponScript("sniper", "Weapon_Sniper")

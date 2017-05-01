@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-GAMEMODE:RegisterAmmo("shotgun")
+GAMEMODE:RegisterAmmo("shotgun", "Shells")
 
 SWEP.Base = "battleroyale_baseweapon"
 

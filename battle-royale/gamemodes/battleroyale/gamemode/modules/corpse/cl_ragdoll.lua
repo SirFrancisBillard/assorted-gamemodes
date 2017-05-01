@@ -47,16 +47,13 @@ end
 
 net.Receive("br_ragdoll", function(len)
 	local ply = net.ReadEntity()
-	print(ply:GetPos())
 	local rag_type = net.ReadInt(RAGTYPE_BITS)
 	local master_tab = GAMEMODE.RagdollTypes[rag_type]
-	print("client got type " .. rag_type)
 
 	if not IsValid(ply) or not type(master_tab) == "table" then return end
 
 	local rags = {}
 	for a = 1, #master_tab.bone_mods do
-		print("ragdoll made " .. a)
 		rags[a] = ClientsideRagdoll(ply:GetModel())
 
 		rags[a]:SetNoDraw(false)
@@ -77,6 +74,7 @@ net.Receive("br_ragdoll", function(len)
 		SafeRemoveEntityDelayed(rags[a], 60)
 
 		-- position the bones
+		local v = ply:GetVelocity()
 		local num = rags[a]:GetPhysicsObjectCount() - 1
 		for i = 0, num do
 			local bone = rags[a]:GetPhysicsObjectNum(i)
@@ -87,14 +85,13 @@ net.Receive("br_ragdoll", function(len)
 					bone:SetAngles(ba)
 				end
 
-				bone:SetVelocity(vector_origin)
+				bone:SetVelocity(v)
 			end
 		end
 
 		-- fixme
 		for k, v in pairs(master_tab.bone_mods[a]) do
 			if not rags[a]:LookupBone(k) then
-				print("INVALID BONE: " .. k)
 				continue
 			end
 

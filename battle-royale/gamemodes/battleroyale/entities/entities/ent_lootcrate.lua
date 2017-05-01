@@ -39,9 +39,9 @@ if SERVER then
 			end)
 			local randy = math.random(1, 100)
 			local tab
-			if randy <= 80 then
+			if randy <= 60 then
 				tab = table.GetKeys(GAMEMODE.LootTable.Bad)
-			elseif randy <= 95 then
+			elseif randy <= 35 then
 				tab = table.GetKeys(GAMEMODE.LootTable.Okay)
 			else
 				tab = table.GetKeys(GAMEMODE.LootTable.Good)
