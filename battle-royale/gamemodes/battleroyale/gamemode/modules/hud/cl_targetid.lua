@@ -5,7 +5,7 @@ function GM:HUDDrawTargetID()
 	if not trace.Hit then return end
 	if not trace.HitNonWorld then return end
 	if not IsValid(trace.Entity) then return end
-	if trace.Entity:GetPos():Distance(LocalPlayer():GetPos()) > 160 then return end
+	--if trace.Entity:GetPos():Distance(LocalPlayer():GetPos()) > 160 then return end
 
 	local text = "ERROR"
 	local font = "TargetID"

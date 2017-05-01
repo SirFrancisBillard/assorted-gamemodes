@@ -14,6 +14,8 @@ GM.LootTable = {
 		["battleroyale_mp5"] = true,
 		["battleroyale_deagle"] = true,
 		["battleroyale_deagle"] = true,
+		["battleroyale_shotgun"] = true,
+		["battleroyale_shotgun"] = true,
 		["battleroyale_m4a1"] = true,
 		["battleroyale_m4a1"] = true,
 		["battleroyale_ak47"] = true,
@@ -24,15 +26,10 @@ GM.LootTable = {
 	},
 	Good = {
 		["battleroyale_autoshotgun"] = true,
-		["battleroyale_autoshotgun"] = true,
-		["battleroyale_autoshotgun"] = true,
 		["battleroyale_sniper"] = true,
-		["battleroyale_sniper"] = true,
-		["battleroyale_sniper"] = true,
-		["battleroyale_m249"] = true,
-		["battleroyale_m249"] = true,
 		["battleroyale_m249"] = true,
 		["battleroyale_rpg"] = true,
+		["battleroyale_c4"] = true,
 
 		["weapon_dropgrenade"] = true
 	}

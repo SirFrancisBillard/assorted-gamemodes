@@ -8,7 +8,7 @@ ENT.Spawnable = false
 
 ENT.Model = "models/weapons/w_missile_closed.mdl"
 
-local SplodeDamage = 100
+local SplodeDamage = 300
 local SplodeRadius = 200
 
 local color_white = color_white or Color(255, 255, 255)

@@ -111,7 +111,7 @@ if SERVER then
 			net.WriteString(SoundFar)
 		net.Broadcast()
 
-		util.BlastDamage(self, self.ItemOwner, self:GetPos(), 250, 500)
+		util.BlastDamage(self, self.ItemOwner, self:GetPos(), 250, 800)
 
 		self:Remove()
 	end

@@ -84,10 +84,6 @@ end
 
 function SWEP:Reload() end
 
-local function around( val )
-	return math.Round( val * (10 ^ 3) ) / (10 ^ 3);
-end
-
 local color_red = Color(255, 0, 0)
 local color_green = Color(0, 255, 0)
 
