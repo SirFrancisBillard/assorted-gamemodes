@@ -32,6 +32,8 @@ SWEP.HoldType = "shotgun"
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
+SWEP.CrosshairRadius = 16
+
 -- reload handling
 
 SWEP.reloadtimer = 0

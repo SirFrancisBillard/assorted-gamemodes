@@ -31,3 +31,5 @@ SWEP.HoldType = "ar2"
 
 SWEP.ViewModelPos = Vector(-0.44, 0, -1)
 SWEP.ViewModelAng = Vector(0, 0, 0)
+
+SWEP.CrosshairRadius = 8

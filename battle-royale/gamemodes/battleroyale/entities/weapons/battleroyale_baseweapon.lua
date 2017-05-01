@@ -31,6 +31,9 @@ SWEP.Primary.Tracer = 1
 SWEP.Primary.TracerType = "Pistol"
 SWEP.Primary.Distance = 56756
 
+SWEP.CrosshairRadius = 4
+SWEP.CrosshairColor = Color(0, 255, 0, 255)
+
 local SnapSound = Sound("Bullet.Snap")
 
 SWEP.Primary.Callback = function(ply, tr, dmg)
@@ -179,9 +182,6 @@ function SWEP:GetViewModelPosition(pos, ang)
 end
 
 if CLIENT then
-	SWEP.CrosshairRadius = 4
-	SWEP.CrosshairColor = Color(0, 255, 0, 255)
-
 	function SWEP:DrawHUD()
 		surface.DrawCircle(ScrW() / 2, ScrH() / 2, self.CrosshairRadius, self.CrosshairColor)
 	end

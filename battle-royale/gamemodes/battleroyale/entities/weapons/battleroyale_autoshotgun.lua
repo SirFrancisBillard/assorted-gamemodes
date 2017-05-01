@@ -16,7 +16,7 @@ SWEP.Slot = 2
 SWEP.SlotPos = 1
 
 SWEP.Primary.DefaultClip = 6
-SWEP.Primary.Automatic = false
+SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "battleroyale_autoshotgun"
 
 SWEP.Primary.Cone = 0.04
@@ -31,6 +31,8 @@ SWEP.HoldType = "shotgun"
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
+
+SWEP.CrosshairRadius = 16
 
 -- reload handling
 

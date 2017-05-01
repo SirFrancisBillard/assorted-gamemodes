@@ -31,3 +31,5 @@ SWEP.HoldType = "revolver"
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
+
+SWEP.CrosshairRadius = 6

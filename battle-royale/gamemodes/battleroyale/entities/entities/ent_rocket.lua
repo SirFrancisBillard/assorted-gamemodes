@@ -1,15 +1,15 @@
 AddCSLuaFile()
 
 ENT.Type = "anim"
-ENT.Base = "base_gmodentity"
+ENT.Base = "base_entity"
 
 ENT.PrintName = "Launched Rocket"
-
 ENT.Spawnable = false
+
 ENT.Model = "models/weapons/w_missile_closed.mdl"
 
-local SplodeDamage = 200
-local SplodeRadius = 512
+local SplodeDamage = 100
+local SplodeRadius = 200
 
 local color_white = color_white or Color(255, 255, 255)
 local color_red = Color(255, 0, 0)

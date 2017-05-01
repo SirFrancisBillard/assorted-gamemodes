@@ -26,7 +26,6 @@ GM.RagdollTypes = {
 			[1] = {}
 		},
 		on_create = function(ply, rag)
-			print(ply:GetPos())
 			rag:Remove()
 
 			local top = ClientsideRagdoll("models/Gibs/Fast_Zombie_Torso.mdl")

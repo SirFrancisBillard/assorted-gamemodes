@@ -39,6 +39,8 @@ SWEP.Slot = 3
 SWEP.SlotPos = 1
 SWEP.DrawAmmo = true
 
+SWEP.ReloadRate = 0.8
+
 function SWEP:Initialize()
 	self.BaseClass.Initialize(self)
 

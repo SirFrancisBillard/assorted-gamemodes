@@ -5,9 +5,7 @@ GM.LootTable = {
 		["battleroyale_crowbar"] = true,
 		["battleroyale_knife"] = true,
 		["battleroyale_glock"] = true,
-		["battleroyale_pistol"] = true,
-
-		["ent_kevlar"] = true
+		["battleroyale_pistol"] = true
 	},
 	Okay = {
 		["battleroyale_mp5"] = true,
@@ -21,6 +19,7 @@ GM.LootTable = {
 		["battleroyale_ak47"] = true,
 		["battleroyale_ak47"] = true,
 
+		["ent_kevlar"] = true,
 		["ent_kevlar"] = true
 	},
 	Good = {

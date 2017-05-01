@@ -41,7 +41,7 @@ if SERVER then
 			local tab
 			if randy <= 60 then
 				tab = table.GetKeys(GAMEMODE.LootTable.Bad)
-			elseif randy <= 35 then
+			elseif randy <= 95 then
 				tab = table.GetKeys(GAMEMODE.LootTable.Okay)
 			else
 				tab = table.GetKeys(GAMEMODE.LootTable.Good)
