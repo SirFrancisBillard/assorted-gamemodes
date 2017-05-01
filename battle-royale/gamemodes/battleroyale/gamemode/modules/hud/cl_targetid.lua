@@ -12,8 +12,8 @@ function GM:HUDDrawTargetID()
 
 	if trace.Entity:IsPlayer() then
 		text = trace.Entity:Nick()
-	elseif trace.Entity:GetNWBool("player_corpse", false) then
-		text = trace.Entity:GetNWString("player_nick", "Unknown")
+	elseif trace.Entity.IsDroppedLoot then
+		text = trace.Entity:GetPlayerName()
 	elseif trace.Entity:GetNWBool("is_block", false) then
 		text = tostring(trace.Entity:GetNWInt("block_health", 500))
 	else
@@ -45,8 +45,8 @@ function GM:HUDDrawTargetID()
 	y = y + h + 5
 
 	local text = trace.Entity:Health() .. "%"
-	if trace.Entity:GetNWBool("player_corpse", false) then
-		text = "Corpse"
+	if trace.Entity.IsDroppedLoot then
+		text = "Loot"
 	elseif trace.Entity:GetNWBool("is_block", false) then
 		text = self.UpgradeLevels[trace.Entity:GetNWInt("upgrade_level", 1)].name .. (trace.Entity.BattleRoyaleDoor and " Door" or " Block")
 	end

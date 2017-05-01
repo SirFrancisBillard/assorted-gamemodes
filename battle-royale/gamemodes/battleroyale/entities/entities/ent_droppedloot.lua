@@ -29,11 +29,6 @@ if SERVER then
 
 	function ENT:Use(ply)
 		if IsValid(ply) and ply:IsPlayer() then
-			if self:GetIsLooted() then
-				self:Remove()
-				return
-			end
-
 			ply:SetArmor(math.min(ply:Armor() + self.loot_armor))
 
 			for k, v in pairs(self.loot_weapons) do

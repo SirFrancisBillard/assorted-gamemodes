@@ -2,6 +2,12 @@
 function GM:DoPlayerDeath(ply, attacker, dmg)
 	if not IsValid(ply) then return end
 
+	local rag_type = math.random(1, RAGTYPE_MAX)
+	if ply:LastHitGroup() == HITGROUP_HEAD then
+		rag_type = RAGTYPE_DECAP
+	end
+	ply:RagdollOnClient(RAGTYPE_BISECT)
+
 	local loot = ents.Create("ent_droppedloot")
 	if not IsValid(loot) then return nil end
 
@@ -24,8 +30,8 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	loot.loot_resources = ply:GetResources()
 
 	if loot.loot_armor < 1 and #loot.loot_weapons < 1 and loot.loot_resources < 1 then
-		-- we don't have anything, might as well be looted
-		loot.is_looted = true
+		-- we don't have anything, might as well not exist
+		loot:Remove()
 	end
 
 	ply:AddDeaths(1)

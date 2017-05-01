@@ -248,6 +248,6 @@ end
 
 function SWEP:OnRemove()
    if CLIENT and IsValid(self.Owner) and self.Owner == LocalPlayer() and self.Owner:Alive() then
-      RunConsoleCommand("use", "weapon_fists")
+      RunConsoleCommand("use", "battleroyale_fists")
    end
 end
