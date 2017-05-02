@@ -85,7 +85,7 @@ GM.RagdollTypes = {
 		},
 		on_create = function(ply, rag) end
 	},
-	[RAGTYPE_LEGS] = {
+	[RAGTYPE_ARMS] = {
 		bone_mods = {
 			[1] = {
 				["ValveBiped.Bip01_L_Forearm"] = {scale = Vector(0, 0, 0)},

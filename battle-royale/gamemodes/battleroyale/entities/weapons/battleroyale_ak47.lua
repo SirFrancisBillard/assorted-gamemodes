@@ -28,6 +28,8 @@ SWEP.Primary.SoundNear = Sound("Weapon_AK47.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_AK47.Far")
 
 SWEP.HoldType = "ar2"
+SWEP.IronType = "ar2"
+SWEP.SprintType = "passive"
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)

@@ -31,14 +31,17 @@ SWEP.Primary.SoundFar = Sound("Weapon_Sniper.Far")
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
 SWEP.HoldType = "ar2"
+SWEP.SprintType = "passive"
 
 SWEP.ViewModelPos = Vector(-0.44, 0, -1)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
+SWEP.NoSights = true
+
 function SWEP:SetupDataTables()
 	self.BaseClass.SetupDataTables(self)
 
-	self:NetworkVar("Bool", 2, "Ironsights")
+	self:NetworkVar("Bool", 3, "Zoomed")
 end
 
 function SWEP:SetZoom(state)
@@ -64,9 +67,9 @@ end
 function SWEP:SecondaryAttack()
 	if self:GetNextSecondaryFire() > CurTime() or self:GetReloading() then return end
 
-	local bIronsights = not self:GetIronsights()
+	local bIronsights = not self:GetZoomed()
 
-	self:SetIronsights(bIronsights)
+	self:SetZoomed(bIronsights)
 
 	if SERVER then
 		self:SetZoom(bIronsights)
@@ -79,18 +82,18 @@ end
 
 function SWEP:OnRemove()
 	self:SetZoom(false)
-	self:SetIronsights(false)
+	self:SetZoomed(false)
 end
 
 function SWEP:Reload()
 	if self.BaseClass.Reload(self) then
-		self:SetIronsights(false)
+		self:SetZoomed(false)
 		self:SetZoom(false)
 	end
 end
 
 function SWEP:Holster()
-	self:SetIronsights(false)
+	self:SetZoomed(false)
 	self:SetZoom(false)
 
 	return self.BaseClass.Holster(self)
@@ -99,8 +102,8 @@ end
 if CLIENT then
 	local scope = surface.GetTextureID("sprites/scope")
 	function SWEP:DrawHUD()
-		if self:GetIronsights() then
-			surface.SetDrawColor( 0, 0, 0, 255 )
+		if self:GetZoomed() then
+			surface.SetDrawColor(0, 0, 0, 255)
 			
 			local scrW = ScrW()
 			local scrH = ScrH()
@@ -148,6 +151,6 @@ if CLIENT then
 	end
 
 	function SWEP:AdjustMouseSensitivity()
-		return (self:GetIronsights() and 0.2) or nil
+		return (self:GetZoomed() and 0.2) or nil
 	end
 end
