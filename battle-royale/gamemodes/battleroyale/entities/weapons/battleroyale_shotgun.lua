@@ -28,11 +28,18 @@ SWEP.Primary.SoundNear = Sound("Weapon_Shotgun.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_Shotgun.Far")
 
 SWEP.HoldType = "shotgun"
+SWEP.IronType = "shotgun"
+SWEP.SprintType = "passive"
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
+SWEP.IronSightsPos = Vector(-7.64, -8, 3.56)
+SWEP.IronSightsAng = Vector(-0.1, 0.02, 0)
+
 SWEP.CrosshairRadius = 16
+
+SWEP.NoSights = true
 
 -- reload handling
 
@@ -100,6 +107,18 @@ end
 
 
 function SWEP:Think()
+	if self:LowerWeapon() then
+		self:SetHoldType(self.SprintType)
+
+		self.CurViewModelPos = LerpVector(FrameTime() * 5, self.CurViewModelPos, self.SprintPos)
+		self.CurViewModelAng = LerpVector(FrameTime() * 5, self.CurViewModelAng, self.SprintAng)
+	else
+		self:SetHoldType(self.HoldType)
+
+		self.CurViewModelPos = LerpVector(FrameTime() * 5, self.CurViewModelPos, self.ViewModelPos)
+		self.CurViewModelAng = LerpVector(FrameTime() * 5, self.CurViewModelAng, self.ViewModelAng)
+	end
+
 	local ammo = self.Owner:GetAmmoCount(self.Primary.Ammo)
 
 	if self.needs_reload then

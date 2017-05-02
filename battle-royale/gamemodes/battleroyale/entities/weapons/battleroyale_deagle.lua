@@ -27,7 +27,9 @@ SWEP.Primary.Recoil = 2
 SWEP.Primary.SoundNear = Sound("Weapon_Deagle.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_Deagle.Far")
 
-SWEP.HoldType = "revolver"
-
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
+
+
+SWEP.IronSightsPos = Vector(-6.35, -7.5, 2.02)
+SWEP.IronSightsAng = Vector(0.51, 0, 0)

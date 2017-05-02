@@ -31,6 +31,10 @@ SWEP.Secondary.Ammo = "none"
 
 SWEP.DrawAmmo = false
 
+SWEP.HoldType = "fist"
+
+SWEP.NoSights = true
+
 SWEP.HitDistance = 48
 
 local SwingSound = Sound( "WeaponFrag.Throw" )
@@ -38,7 +42,7 @@ local HitSound = Sound( "Flesh.ImpactHard" )
 
 function SWEP:Initialize()
 
-	self:SetHoldType( "fist" )
+	self:SetHoldType( self.HoldType )
 
 end
 
@@ -219,3 +223,4 @@ function SWEP:Think()
 end
 
 function SWEP:Reload() end
+function SWEP:GetViewModelPosition() end

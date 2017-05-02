@@ -20,14 +20,18 @@ SWEP.Primary.Sound = Sound("Weapon_Crowbar.Melee_Hit")
 SWEP.Primary.SoundMiss = Sound("Weapon_Crowbar.Single")
 
 SWEP.HoldType = "melee"
+SWEP.SprintType = "normal"
 
 SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
+SWEP.SprintAng = Vector(-20, 0, 0)
+
 SWEP.DrawAmmo = false
 
 function SWEP:PrimaryAttack()
-	self.Weapon:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
+	if self:LowerWeapon() then return end
+	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 

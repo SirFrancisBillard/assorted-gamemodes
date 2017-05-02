@@ -45,6 +45,8 @@ SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 
+SWEP.Secondary.Delay = 0.2
+
 SWEP.Weight = 5
 SWEP.AutoSwitchTo = false
 SWEP.AutoSwitchFrom = false
@@ -54,7 +56,9 @@ SWEP.SlotPos = 1
 SWEP.DrawAmmo = true
 SWEP.DrawCrosshair = false
 
-SWEP.HoldType = "revolver"
+SWEP.HoldType = "pistol"
+SWEP.IronType = "revolver"
+SWEP.SprintType = "passive"
 
 SWEP.CSMuzzleFlashes = true
 SWEP.CSMuzzleX = true
@@ -62,24 +66,40 @@ SWEP.CSMuzzleX = true
 SWEP.ViewModelPos = Vector(0, 0, 0)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
+SWEP.IronSightsPos = Vector(0, 0, 0)
+SWEP.IronSightsAng = Vector(0, 0, 0)
+
+SWEP.SprintPos = Vector(0, 0, 0)
+SWEP.SprintAng = Vector(-10, 25, 0)
+
+SWEP.NoSights = false
 SWEP.ReloadRate = 1
 
+function SWEP:LowerWeapon()
+	return self.Owner:GetVelocity():Length() > self.Owner:GetWalkSpeed() * 1.2 or not self.Owner:OnGround()
+end
+
 function SWEP:SetupDataTables()
-	self:NetworkVar("Bool", 0, "Reloading")
-	self:NetworkVar("Bool", 1, "NeedsReload")
+	self:NetworkVar("Bool", 0, "Ironsights")
+	self:NetworkVar("Bool", 1, "Reloading")
+	self:NetworkVar("Bool", 2, "NeedsReload")
 	self:NetworkVar("Int", 0, "ReloadTimer")
 end
 
 function SWEP:Initialize()
 	self:SetHoldType(self.HoldType)
 
+	self:SetIronsights(false)
 	self:SetReloading(false)
 	self:SetNeedsReload(false)
 	self:SetReloadTimer(0)
+
+	self.CurViewModelPos = Vector(self.ViewModelPos.x, self.ViewModelPos.y, self.ViewModelPos.z)
+	self.CurViewModelAng = Vector(self.ViewModelAng.x, self.ViewModelAng.y, self.ViewModelAng.z)
 end
 
 function SWEP:CanPrimaryAttack()
-	return self.Owner:GetAmmoCount(self.Primary.Ammo) > 0 and not self:GetReloading()
+	return self.Owner:GetAmmoCount(self.Primary.Ammo) > 0 and not self:GetReloading() and not self:LowerWeapon()
 end
 
 function SWEP:PrimaryAttack()
@@ -88,8 +108,13 @@ function SWEP:PrimaryAttack()
 
 	self:ShootEffects()
 
-	if SERVER then
+	if SERVER and type(GAMEMODE.Gunshot) == "function" then
 		GAMEMODE:Gunshot(self)
+	end
+
+	local cone = self.Primary.Cone
+	if self:GetIronsights() then
+		cone = cone * 0.8
 	end
 
 	local bullet = {}
@@ -100,9 +125,14 @@ function SWEP:PrimaryAttack()
 	bullet.Force = self.Primary.Force
 	bullet.Damage = self.Primary.Damage
 	bullet.AmmoType = self.Primary.TracerType
-	bullet.Spread = Vector(self.Primary.Cone, self.Primary.Cone, 0)
+	bullet.Spread = Vector(cone, cone, 0)
 	bullet.Distance = self.Primary.Distance
 	bullet.Callback = self.Primary.Callback
+
+	local recoil = self.Primary.Recoil
+	if self:GetIronsights() then
+		recoil = recoil * 0.8
+	end
 
 	self.Owner:FireBullets(bullet)
 	self.Owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * self.Primary.Recoil, math.Rand(-0.1, 0.1) * self.Primary.Recoil, 0))
@@ -124,7 +154,15 @@ function SWEP:PrimaryAttack()
 	end
 end
 
-function SWEP:CanSecondaryAttack() return false end
+function SWEP:CanSecondaryAttack()
+	return not self:LowerWeapon() and not self.NoSights
+end
+
+function SWEP:SecondaryAttack()
+	if not self:CanSecondaryAttack() then return end
+	self:SetNextSecondaryFire(CurTime() + self.Secondary.Delay)
+	self:SetIronsights(not self:GetIronsights())
+end
 
 function SWEP:Reload()
 	if not IsFirstTimePredicted() or self.Owner:GetAmmoCount(self.Primary.Ammo) >= self.Primary.DefaultClip or self:GetReloading() then return false end
@@ -140,6 +178,23 @@ function SWEP:Reload()
 end
 
 function SWEP:Think()
+	if self:LowerWeapon() and not self:GetReloading() then
+		self:SetHoldType(self.SprintType)
+
+		self.CurViewModelPos = LerpVector(FrameTime() * 5, self.CurViewModelPos, self.SprintPos)
+		self.CurViewModelAng = LerpVector(FrameTime() * 5, self.CurViewModelAng, self.SprintAng)
+	elseif self:GetIronsights() and not self:GetReloading() then
+		self:SetHoldType(self.IronType)
+
+		self.CurViewModelPos = LerpVector(FrameTime() * 5, self.CurViewModelPos, self.IronSightsPos)
+		self.CurViewModelAng = LerpVector(FrameTime() * 5, self.CurViewModelAng, self.IronSightsAng)
+	else
+		self:SetHoldType(self.HoldType)
+
+		self.CurViewModelPos = LerpVector(FrameTime() * 5, self.CurViewModelPos, self.ViewModelPos)
+		self.CurViewModelAng = LerpVector(FrameTime() * 5, self.CurViewModelAng, self.ViewModelAng)
+	end
+
 	if self:GetNeedsReload() then
 		self:SetNeedsReload(false)
 		self:Reload()
@@ -161,13 +216,13 @@ function SWEP:Deploy()
 end
 
 function SWEP:GetViewModelPosition(pos, ang)
-	local Offset = self.ViewModelPos
+	local Offset = self.CurViewModelPos
 
-	if self.ViewModelAng then
+	if self.CurViewModelAng then
 		ang = ang * 1
-		ang:RotateAroundAxis(ang:Right(), self.ViewModelAng.x)
-		ang:RotateAroundAxis(ang:Up(), self.ViewModelAng.y)
-		ang:RotateAroundAxis(ang:Forward(), self.ViewModelAng.z)
+		ang:RotateAroundAxis(ang:Right(), self.CurViewModelAng.x)
+		ang:RotateAroundAxis(ang:Up(), self.CurViewModelAng.y)
+		ang:RotateAroundAxis(ang:Forward(), self.CurViewModelAng.z)
 	end
 
 	local r = ang:Right()
@@ -183,6 +238,8 @@ end
 
 if CLIENT then
 	function SWEP:DrawHUD()
-		surface.DrawCircle(ScrW() / 2, ScrH() / 2, self.CrosshairRadius, self.CrosshairColor)
+		if self.NoSights or self:GetReloading() or self:LowerWeapon() or not self:GetIronsights() then
+			surface.DrawCircle(ScrW() / 2, ScrH() / 2, self.CrosshairRadius, self.CrosshairColor)
+		end
 	end
 end

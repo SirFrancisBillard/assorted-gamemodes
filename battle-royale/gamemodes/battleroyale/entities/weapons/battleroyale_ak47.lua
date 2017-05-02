@@ -31,3 +31,6 @@ SWEP.HoldType = "ar2"
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
+
+SWEP.IronSightsPos = Vector(-6.6, -15, 2.6)
+SWEP.IronSightsAng = Vector(2.6, 0.02, 0)

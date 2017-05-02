@@ -27,9 +27,10 @@ SWEP.Primary.Recoil = 0.8
 SWEP.Primary.SoundNear = Sound("Weapon_Glock.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_Glock.Far")
 
-SWEP.HoldType = "revolver"
-
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
 
 SWEP.CrosshairRadius = 6
+
+SWEP.IronSightsPos = Vector(-5.77, -6.6, 2.7)
+SWEP.IronSightsAng = Vector(0.9, 0, 0)

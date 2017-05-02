@@ -28,8 +28,13 @@ SWEP.Primary.SoundNear = Sound("Weapon_M249.Near")
 SWEP.Primary.SoundFar = Sound("Weapon_M249.Far")
 
 SWEP.HoldType = "crossbow"
+SWEP.IronType = "crossbow"
+SWEP.SprintType = "passive"
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
+
+SWEP.IronSightsPos = Vector(-5.96, -5.119, 2.349)
+SWEP.IronSightsAng = Vector(0, 0, 0)
 
 SWEP.CrosshairRadius = 8
