@@ -25,6 +25,11 @@ if SERVER then
 	end)
 end
 
+local function IronSights(ply)
+	local wep = ply:GetActiveWeapon()
+	return ply:InVehicle() or (IsValid(wep) and ply:Alive() and ((type(wep.GetIronsights) == "function" and wep:GetIronsights()) or (type(wep.GetZoomed) == "function" and wep:GetZoomed())))
+end
+
 concommand.Add("thirdperson_ots", function(fply, cmd, args, argstr)
 	if CLIENT then
 		net.Start("ThirdOTSReq")
@@ -85,6 +90,7 @@ local swaptarget = 1
 hook.Add("CalcView", "ThirdOTSCalcView", function(fply, pos, angles, fov)
 	if not fply:GetNW2Bool("ThirtOTS", false) then return end
 	if not fply:Alive() then return end
+	if IronSights(fply) then return end
 	swaptarget = fply:GetNW2Bool("ThirtOTS_SStatus", false) and -1 or 1
 	swapfac = math.Approach(swapfac, swaptarget, (swaptarget - swapfac) * FrameTime() * 10)
 	oldeyeangles = fply:EyeAngles() --angles * 1
@@ -152,10 +158,11 @@ hook.Add("CalcView", "ThirdOTSCalcView", function(fply, pos, angles, fov)
 end)
 
 hook.Add("ShouldDrawLocalPlayer", "ThirdOTSShouldDrawLocalPlayer", function(fply)
-	if not fply:GetNW2Bool("ThirtOTS", false) then return end
+	if not fply:GetNW2Bool("ThirtOTS", false) or IronSights(fply) then return end
 
 	return true
 end)
+
 
 hook.Add("HUDPaint", "ThirdOTSHudPaint", function()
 	local fply = LocalPlayer()
@@ -194,7 +201,7 @@ hook.Add("HUDPaint", "ThirdOTSHudPaint", function()
 	--end
 
 	if ( not crosscv ) or crosscv:GetBool() then
-		surface.DrawCircle(ScrW() / 2, ScrH() / 2, math.Clamp(gap, 6, ScrH() / 2), color_white)
+		--surface.DrawCircle(ScrW() / 2, ScrH() / 2, math.Clamp(gap, 6, ScrH() / 2), color_white)
 	end
 end)
 
@@ -209,6 +216,7 @@ hook.Add("CreateMove", "ThirdOTSCreateMove", function(cmd)
 	local fply = LocalPlayer()
 	if not IsValid(fply) then return end
 	if not fply:GetNW2Bool("ThirtOTS", false) then return end
+	if IronSights(fply) then return end
 	if DisabledMoveTypes[fply:GetMoveType()] then return end
 	local tang = fply.camang and fply.camang or fply:EyeAngles()
 	vel = Vector(cmd:GetForwardMove(), cmd:GetSideMove(), cmd:GetUpMove())

@@ -58,7 +58,7 @@ SWEP.DrawCrosshair = false
 
 SWEP.HoldType = "pistol"
 SWEP.IronType = "revolver"
-SWEP.SprintType = "passive"
+SWEP.SprintType = "normal"
 
 SWEP.CSMuzzleFlashes = true
 SWEP.CSMuzzleX = true
@@ -114,7 +114,7 @@ function SWEP:PrimaryAttack()
 
 	local cone = self.Primary.Cone
 	if self:GetIronsights() then
-		cone = cone * 0.8
+		cone = cone * 0.6
 	end
 
 	local bullet = {}
@@ -131,15 +131,15 @@ function SWEP:PrimaryAttack()
 
 	local recoil = self.Primary.Recoil
 	if self:GetIronsights() then
-		recoil = recoil * 0.8
+		recoil = recoil * 0.6
 	end
 
 	self.Owner:FireBullets(bullet)
-	self.Owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * self.Primary.Recoil, math.Rand(-0.1, 0.1) * self.Primary.Recoil, 0))
+	self.Owner:ViewPunch(Angle(math.Rand(-0.2, -0.1) * recoil, math.Rand(-0.1, 0.1) * recoil, 0))
 
 	if SERVER then
 		local eyeang = self.Owner:EyeAngles()
-		eyeang.pitch = eyeang.pitch - self.Primary.Recoil
+		eyeang.pitch = eyeang.pitch - recoil
 		self.Owner:SetEyeAngles(eyeang)
 	end
 
@@ -211,6 +211,7 @@ end
 function SWEP:Deploy()
 	self:SendWeaponAnim(ACT_VM_DRAW)
 
+	self:SetIronsights(false)
 	self:SetReloading(false)
 	self:SetReloadTimer(0)
 end
