@@ -30,6 +30,7 @@ SWEP.Primary.Force = 40
 SWEP.Primary.Tracer = 1
 SWEP.Primary.TracerType = "Pistol"
 SWEP.Primary.Distance = 56756
+SWEP.Primary.SoundFadeDistance = 3000
 
 SWEP.CrosshairRadius = 4
 SWEP.CrosshairColor = Color(0, 255, 0, 255)
@@ -108,8 +109,14 @@ function SWEP:PrimaryAttack()
 
 	self:ShootEffects()
 
-	if SERVER and type(GAMEMODE.Gunshot) == "function" then
-		GAMEMODE:Gunshot(self)
+	if CLIENT then
+		if LocalPlayer():GetPos():DistToSqr(self:GetPos()) > (self.Primary.SoundFadeDistance * self.Primary.SoundFadeDistance) then
+			self.Owner:StopSound(self.Primary.SoundFar)
+			self.Owner:EmitSound(self.Primary.SoundFar)
+		else
+			self.Owner:StopSound(self.Primary.SoundNear)
+			self.Owner:EmitSound(self.Primary.SoundNear)
+		end
 	end
 
 	local cone = self.Primary.Cone
