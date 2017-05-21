@@ -1,0 +1,12 @@
+"arena"
+{
+	"base"		"base"
+	"title"		"Arena 3D"
+	"maps"		"^gm_"
+	"menusystem"	"1"
+	"workshopid"	""
+
+	"settings"
+	{
+	}
+}
