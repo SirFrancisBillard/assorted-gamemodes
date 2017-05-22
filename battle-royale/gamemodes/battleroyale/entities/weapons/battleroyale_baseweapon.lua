@@ -24,8 +24,7 @@ SWEP.Primary.Delay = 0.6
 SWEP.Primary.Damage = 40
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 4
-SWEP.Primary.SoundNear = Sound("Weapon_357.Single")
-SWEP.Primary.SoundFar = Sound("Weapon_357.Single")
+SWEP.Primary.Sound = Sound("Weapon_357.Single")
 SWEP.Primary.Force = 40
 SWEP.Primary.Tracer = 1
 SWEP.Primary.TracerType = "Pistol"
@@ -109,15 +108,7 @@ function SWEP:PrimaryAttack()
 
 	self:ShootEffects()
 
-	if CLIENT then
-		if LocalPlayer():GetPos():DistToSqr(self:GetPos()) > (self.Primary.SoundFadeDistance * self.Primary.SoundFadeDistance) then
-			self.Owner:StopSound(self.Primary.SoundFar)
-			self.Owner:EmitSound(self.Primary.SoundFar)
-		else
-			self.Owner:StopSound(self.Primary.SoundNear)
-			self.Owner:EmitSound(self.Primary.SoundNear)
-		end
-	end
+	self:EmitSound(self.Primary.Sound)
 
 	local cone = self.Primary.Cone
 	if self:GetIronsights() then

@@ -24,8 +24,7 @@ SWEP.Primary.Delay = 0.06
 SWEP.Primary.Damage = 20
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 0.4
-SWEP.Primary.SoundNear = Sound("Weapon_M249.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_M249.Far")
+SWEP.Primary.Sound = Sound("Weapon_M249.Single")
 
 SWEP.HoldType = "crossbow"
 SWEP.IronType = "crossbow"

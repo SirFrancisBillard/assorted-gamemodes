@@ -24,8 +24,7 @@ SWEP.Primary.Delay = 0.08
 SWEP.Primary.Damage = 8
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 0.2
-SWEP.Primary.SoundNear = Sound("Weapon_MP5.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_MP5.Far")
+SWEP.Primary.Sound = Sound("Weapon_MP5.Single")
 
 SWEP.HoldType = "ar2"
 SWEP.IronType = "ar2"

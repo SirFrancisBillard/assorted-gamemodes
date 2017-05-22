@@ -10,8 +10,7 @@ ENT.Model = "models/weapons/w_c4_planted.mdl"
 
 local PlantSound = Sound("C4.Plant")
 local BeepSound = Sound("C4.PlantSound")
-local SoundNear = Sound("Explosion.Near")
-local SoundFar = Sound("Explosion.Far")
+local ExplosionSound = Sound("Explosion.Boom")
 
 function ENT:Initialize()
 	self:EmitSound(PlantSound)
@@ -71,16 +70,7 @@ if SERVER then
 	end
 
 	function ENT:Explosion()
-		local effectdata = EffectData()
-			effectdata:SetOrigin(self:GetPos())
-			effectdata:SetRadius(1000)
-			effectdata:SetMagnitude(1000)
-		util.Effect("HelicopterMegaBomb", effectdata, true, true)
-
-		local exploeffect = EffectData()
-			exploeffect:SetOrigin(self:GetPos())
-			exploeffect:SetStart(self:GetPos())
-		util.Effect("Explosion", exploeffect, true, true)
+		ParticleEffect("dusty_explosion_rockets", self:GetPos(), angle_zero)
 
 		local shake = ents.Create("env_shake")
 			shake:SetOwner(self.ItemOwner)
@@ -105,11 +95,7 @@ if SERVER then
 			push:Fire("Explode", "", 0)
 			push:Fire("Kill", "", .25)
 
-		net.Start("br_gunshot")
-			net.WriteEntity(self)
-			net.WriteString(SoundNear)
-			net.WriteString(SoundFar)
-		net.Broadcast()
+		self:EmitSound(ExplosionSound)
 
 		util.BlastDamage(self, self.ItemOwner, self:GetPos(), 250, 800)
 

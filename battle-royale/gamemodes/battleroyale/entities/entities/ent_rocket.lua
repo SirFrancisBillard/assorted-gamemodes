@@ -16,8 +16,7 @@ local color_red = Color(255, 0, 0)
 
 local SpriteMat = Material("sprites/light_glow02_add")
 
-local SoundNear = Sound("Explosion.Near")
-local SoundFar = Sound("Explosion.Far")
+local ExplosionSound = Sound("Explosion.Boom")
 
 if SERVER then
 	function ENT:Initialize()
@@ -41,15 +40,9 @@ if SERVER then
 	function ENT:Detonate()
 		self.Noise:Stop()
 
-		local boom = EffectData()
-		boom:SetOrigin(self:GetPos())
-		util.Effect("Explosion", boom, true, true)
+		ParticleEffect("dusty_explosion_rockets", self:GetPos(), angle_zero)
 
-		net.Start("br_gunshot")
-			net.WriteEntity(self)
-			net.WriteString(SoundNear)
-			net.WriteString(SoundFar)
-		net.Broadcast()
+		self:EmitSound(ExplosionSound)
 
 		util.BlastDamage(self, self.Owner, self:GetPos(), SplodeRadius, SplodeDamage)
 

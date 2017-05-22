@@ -1,25 +1,23 @@
 AddCSLuaFile()
 
-GAMEMODE:RegisterAmmo("rpg", "Rockets")
-
 SWEP.Base = "battleroyale_baseweapon"
 
-SWEP.PrintName = "Rocket Launcher"
+SWEP.PrintName = "AT4"
 SWEP.Instructions = [[
 <color=green>[PRIMARY FIRE]</color> Launch a rocket.
 Rockets will explode upon contact with a surface.]]
 
-SWEP.ViewModel = "models/weapons/c_rpg.mdl"
-SWEP.WorldModel = "models/weapons/w_rocket_launcher.mdl"
+SWEP.ViewModel = Model("models/weapons/c_rpg.mdl")
+SWEP.WorldModel = Model("models/weapons/w_rocket_launcher.mdl")
 SWEP.UseHands = true
 
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
 
 SWEP.Primary.ClipSize = -1
-SWEP.Primary.DefaultClip = 1
+SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = "battleroyale_rpg"
+SWEP.Primary.Ammo = "none"
 
 SWEP.Primary.Sound = Sound("Weapon_RPG.Single")
 
@@ -38,12 +36,12 @@ SWEP.Slot = 3
 SWEP.SlotPos = 1
 SWEP.DrawAmmo = true
 
-SWEP.ReloadRate = 0.8
+SWEP.HoldType = "rpg"
 
-function SWEP:Initialize()
-	self.BaseClass.Initialize(self)
+SWEP.NoSights = true
 
-	self:SetHoldType("rpg")
+function SWEP:CanPrimaryAttack()
+	return not self.used
 end
 
 function SWEP:PrimaryAttack()
@@ -55,7 +53,7 @@ function SWEP:PrimaryAttack()
 	self:EmitSound(self.Primary.Sound)
 
 	if SERVER then
-		local rocket = ents.Create("ent_rocket")
+		local rocket = ents.Create("ent_warhead")
 
 		if not IsValid(rocket) then return end
 
@@ -68,20 +66,23 @@ function SWEP:PrimaryAttack()
 		if not IsValid(phys) then rocket:Remove() return end
 
 		local velocity = self.Owner:GetAimVector()
-		velocity = velocity * 2500
+		velocity = velocity * 10000
 		phys:ApplyForceCenter(velocity)
 	end
 
-	if self.Owner:GetAmmoCount(self.Primary.Ammo) > self.Primary.DefaultClip then
-		self.Owner:SetAmmo(self.Primary.DefaultClip, self.Primary.Ammo)
-	end
-
-	self.Owner:RemoveAmmo(1, self.Primary.Ammo)
-
-	self:Reload()
+	self.used = true
+	self.used_time = CurTime()
 end
 
-function SWEP:CanSecondaryAttack()
-	return false
+function SWEP:Holster()
+	return (not self.used) or (CurTime() - self.used_time > 1)
+end
+
+function SWEP:Think()
+	if SERVER and self.used and CurTime() - self.used_time > 1 and not self.dropped then
+		self.dropped = true
+		self.Owner:ConCommand("lastinv")
+		self.Owner:StripWeapon(self.ClassName)
+	end
 end
 

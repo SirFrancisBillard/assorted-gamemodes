@@ -16,7 +16,7 @@ SWEP.Primary.AmmoType = "none"
 
 SWEP.Primary.Delay = 0.4
 SWEP.Primary.Damage = 30
-SWEP.Primary.Sound = Sound("Weapon_Knife.Hit")
+SWEP.Primary.Sound = Sound("Weapon_Knife.Slash")
 SWEP.Primary.SoundMiss = Sound("Weapon_Crowbar.Single")
 
 SWEP.HoldType = "knife"

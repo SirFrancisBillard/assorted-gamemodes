@@ -25,8 +25,7 @@ SWEP.Primary.Delay = 1.5
 SWEP.Primary.Damage = 120
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 2
-SWEP.Primary.SoundNear = Sound("Weapon_Sniper.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_Sniper.Far")
+SWEP.Primary.Sound = Sound("Weapon_Scout.Single")
 
 SWEP.Secondary.Sound = Sound("Default.Zoom")
 
@@ -144,7 +143,7 @@ if CLIENT then
 			surface.SetTexture(scope)
 			surface.SetDrawColor(255, 255, 255, 255)
 
-			--surface.DrawTexturedRectRotated(x, y, scope_size, scope_size, 0)
+			surface.DrawTexturedRectRotated(x, y, scope_size, scope_size, 0)
 		else
 			return self.BaseClass.DrawHUD(self)
 		end

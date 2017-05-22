@@ -24,8 +24,7 @@ SWEP.Primary.Delay = 0.25
 SWEP.Primary.Damage = 25
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Recoil = 1
-SWEP.Primary.SoundNear = Sound("Weapon_Pistol.Near")
-SWEP.Primary.SoundFar = Sound("Weapon_Pistol.Far")
+SWEP.Primary.Sound = Sound("Weapon_FiveSeven.Single")
 
 SWEP.ViewModelPos = Vector(1.44, 0, -1.88)
 SWEP.ViewModelAng = Vector(0, 0, 0)
