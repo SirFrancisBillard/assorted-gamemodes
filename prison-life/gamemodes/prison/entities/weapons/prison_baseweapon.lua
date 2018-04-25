@@ -1,10 +1,5 @@
 AddCSLuaFile()
 
-game.AddAmmoType({name = "prisonlifeammogeneric"})
-if CLIENT then
-	language.Add("prisonlifeammogeneric_ammo", "Bullets")
-end
-
 SWEP.PrintName = "Prison Life Base Weapon"
 SWEP.Instructions = [[
 <color=green>[PRIMARY FIRE]</color> Fire a bullet.
@@ -20,7 +15,7 @@ SWEP.AdminOnly = false
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = false
-SWEP.Primary.Ammo = "prisonlifeammogeneric"
+SWEP.Primary.Ammo = "357"
 
 SWEP.Primary.Cone = 0.03
 SWEP.Primary.Delay = 0.6

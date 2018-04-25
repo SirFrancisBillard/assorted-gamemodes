@@ -8,9 +8,10 @@ function PLAYER:Loadout()
 	self.Player:RemoveAllAmmo()
 
 	self.Player:Give("prison_fists")
-	self.Player:Give("prison_glock")
 	self.Player:Give("prison_cuffs")
 	self.Player:Give("prison_taser")
+	self.Player:Give("lite_glock")
+	self.Player:GiveAmmo(9999, "pistol")
 end
 
 local CopModels = {"models/player/gasmask.mdl", "models/player/riot.mdl", "models/player/swat.mdl", "models/player/urban.mdl"}

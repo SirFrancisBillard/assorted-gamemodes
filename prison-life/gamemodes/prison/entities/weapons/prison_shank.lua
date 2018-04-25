@@ -5,7 +5,6 @@ SWEP.Base = "prison_baseweapon"
 SWEP.PrintName = "Shank"
 SWEP.Instructions = [[
 <color=green>[PRIMARY FIRE]</color> Stab.
-
 <color=red>A piece of scrap metal sharpened to a point.
 Can kill with a few good stabs.</color>]]
 
@@ -18,8 +17,10 @@ SWEP.Primary.Automatic = false
 
 SWEP.Primary.Delay = 0.8
 SWEP.Primary.Damage = 30
-SWEP.Primary.Sound = Sound("Prison.Knife")
+SWEP.Primary.Sound = Sound("Weapon_Knife.HitWall")
 
+SWEP.Slot = 1
+SWEP.DrawAmmo = false
 SWEP.HoldType = "knife"
 
 SWEP.ViewModelPos = Vector(0, 0, 0)

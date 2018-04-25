@@ -1,3 +1,4 @@
+
 AddCSLuaFile()
 
 SWEP.Base = "prison_baseweapon"
