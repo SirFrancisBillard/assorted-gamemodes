@@ -1,0 +1,20 @@
+"shooter"
+{
+	"base"		"base"
+	"title"		"DarkRP"
+	"maps"		"^rp_"
+	"menusystem"	"1"
+	"workshopid"	""
+
+	"settings"
+	{
+		1
+		{
+			"name"		"shooter_pct"
+			"text"		"Shooter Percent"
+			"help"		"Percent of players to be selected as shooters."
+			"type"		"Numeric"
+			"default"	"0.1"
+		}
+	}
+}
