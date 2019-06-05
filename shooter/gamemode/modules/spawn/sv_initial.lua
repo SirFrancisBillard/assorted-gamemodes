@@ -1,7 +1,5 @@
 function GM:PlayerInitialSpawn(ply)
-	player_manager.SetPlayerClass(ply, "player_prisoner")
-	ply:SetTeam(TEAM_PRISONER)
+	player_manager.SetPlayerClass(ply, "player_citizen")
+	ply:SetTeam(TEAM_CIVILIANS)
 	ply:Spawn()
-
-	ply:ConCommand("gm_showteam")
 end

@@ -1,7 +1,7 @@
 "shooter"
 {
 	"base"		"base"
-	"title"		"DarkRP"
+	"title"		"Active Shooter"
 	"maps"		"^rp_"
 	"menusystem"	"1"
 	"workshopid"	""

@@ -1,3 +1,4 @@
 
-resource.AddFile("sound/prison/handcuff.wav")
-resource.AddFile("sound/prison/taser.wav")
+resource.AddFile("sound/guitar/pluck.wav")
+resource.AddFile("sound/guitar/chord.wav")
+resource.AddFile("sound/guitar/strum.wav")

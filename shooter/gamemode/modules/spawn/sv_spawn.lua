@@ -1,3 +1,4 @@
+
 function GM:PlayerSpawn(ply)
 	ply:UnSpectate()
 	ply:SetupHands()
@@ -6,5 +7,8 @@ function GM:PlayerSpawn(ply)
 	player_manager.RunClass(ply, "Spawn")
 
 	hook.Call("PlayerLoadout", GAMEMODE, ply)
-	hook.Call("PlayerSetModel", GAMEMODE, ply)
+end
+
+function GM:PlayerDeathThink(ply)
+	return IsRoundState(ROUND_PREPARING)
 end

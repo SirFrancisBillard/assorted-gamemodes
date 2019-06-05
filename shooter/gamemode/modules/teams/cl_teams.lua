@@ -8,7 +8,7 @@ function GM:ShowTeam()
 	local y = 30
 
 	for ID, TeamInfo in pairs (AllTeams) do
-		if ID ~= TEAM_CONNECTING and ID ~= TEAM_UNASSIGNED and ID ~= TEAM_CRIMINAL then
+		if ID ~= TEAM_CONNECTING and ID ~= TEAM_UNASSIGNED then
 			local Team = vgui.Create("DButton", self.TeamSelectFrame)
 			function Team.DoClick() self:HideTeam() RunConsoleCommand("changeteam", ID) end
 			Team:SetPos(10, y)
