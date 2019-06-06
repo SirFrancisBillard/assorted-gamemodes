@@ -4,10 +4,9 @@ GENDER_FEMALE = "female"
 
 gPlayerHurtSounds = {
 	[HITGROUP_HEAD] = {
-		Sound("physics/flesh/flesh_squishy_impact_hard1.wav"),
-		Sound("physics/flesh/flesh_squishy_impact_hard2.wav"),
 		Sound("physics/flesh/flesh_squishy_impact_hard3.wav"),
-		Sound("physics/flesh/flesh_squishy_impact_hard4.wav")
+		Sound("physics/body/body_medium_break2.wav"),
+		Sound("physics/body/body_medium_break3.wav")
 	},
 	[GENDER_MALE] = {
 		["generic"] = {

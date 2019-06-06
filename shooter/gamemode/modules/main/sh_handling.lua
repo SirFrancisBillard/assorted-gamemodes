@@ -10,6 +10,12 @@ local function emohandle(ply, ducking)
 		else
 			ply:StopLuaAnimation("sit_chell")
 		end
+	elseif ply:GetSpecialClass() == CLASS_THOT then
+		if ducking then
+			ply:SetLuaAnimation("sit_alyx")
+		else
+			ply:StopLuaAnimation("sit_alyx")
+		end
 	end
 end
 

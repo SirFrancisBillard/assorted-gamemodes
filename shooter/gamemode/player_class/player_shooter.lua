@@ -42,6 +42,8 @@ function PLAYER:Spawn()
 
 	self.Player:SetMaxHealth(100)
 	self.Player:SetHealth(100)
+
+	self.Player:SetSpecialClass(CLASS_NULL)
 end
 
 

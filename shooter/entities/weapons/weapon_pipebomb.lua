@@ -31,25 +31,34 @@ SWEP.Secondary.DefaultClip = 0
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 
-SWEP.HoldType = "grenade"
+SWEP.HoldType = "slam"
 SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
 SWEP.UseHands = true
 SWEP.ViewModel = "models/weapons/c_grenade.mdl"
-SWEP.WorldModel = "models/weapons/w_grenade.mdl"
+SWEP.WorldModel = "models/weapons/w_pistol.mdl"
 SWEP.ShowViewModel = true
 SWEP.ShowWorldModel = false
 
 SWEP.ViewModelBoneMods = {
-	["ValveBiped.Grenade_body"] = {scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0)}
+	["ValveBiped.Grenade_body"] = { scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0) },
+	["ValveBiped.Bip01_L_UpperArm"] = { scale = Vector(1, 1, 1), pos = Vector(2.864, 1.064, -0.076), angle = Angle(-18.674, -49.312, 11.041) },
+	["ValveBiped.Bip01_L_Forearm"] = { scale = Vector(1, 1, 1), pos = Vector(0, 0, 0), angle = Angle(27.777, 16.666, -7.778) }
 }
 
 SWEP.VElements = {
-	["bottle"] = {type = "Model", model = "models/props_junk/GlassBottle01a.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(3.361, 2.709, -2.474), angle = Angle(-9.539, -84.175, 180), size = Vector(1.011, 1.011, 1.011), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {}}
+	["tube"] = { type = "Model", model = "models/hunter/tubes/tube1x1x2.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "pipe", pos = Vector(0.324, -4.803, 0.155), angle = Angle(15.256, -5.452, 94.862), size = Vector(0.046, 0.046, 0.09), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
+	["fuse"] = { type = "Model", model = "models/Gibs/HGIBS_rib.mdl", bone = "ValveBiped.Bip01_Spine4", rel = "tube", pos = Vector(-1.778, -0.817, -1.772), angle = Angle(-153.896, 134.841, -113.311), size = Vector(0.331, 0.331, 0.331), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
+	["sparks"] = { type = "Sprite", sprite = "sprites/fire", bone = "ValveBiped.Bip01_Spine4", rel = "fuse", pos = Vector(-1.724, 2.279, -0.325), size = { x = 1.34, y = 1.34 }, color = Color(255, 255, 255, 255), nocull = true, additive = true, vertexalpha = false, vertexcolor = false, ignorez = false},
+	["zippo"] = { type = "Model", model = "models/props_junk/metalgascan.mdl", bone = "ValveBiped.Bip01_L_Hand", rel = "", pos = Vector(4.572, 2.096, 1.827), angle = Angle(-7.803, 57.376, 0), size = Vector(0.145, 0.145, 0.145), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
+	["pipe"] = { type = "Model", model = "models/props_vehicles/carparts_axel01a.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(2.171, 2.319, -1.474), angle = Angle(-8.464, 81.113, -101.962), size = Vector(0.173, 0.173, 0.173), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
 SWEP.WElements = {
-	["bottle"] = {type = "Model", model = "models/props_junk/GlassBottle01a.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(4.748, 1.988, -2.597), angle = Angle(-174.698, 67.234, -2.013), size = Vector(0.912, 1.029, 0.953), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {}}
+	["tube"] = { type = "Model", model = "models/hunter/tubes/tube1x1x2.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "pipe", pos = Vector(0.324, -4.803, 0.155), angle = Angle(15.256, -5.452, 94.862), size = Vector(0.046, 0.046, 0.09), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
+	["fuse"] = { type = "Model", model = "models/Gibs/HGIBS_rib.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "tube", pos = Vector(-1.778, -0.817, -1.772), angle = Angle(-153.896, 134.841, -113.311), size = Vector(0.331, 0.331, 0.331), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
+	["pipe"] = { type = "Model", model = "models/props_vehicles/carparts_axel01a.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(3.941, 2.312, -0.452), angle = Angle(1.169, 73.636, -97.014), size = Vector(0.173, 0.173, 0.173), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
+	["zippo"] = { type = "Model", model = "models/props_junk/metalgascan.mdl", bone = "ValveBiped.Bip01_L_Hand", rel = "", pos = Vector(4.952, 1.717, 0.319), angle = Angle(-4.189, 50.113, 13.279), size = Vector(0.145, 0.145, 0.145), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} },
 }
 
 function SWEP:SetupDataTables()
@@ -83,7 +92,7 @@ function SWEP:Holster()
 	if holst then
 		self:ResetVars()
 	end
-	return holst 
+	return holst
 end
 
 function SWEP:CanPrimaryAttack()

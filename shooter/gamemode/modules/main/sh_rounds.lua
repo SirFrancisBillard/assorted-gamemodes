@@ -119,6 +119,7 @@ if SERVER then
 				SetRoundState(ROUND_OVER)
 				local shooter = team.GetPlayers(TEAM_SHOOTERS)[1]
 				shooter:SelectWeapon("shooter_deagle")
+				shooter:SetLuaAnimation("kys_pistol")
 				shooter:Freeze(true) -- freeze for sewer slide
 				timer.Simple(6, function()
 					if IsValid(shooter) and shooter:IsPlayer() then

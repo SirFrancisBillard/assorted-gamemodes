@@ -34,7 +34,7 @@ SWEP.CSMuzzleFlashes = true
 
 SWEP.Primary.Sound = Sound( "Shooter_AK47.Single" )
 SWEP.Primary.Recoil = 5
-SWEP.Primary.Damage = 45
+SWEP.Primary.Damage = 55
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Cone = 0.03
 SWEP.Primary.Delay = 0.09

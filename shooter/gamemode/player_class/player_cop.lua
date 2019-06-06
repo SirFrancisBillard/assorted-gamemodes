@@ -34,6 +34,8 @@ function PLAYER:Spawn()
 
 	self.Player:SetMaxHealth(120)
 	self.Player:SetHealth(120)
+
+	self.Player:SetSpecialClass(CLASS_NULL)
 end
 
 player_manager.RegisterClass("player_cop", PLAYER, "player_citizen")

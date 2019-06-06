@@ -6,6 +6,7 @@ PLAYER.DisplayName = "Citizen"
 PLAYER.WalkSpeed = 120
 PLAYER.RunSpeed = 200
 
+CLASS_NULL = 0
 CLASS_EMO = 1
 CLASS_FATASS = 2
 CLASS_VIRGIN = 3

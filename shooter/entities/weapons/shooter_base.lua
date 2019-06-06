@@ -103,6 +103,10 @@ function SWEP:Initialize()
 	self:SetNextIdle( 0 )
 
 	self:SetHoldType( self.HoldType )
+
+	if CLIENT then
+		self.Owner.LerpedLeanOffset = Vector(0, 0, 0)
+	end
 end
 
 function SWEP:Deploy()
@@ -143,19 +147,39 @@ function SWEP:IsSprinting()
 		and self.Owner:IsOnGround()
 end
 
+function SWEP:OwnerLeanOffset()
+	local left = self.Owner:GetNWBool("lean_left", false)
+	local right = self.Owner:GetNWBool("lean_right", false)
+	if (left and right) or not (left or right) then return vector_origin end
+	local ang = self.Owner:EyeAngles()
+	if left then
+		return (ang:Up() * -6) + (ang:Right() * -10)
+	end
+	if right then
+		return (ang:Up() * -6) + (ang:Right() * 10)
+	end
+	return vector_origin -- how ???
+end
+
+function SWEP:OwnerShootPos()
+	return self.Owner:GetShootPos() + self:OwnerLeanOffset()
+end
+
 function SWEP:ShootBullet( damage, num_bullets, aimcone )
 	local bullet = {}
 
 	bullet.Num 	= num_bullets
-	bullet.Src 	= self.Owner:GetShootPos() -- Source
+	bullet.Src 	= self:OwnerShootPos() -- Source
 	bullet.Dir 	= self.Owner:GetAimVector() -- Dir of bullet
 	bullet.Spread 	= Vector( aimcone, aimcone, 0 )	-- Aim Cone
 	bullet.Tracer	= 5 -- Show a tracer on every x bullets
 	bullet.Force	= 1 -- Amount of force to give to phys objects
 	bullet.Damage	= damage
 	bullet.AmmoType = "Pistol"
+	if IsFirstTimePredicted() then
 	bullet.Callback = function(atk, tr, dmg)
 		sound.Play("weapons/fx/rics/ric" .. math.random(5) .. ".wav", tr.HitPos, 60, math.random(90, 110), 1)
+	end
 	end
 
 	self.Owner:FireBullets( bullet )
@@ -170,7 +194,7 @@ function SWEP:PrimaryAttack()
 
 	self:ShootBullet( self.Primary.Damage, self.Primary.NumShots, self:CalculateSpread() )
 
-	if SERVER then util.ScreenShake(self:GetPos(), 1, 1, 0.1, 512) end
+	if SERVER then util.ScreenShake(self:GetPos(), 0.4, 1, 0.1, 512) end
 
 	self:AddRecoil()
 	self:ViewPunch()
@@ -181,7 +205,7 @@ function SWEP:PrimaryAttack()
 	self:SetReloadTime( CurTime() + self.Primary.Delay )
 end
 
-function SWEP:SecondaryAttack() 
+function SWEP:SecondaryAttack()
 end
 
 function SWEP:Holster()
@@ -200,7 +224,7 @@ function SWEP:Holster()
 		self.ViewModelAng = Angle( 0, 0, 0 )
 		self.FOV = nil
 	end
-	
+
 	return true
 end
 
@@ -236,6 +260,19 @@ function SWEP:Think()
 		self:Suicide()
 	end
 end
+
+hook.Add("CalcView", "ThirdPersonShooterKYS", function(ply, pos, ang, fov)
+	if IsRoundState(ROUND_OVER) and ply:Team() == TEAM_SHOOTERS then
+		local view = {}
+
+		view.origin = pos - (ang:Forward() * 100)
+		view.angles = angles
+		view.fov = fov
+		view.drawviewer = true
+
+		return view
+	end
+end)
 
 function SWEP:AddRecoil()
 	self:SetRecoil( math.Clamp( self:GetRecoil() + self.Primary.Recoil * 0.4, 0, 1 ) )
@@ -340,24 +377,55 @@ function SWEP:CalculateSpread()
 	return spread
 end
 
+local function ChangeLean(ply, right, toggle)
+	if not IsValid(ply) or not ply:IsPlayer() then return end
+	local first, second
+	if right then
+		first = "lean_right"
+		second = "lean_left"
+	else
+		first = "lean_left"
+		second = "lean_right"
+	end
+	ply:SetNWBool(first, toggle)
+	if toggle then
+		ply:StopLuaAnimation(second)
+		ply:SetNWBool(second, false)
+		ply:SetLuaAnimation(first)
+	else
+		ply:StopLuaAnimation(first)
+	end
+end
+
+hook.Add("PlayerButtonDown", "LeanDetection", function(ply, btn)
+	if btn == KEY_Q then
+		ChangeLean(ply, false, true)
+	elseif btn == KEY_E then
+		ChangeLean(ply, true, true)
+	end
+end)
+
+hook.Add("PlayerButtonUp", "LeanDetection", function(ply, btn)
+	if btn == KEY_Q then
+		ChangeLean(ply, false, false)
+	elseif btn == KEY_E then
+		ChangeLean(ply, true, false)
+	end
+end)
+
 if SERVER then
-	hook.Add("PlayerButtonDown", "LeanDetection", function(ply, btn)
-		if btn == KEY_Q then
-			ply:SetNWBool("lean_left", true)
-		elseif btn == KEY_E then
-			ply:SetNWBool("lean_right", true)
-		end
-	end)
-
-	hook.Add("PlayerButtonUp", "LeanDetection", function(ply, btn)
-		if btn == KEY_Q then
-			ply:SetNWBool("lean_left", false)
-		elseif btn == KEY_E then
-			ply:SetNWBool("lean_right", false)
-		end
-	end)
-
 	return
+end
+
+function SWEP:CalcView(ply, pos, ang, fov)
+	-- if not ply.LerpedLeanOffset then ply.LerpedLeanOffset = Vector(0, 0, 0) end
+	if ply:GetNWBool("lean_left", false) or ply:GetNWBool("lean_right", false) then
+		ply.LerpedLeanOffset = LerpVector(FrameTime() * 6, ply.LerpedLeanOffset, self:OwnerLeanOffset())
+	else
+		ply.LerpedLeanOffset = LerpVector(FrameTime() * 6, ply.LerpedLeanOffset, vector_origin)
+	end
+	pos = pos + ply.LerpedLeanOffset
+	return pos, ang, fov
 end
 
 SWEP.CrosshairAlpha = 1
@@ -393,7 +461,7 @@ function SWEP:DoDrawCrosshair( x, y )
 	return true
 end
 
-function SWEP:GetOffset()	
+function SWEP:GetOffset()
 	if self:GetReloading() then return self.IdlePos, self.IdleAng end
 
 	if IsRoundState(ROUND_OVER) and CurTime() - 1 > LastRoundStateChange() and self.SuicidePos and self.Owner:Team() == TEAM_SHOOTERS then
@@ -420,18 +488,21 @@ function SWEP:OffsetThink()
 	if not offset_pos then offset_pos = vector_origin end
 	if not offset_ang then offset_ang = angle_zero end -- note to fucking self: angles are mutable
 
-	local lean_pos = Vector(0, 0, 0)
+	--local plyang = self.Owner:EyeAngles()
+	--local lean_pos = Vector(0, 0, 0)
 	local lean_offset = Angle(0, 0, 0)
 	if self.Owner:GetNWBool("lean_left", false) then
-		lean_pos.x = lean_pos.x - 0.2
+		--lean_pos = lean_pos + (plyang:Right() * 16)
+		--lean_pos.x = lean_pos.x - 0.2
 		lean_offset.r = lean_offset.r - 25
 	end
 	if self.Owner:GetNWBool("lean_right", false) then
-		lean_pos.x = lean_pos.x + 0.2
+		--lean_pos = lean_pos + (plyang:Right() * -16)
+		--lean_pos.x = lean_pos.x + 0.2
 		lean_offset.r = lean_offset.r + 25
 	end
 
-	self.ViewModelPos = LerpVector( FrameTime() * 10, self.ViewModelPos, offset_pos + lean_pos )
+	self.ViewModelPos = LerpVector( FrameTime() * 10, self.ViewModelPos, offset_pos ) --+ lean_pos )
 	self.ViewModelAngle = LerpAngle( FrameTime() * 10, self.ViewModelAngle, offset_ang + lean_offset )
 end
 
@@ -443,7 +514,7 @@ function SWEP:GetViewModelPosition( pos, ang )
 	ang:RotateAroundAxis( ang:Right(), self.ViewModelAngle.p )
 	ang:RotateAroundAxis( ang:Up(), self.ViewModelAngle.y )
 	ang:RotateAroundAxis( ang:Forward(), self.ViewModelAngle.r )
-
+	pos = self.Owner:EyePos() + self.Owner.LerpedLeanOffset
 	pos = pos + self.ViewModelPos.x * ang:Right()
 	pos = pos + self.ViewModelPos.y * ang:Forward()
 	pos = pos + self.ViewModelPos.z * ang:Up()
@@ -475,7 +546,7 @@ function SWEP:DrawWeaponSelection( x, y, w, h, a )
 		Color( col.r, col.g, col.b, a ), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 end
 
-surface.CreateFont( "CSKillIcons", { 
+surface.CreateFont( "CSKillIcons", {
 	size = ScreenScale( 30 ),
 	weight = 500,
 	antialiasing = true,
@@ -483,7 +554,7 @@ surface.CreateFont( "CSKillIcons", {
 	font = "csd"
 } )
 
-surface.CreateFont( "CSSelectIcons", { 
+surface.CreateFont( "CSSelectIcons", {
 	size = ScreenScale( 60 ),
 	weight = 500,
 	antialiasing = true,
