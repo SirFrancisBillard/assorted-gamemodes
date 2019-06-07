@@ -5,8 +5,8 @@ sound.Add({
 	channel = CHAN_WEAPON,
 	volume = 1.0,
 	level = SNDLVL_GUNFIRE,
-	pitch = {145, 165},
-	sound = "weapons/xm1014/xm1014-1.wav"
+	pitch = {95, 105},
+	sound = "weapons/m3/m3-1.wav"
 })
 
 SWEP.Base = "shooter_base_shotgun"
@@ -30,10 +30,10 @@ SWEP.UseHands = true
 SWEP.Slot = 2
 SWEP.SlotPos = 1
 
-SWEP.Primary.Sound = Sound( "Shooter_M3.Single" )
+SWEP.Primary.Sound = Sound( "Weapon_M3.Single" )
 SWEP.Primary.Recoil = 14
 SWEP.Primary.Damage = 30
-SWEP.Primary.NumShots = 8
+SWEP.Primary.NumShots = 12
 SWEP.Primary.Cone = 0.06
 SWEP.Primary.Delay = 0.9
 
@@ -56,12 +56,17 @@ SWEP.Spread.AirMod = 1.2
 SWEP.Spread.RecoilMod = 0.05
 SWEP.Spread.VelocityMod = 0.5
 
-SWEP.IronsightsPos = Vector( -7.65, -5, 2.8 )
-SWEP.IronsightsAng = Angle( 1, 0, 0 )
+--SWEP.IronsightsPos = Vector( -7.65, -5, 2.8 )
+--SWEP.IronsightsAng = Angle( 1, 0, 0 )
+SWEP.IronsightsPos = Vector(-7.64, -9.681, 3.48)
+SWEP.IronsightsAng = Angle(0, 0, 0)
 SWEP.IronsightsFOV = 0.8
 
 SWEP.LoweredPos = Vector( 1.6397, -5.089, 4 )
 SWEP.LoweredAng = Angle( -17.2767, 28.3565, -0.4145 )
+
+SWEP.LeanYawOffset = 0
+SWEP.UseIronsightsRecoil = false
 
 if CLIENT then
 	killicon.AddFont( "shooter_m3", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )

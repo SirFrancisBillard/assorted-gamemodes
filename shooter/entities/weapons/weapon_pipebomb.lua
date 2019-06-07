@@ -133,15 +133,13 @@ function SWEP:Think()
 		self:EmitSound("ambient/fire/mtov_flame2.wav")
 		self.EmitIgniteSound = 0
 	end
-
-	self:NextThink(CurTime() + 0.1)
-	return true
 end
 
 function SWEP:Light()
 	if self:GetLit() then return end
 
 	self:SendWeaponAnim(ACT_VM_PULLBACK_HIGH)
+	self.Owner:SetLuaAnimation("pipebomb_light")
 
 	self.EmitIgniteSound = CurTime() + 0.6
 
@@ -152,7 +150,7 @@ end
 function SWEP:Throw()
 	self:ResetVars()
 
-	self.Owner:SetAnimation(PLAYER_ATTACK1)
+	self.Owner:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_HL2MP_GESTURE_RANGE_ATTACK_SLAM, true)
 	self.Owner:EmitSound("npc/vort/claw_swing" .. math.random(1, 2) .. ".wav")
 
 	if SERVER then

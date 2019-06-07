@@ -24,6 +24,11 @@ function GM:EntityTakeDamage(ent, dmg)
 				ent:SetNWInt("emo_charge", prot - amt)
 			end
 		end
+		if dmg:IsBulletDamage() then
+			local spat = EffectData()
+			spat:SetOrigin(dmg:GetDamagePosition())
+			util.Effect("blood_spatter", spat, true)
+		end
 	end
 end
 

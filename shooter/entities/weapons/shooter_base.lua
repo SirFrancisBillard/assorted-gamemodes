@@ -68,6 +68,10 @@ SWEP.LoweredAng = Angle( 70, 0, 0 )
 SWEP.IdlePos = Vector(-4.321, 0, -2.881)
 SWEP.IdleAng = Angle(0, 0, 0)
 
+SWEP.LeanYawOffset = 1
+
+SWEP.m_WeaponDeploySpeed = 1
+
 function SWEP:SetIronsights(val)
 	self:SetIronsights_Internal(val)
 	if val then
@@ -111,7 +115,7 @@ end
 
 function SWEP:Deploy()
 	self:SendWeaponAnim( ACT_VM_DRAW )
-	self.Owner:GetViewModel():SetPlaybackRate( GetConVarNumber( "sv_defaultdeployspeed" ) )
+	self.Owner:GetViewModel():SetPlaybackRate( self.m_WeaponDeploySpeed )
 
 	return true
 end
@@ -176,10 +180,11 @@ function SWEP:ShootBullet( damage, num_bullets, aimcone )
 	bullet.Force	= 1 -- Amount of force to give to phys objects
 	bullet.Damage	= damage
 	bullet.AmmoType = "Pistol"
+
 	if IsFirstTimePredicted() then
-	bullet.Callback = function(atk, tr, dmg)
-		sound.Play("weapons/fx/rics/ric" .. math.random(5) .. ".wav", tr.HitPos, 60, math.random(90, 110), 1)
-	end
+		bullet.Callback = function(atk, tr, dmg)
+			sound.Play("weapons/fx/rics/ric" .. math.random(5) .. ".wav", tr.HitPos, 60, math.random(90, 110), 1)
+		end
 	end
 
 	self.Owner:FireBullets( bullet )
@@ -194,7 +199,7 @@ function SWEP:PrimaryAttack()
 
 	self:ShootBullet( self.Primary.Damage, self.Primary.NumShots, self:CalculateSpread() )
 
-	if SERVER then util.ScreenShake(self:GetPos(), 0.4, 1, 0.1, 512) end
+	if IsFirstTimePredicted() then util.ScreenShake(self:GetPos(), .1, 500, 0.1, 512) end
 
 	self:AddRecoil()
 	self:ViewPunch()
@@ -243,7 +248,12 @@ end
 
 function SWEP:Suicide()
 	sound.Play(self.Primary.Sound, self:GetPos())
-	self.Owner:ScreenFade(SCREENFADE.IN, Color(255, 0, 0, 128), 5, 0)
+	sound.Play("physics/body/body_medium_break" .. math.random(2, 3) .. ".wav", self:GetPos())
+
+	local edata = EffectData()
+	edata:SetOrigin(self.Owner:EyePos())
+	util.Effect("blood_spatter", edata)
+
 	self.Owner:Kill()
 	self.Owner:Freeze(false)
 end
@@ -420,9 +430,9 @@ end
 function SWEP:CalcView(ply, pos, ang, fov)
 	-- if not ply.LerpedLeanOffset then ply.LerpedLeanOffset = Vector(0, 0, 0) end
 	if ply:GetNWBool("lean_left", false) or ply:GetNWBool("lean_right", false) then
-		ply.LerpedLeanOffset = LerpVector(FrameTime() * 6, ply.LerpedLeanOffset, self:OwnerLeanOffset())
+		ply.LerpedLeanOffset = LerpVector(FrameTime() * 5, ply.LerpedLeanOffset, self:OwnerLeanOffset())
 	else
-		ply.LerpedLeanOffset = LerpVector(FrameTime() * 6, ply.LerpedLeanOffset, vector_origin)
+		ply.LerpedLeanOffset = LerpVector(FrameTime() * 5, ply.LerpedLeanOffset, vector_origin)
 	end
 	pos = pos + ply.LerpedLeanOffset
 	return pos, ang, fov
@@ -488,21 +498,17 @@ function SWEP:OffsetThink()
 	if not offset_pos then offset_pos = vector_origin end
 	if not offset_ang then offset_ang = angle_zero end -- note to fucking self: angles are mutable
 
-	--local plyang = self.Owner:EyeAngles()
-	--local lean_pos = Vector(0, 0, 0)
 	local lean_offset = Angle(0, 0, 0)
 	if self.Owner:GetNWBool("lean_left", false) then
-		--lean_pos = lean_pos + (plyang:Right() * 16)
-		--lean_pos.x = lean_pos.x - 0.2
 		lean_offset.r = lean_offset.r - 25
+		lean_offset.y = lean_offset.y + self.LeanYawOffset
 	end
 	if self.Owner:GetNWBool("lean_right", false) then
-		--lean_pos = lean_pos + (plyang:Right() * -16)
-		--lean_pos.x = lean_pos.x + 0.2
 		lean_offset.r = lean_offset.r + 25
+		lean_offset.y = lean_offset.y - self.LeanYawOffset
 	end
 
-	self.ViewModelPos = LerpVector( FrameTime() * 10, self.ViewModelPos, offset_pos ) --+ lean_pos )
+	self.ViewModelPos = LerpVector( FrameTime() * 10, self.ViewModelPos, offset_pos )--+ lean_pos )
 	self.ViewModelAngle = LerpAngle( FrameTime() * 10, self.ViewModelAngle, offset_ang + lean_offset )
 end
 

@@ -23,6 +23,7 @@ RoundStateData = {
 				player_manager.SetPlayerClass(v, "player_citizen")
 				v:Spawn()
 			end
+			game.CleanUpMap()
 		end,
 	},
 	[ROUND_INPROGRESS] = {
@@ -114,19 +115,7 @@ if SERVER then
 		end
 
 		if IsRoundState(ROUND_INPROGRESS) then
-			if living_innocents < 1 then
-				PrintMessage(HUD_PRINTTALK, "Shooter has killed all innocents.")
-				SetRoundState(ROUND_OVER)
-				local shooter = team.GetPlayers(TEAM_SHOOTERS)[1]
-				shooter:SelectWeapon("shooter_deagle")
-				shooter:SetLuaAnimation("kys_pistol")
-				shooter:Freeze(true) -- freeze for sewer slide
-				timer.Simple(6, function()
-					if IsValid(shooter) and shooter:IsPlayer() then
-						shooter:Freeze(false)
-					end
-				end)
-			elseif not shooter_alive then
+			if not shooter_alive then
 				PrintMessage(HUD_PRINTTALK, "Shooter has died!")
 				SetRoundState(ROUND_OVER)
 			end
@@ -145,6 +134,20 @@ if SERVER then
 						v:Spawn()
 					end
 				end
+			end
+
+			if living_innocents < 1 then
+				PrintMessage(HUD_PRINTTALK, "Shooter has killed all innocents.")
+				SetRoundState(ROUND_OVER)
+				local shooter = team.GetPlayers(TEAM_SHOOTERS)[1]
+				shooter:SelectWeapon("shooter_deagle")
+				shooter:SetLuaAnimation("kys_pistol")
+				shooter:Freeze(true) -- freeze for sewer slide
+				timer.Simple(6, function()
+					if IsValid(shooter) and shooter:IsPlayer() then
+						shooter:Freeze(false)
+					end
+				end)
 			end
 		end
 

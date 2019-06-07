@@ -73,6 +73,8 @@ SWEP.LoweredAng = Angle( -17.2767, 28.3565, -0.4145 )
 SWEP.IdlePos = Vector(-2.5, 0, -2.881)
 SWEP.IdleAng = Angle(0, 0, 0)
 
+SWEP.LeanYawOffset = 0.3
+
 if CLIENT then
 	killicon.AddFont( "shooter_mp5", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end

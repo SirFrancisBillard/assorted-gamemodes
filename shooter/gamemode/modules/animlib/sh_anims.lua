@@ -503,3 +503,51 @@ RegisterLuaAnimation('kys_pistol', {
 	},
 	Type = TYPE_GESTURE
 })
+
+RegisterLuaAnimation('pipebomb_light', {
+	FrameData = {
+		{
+			BoneInfo = {
+				['ValveBiped.Bip01_L_UpperArm'] = {
+					RU = -32,
+					RR = -16
+				},
+				['ValveBiped.Bip01_R_Forearm'] = {
+					RR = 16,
+					RF = -48
+				},
+				['ValveBiped.Bip01_R_Clavicle'] = {
+				},
+				['ValveBiped.Bip01_R_UpperArm'] = {
+				},
+				['ValveBiped.Bip01_L_Forearm'] = {
+					RU = -32,
+					RR = 32
+				}
+			},
+			FrameRate = 1
+		},
+		{
+			BoneInfo = {
+				['ValveBiped.Bip01_L_UpperArm'] = {
+					RU = 0,
+					RR = 0
+				},
+				['ValveBiped.Bip01_R_Forearm'] = {
+					RR = 0,
+					RF = 0
+				},
+				['ValveBiped.Bip01_R_Clavicle'] = {
+				},
+				['ValveBiped.Bip01_R_UpperArm'] = {
+				},
+				['ValveBiped.Bip01_L_Forearm'] = {
+					RU = 0,
+					RR = 0
+				}
+			},
+			FrameRate = 1
+		},
+	},
+	Type = TYPE_GESTURE
+})

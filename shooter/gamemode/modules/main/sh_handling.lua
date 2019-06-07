@@ -1,6 +1,6 @@
 
 local function emohandle(ply, ducking)
-	if CLIENT then return end
+	if CLIENT or ply.Sliding then return end
 	if ply:GetSpecialClass() == CLASS_EMO then
 		if ducking then
 			if math.Round(CurTime(), 1) % 2 == 1 then

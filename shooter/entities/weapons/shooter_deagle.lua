@@ -61,6 +61,8 @@ SWEP.LoweredAng = Angle( 70, 0, 0 )
 SWEP.SuicidePos = Vector(-3.36, -36.361, 4.519)
 SWEP.SuicideAng = Angle(-18.8, 108.4, 0)
 
+SWEP.LeanYawOffset = 0.3
+
 if CLIENT then
 	killicon.AddFont( "shooter_deagle", "CSKillIcons", SWEP.IconLetter, Color( 255, 80, 0, 255 ) )
 end
