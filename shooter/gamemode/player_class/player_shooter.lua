@@ -6,6 +6,19 @@ PLAYER.DisplayName = "Shooter"
 PLAYER.WalkSpeed = 120
 PLAYER.RunSpeed = 200
 
+SHOOTER_TERROR = 6
+SHOOTER_MAX = SHOOTER_TERROR
+
+gShooterClasses = {
+	[CLASS_EMO] = {
+		name = "Edgelord",
+		desc = "Crouching still will heal you.\nCutting yourself boosts you upwards.",
+		models = {"models/player/p2_chell.mdl"},
+		weps = {"weapon_selfharm"},
+		health = 80,
+	},
+}
+
 function PLAYER:Loadout()
 	self.Player:StripWeapons()
 	self.Player:RemoveAllAmmo()
@@ -24,7 +37,7 @@ function PLAYER:Loadout()
 	end	
 end
 
-local ShooterModels = {"models/player/alyx.mdl", "models/player/eli.mdl", "models/player/p2_chell.mdl", "models/player/monk.mdl", "models/player/kleiner.mdl"}
+local ShooterModels = {"models/player/guerilla.mdl", "models/player/leet.mdl", "models/player/phoenix.mdl"}
 
 function PLAYER:SetModel()
 	local modelname = ShooterModels[math.random(#ShooterModels)]
@@ -36,6 +49,7 @@ end
 
 function PLAYER:Spawn()
 	self:SetModel()
+	self:Loadout()
 
 	self.Player:SetWalkSpeed(self.WalkSpeed)
 	self.Player:SetRunSpeed(self.RunSpeed)

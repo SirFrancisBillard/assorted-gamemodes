@@ -46,7 +46,7 @@ function ENT:Explode()
 	boom:SetOrigin(self:GetPos())
 	util.Effect("Explosion", boom)
 
-	util.BlastDamage(self, self:GetOwner(), self:GetPos(), 800, 120)
+	util.BlastDamage(self, self:GetOwner(), self:GetPos(), 800, 200)
 	util.ScreenShake(self:GetPos(), 20, 100, 1, 5000)
 	sound.Play("ambient/explosions/explode_" .. math.random(3, 4) .. ".wav", self:GetPos(), 160, math.random(60, 80), 1)
 

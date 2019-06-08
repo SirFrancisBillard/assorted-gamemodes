@@ -16,25 +16,35 @@ CLASS_MAX = CLASS_BLACK
 
 gCitizenClasses = {
 	[CLASS_EMO] = {
+		name = "Edgelord",
+		desc = "Crouching still will heal you.\nCutting yourself boosts you upwards.",
 		models = {"models/player/p2_chell.mdl"},
 		weps = {"weapon_selfharm"},
 		health = 80,
 	},
 	[CLASS_FATASS] = {
+		name = "Fatass",
+		desc = "Eating food will heal you.\nYou are slow, but have lots of health.",
 		models = {"models/player/monk.mdl"},
 		weps = {"weapon_eatfood"},
 		speeds = {90, 170},
 		health = 160,
 	},
 	[CLASS_VIRGIN] = {
+		name = "Virgin",
+		desc = "You seek out dropped weapons.\nYou also have a guitar.",
 		models = {"models/player/kleiner.mdl"},
 		weps = {"weapon_guitar"},
 	},
 	[CLASS_THOT] = {
+		name = "Thot",
+		desc = "Your phone can be used to blind.\nYou can also call the cops.",
 		models = {"models/player/alyx.mdl"},
 		weps = {"weapon_thotphone"},
 	},
 	[CLASS_BLACK] = {
+		name = "Nigga",
+		desc = "You are armed, but the police will shoot you.\nDrinking lean will heal you.",
 		models = {"models/player/eli.mdl"},
 		weps = {"weapon_lean"},
 		speeds = {130, 210},
@@ -44,6 +54,7 @@ gCitizenClasses = {
 function PLAYER:Loadout()
 	self.Player:StripWeapons()
 	self.Player:RemoveAllAmmo()
+
 	self.Player:Give("weapon_hands")
 	for i, v in ipairs(gCitizenClasses[self.Player:GetSpecialClass()].weps) do
 		self.Player:Give(v)
@@ -66,6 +77,7 @@ function PLAYER:Spawn()
 	local cls = math.random(CLASS_MAX)
 	self.Player:SetSpecialClass(cls)
 	self:SetModel(cls)
+	self:Loadout()
 
 	if gCitizenClasses[cls].speeds then
 		self.Player:SetWalkSpeed(gCitizenClasses[cls].speeds[1])

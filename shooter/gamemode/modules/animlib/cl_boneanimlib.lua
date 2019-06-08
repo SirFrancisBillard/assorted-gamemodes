@@ -1,4 +1,3 @@
-if SERVER or GetLuaAnimations ~= nil then return end
 
 local ANIMATIONFADEOUTTIME = 0.125
 

@@ -25,7 +25,7 @@ SWEP.CSMuzzleFlashes = true
 
 SWEP.Primary.Sound = Sound( "Weapon_Deagle.Single" )
 SWEP.Primary.Recoil = 24
-SWEP.Primary.Damage = 120
+SWEP.Primary.Damage = 80
 SWEP.Primary.NumShots = 1
 SWEP.Primary.Cone = 0.02
 SWEP.Primary.Delay = 0.4

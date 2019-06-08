@@ -1,5 +1,7 @@
 -- yuck
 
+local gorescale = CreateConVar("shooter_gorescale", 3)
+
 EFFECT.Mat = Material("effects/blood_core")
 
 local function DecalMaker(part, pos, norm)
@@ -16,10 +18,12 @@ function EFFECT:Init(data)
 
 	self.Emitter = ParticleEmitter(pos)
 
-	for i = 1, math.random(6, 9) do
+	local scale = math.Round(gorescale:GetInt())
+
+	for i = 1, math.random(6, 9) * scale do
 		local part = self.Emitter:Add("effects/blood_core", pos)
 
-		part:SetVelocity(VectorRand() * math.Rand(40, 50))
+		part:SetVelocity(VectorRand() * math.Rand(40, 50) * (1 + (scale * 0.1)))
 		part:SetDieTime(20)
 
 		part:SetStartAlpha(255)

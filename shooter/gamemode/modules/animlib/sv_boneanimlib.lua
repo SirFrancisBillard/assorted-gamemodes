@@ -1,4 +1,3 @@
-if CLIENT or GetLuaAnimations ~= nil then return end
 
 hook.Add("Initialize", "BAL_Initialize", function()
 	util.AddNetworkString("bal_reset")

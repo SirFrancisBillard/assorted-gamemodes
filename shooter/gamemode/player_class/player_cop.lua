@@ -28,6 +28,7 @@ end
 
 function PLAYER:Spawn()
 	self:SetModel()
+	self:Loadout()
 
 	self.Player:SetWalkSpeed(self.WalkSpeed)
 	self.Player:SetRunSpeed(self.RunSpeed)

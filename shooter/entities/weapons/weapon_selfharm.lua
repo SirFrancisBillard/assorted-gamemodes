@@ -105,14 +105,18 @@ function SWEP:PrimaryAttack()
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
 	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 
-	if SERVER then
+	if IsFirstTimePredicted() then
 		self.Owner:EmitSound(CutSound)
+		self.Owner:ViewPunch(Angle(math.random(-40, 40), math.random(-40, 40), 0))
+	end
+
+	if SERVER then
 		self.Owner:EmitSound(PainSounds[math.random(#PainSounds)], 75, math.random(MinPitch, MaxPitch))
 
 		local newhealth = self.Owner:Health() - Damage
 		if newhealth > 0 then
+			self.Owner:SetVelocity(Vector(0, 0, 120))
 			self.Owner:SetHealth(newhealth)
-			self.Owner:ViewPunch(Angle(math.random(-40, 40), math.random(-40, 40), 0))
 		else
 			self.Owner:Kill()
 		end

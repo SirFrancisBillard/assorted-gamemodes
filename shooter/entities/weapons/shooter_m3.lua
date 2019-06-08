@@ -32,7 +32,7 @@ SWEP.SlotPos = 1
 
 SWEP.Primary.Sound = Sound( "Weapon_M3.Single" )
 SWEP.Primary.Recoil = 14
-SWEP.Primary.Damage = 30
+SWEP.Primary.Damage = 30 / 2
 SWEP.Primary.NumShots = 12
 SWEP.Primary.Cone = 0.06
 SWEP.Primary.Delay = 0.9

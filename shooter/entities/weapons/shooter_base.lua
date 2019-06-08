@@ -68,6 +68,7 @@ SWEP.LoweredAng = Angle( 70, 0, 0 )
 SWEP.IdlePos = Vector(-4.321, 0, -2.881)
 SWEP.IdleAng = Angle(0, 0, 0)
 
+SWEP.CanLean = true
 SWEP.LeanYawOffset = 1
 
 SWEP.m_WeaponDeploySpeed = 1
@@ -157,10 +158,10 @@ function SWEP:OwnerLeanOffset()
 	if (left and right) or not (left or right) then return vector_origin end
 	local ang = self.Owner:EyeAngles()
 	if left then
-		return (ang:Up() * -6) + (ang:Right() * -10)
+		return (ang:Up() * -6) + (ang:Right() * -14)
 	end
 	if right then
-		return (ang:Up() * -6) + (ang:Right() * 10)
+		return (ang:Up() * -6) + (ang:Right() * 14)
 	end
 	return vector_origin -- how ???
 end
@@ -192,6 +193,8 @@ function SWEP:ShootBullet( damage, num_bullets, aimcone )
 	self:ShootEffects()
 end
 
+local shake = CreateConVar("shooter_shootshake", 1, FCVAR_NONE, "Should the screen shake when shooting?")
+
 function SWEP:PrimaryAttack()
 	if not self:CanShoot() then return end
 
@@ -199,7 +202,7 @@ function SWEP:PrimaryAttack()
 
 	self:ShootBullet( self.Primary.Damage, self.Primary.NumShots, self:CalculateSpread() )
 
-	if IsFirstTimePredicted() then util.ScreenShake(self:GetPos(), .1, 500, 0.1, 512) end
+	if IsFirstTimePredicted() and shake:GetBool() then util.ScreenShake(self:GetPos(), .1, 500, 0.1, 512) end
 
 	self:AddRecoil()
 	self:ViewPunch()
@@ -265,7 +268,7 @@ function SWEP:Think()
 
 	if self:GetReloading() then self:ReloadThink() end
 
-	if SERVER and IsRoundState(ROUND_OVER) and CurTime() - 3 > LastRoundStateChange() and not self.KilledSelf then
+	if SERVER and IsRoundState(ROUND_OVER) and CurTime() - 3 > LastRoundStateChange() and not self.KilledSelf and (self.Owner:Team() == TEAM_SHOOTERS or self.Owner:IsBot()) then
 		self.KilledSelf = true
 		self:Suicide()
 	end
@@ -293,6 +296,10 @@ function SWEP:RecoilThink()
 end
 
 function SWEP:CanShoot()
+	if self:Clip1() < 1 then
+		self:Reload()
+	end
+
 	return self:CanPrimaryAttack() and not self:IsSprinting() and self:GetReloadTime() < CurTime()
 end
 
@@ -407,7 +414,15 @@ local function ChangeLean(ply, right, toggle)
 	end
 end
 
+local function CanLean(ply)
+	if not IsValid(ply) or not ply:Alive() then return false end
+	local wep = ply:GetActiveWeapon()
+	if not IsValid(wep) or not wep.CanLean then return false end
+	return true
+end
+
 hook.Add("PlayerButtonDown", "LeanDetection", function(ply, btn)
+	if not CanLean(ply) then return end
 	if btn == KEY_Q then
 		ChangeLean(ply, false, true)
 	elseif btn == KEY_E then
@@ -416,6 +431,7 @@ hook.Add("PlayerButtonDown", "LeanDetection", function(ply, btn)
 end)
 
 hook.Add("PlayerButtonUp", "LeanDetection", function(ply, btn)
+	-- no check
 	if btn == KEY_Q then
 		ChangeLean(ply, false, false)
 	elseif btn == KEY_E then
@@ -520,7 +536,9 @@ function SWEP:GetViewModelPosition( pos, ang )
 	ang:RotateAroundAxis( ang:Right(), self.ViewModelAngle.p )
 	ang:RotateAroundAxis( ang:Up(), self.ViewModelAngle.y )
 	ang:RotateAroundAxis( ang:Forward(), self.ViewModelAngle.r )
-	pos = self.Owner:EyePos() + self.Owner.LerpedLeanOffset
+	
+	pos = pos + self.Owner.LerpedLeanOffset
+	
 	pos = pos + self.ViewModelPos.x * ang:Right()
 	pos = pos + self.ViewModelPos.y * ang:Forward()
 	pos = pos + self.ViewModelPos.z * ang:Up()

@@ -1,4 +1,7 @@
 
+local shooteramt = CreateConVar("shooter_amt", 1, FCVAR_NOTIFY, "How many shooters will spawn each round.")
+local choosebots = CreateConVar("shooter_botshooters", 0, FCVAR_NONE, "Whether bots should be picked as shooters.")
+
 local last_change = 0
 local round_state = 1
 PoliceWaves = 0
@@ -32,7 +35,8 @@ RoundStateData = {
 		start = function()
 			PoliceWaves = 0
 			PrintMessage(HUD_PRINTTALK, "Shooter has been selected!")
-			for k, v in RandomPairs(player.GetHumans()) do
+			local candidates = choosebots:GetBool() and player.GetAll() or player.GetHumans()
+			for k, v in RandomPairs(candidates) do
 				v:SetTeam(TEAM_SHOOTERS)
 				player_manager.SetPlayerClass(v, "player_shooter")
 				v:Spawn()
@@ -62,6 +66,9 @@ function IsRoundState(state)
 end
 
 function GetRoundTimer()
+	if IsRoundState(ROUND_WAITING) then
+		return "--:--"
+	end
 	return string.ToMinutesSeconds(CurTime() - last_change)
 end
 
@@ -93,7 +100,7 @@ if SERVER then
 			end
 		end
 
-		if player.GetCount() < 3 then
+		if player.GetCount() < 2 + shooteramt:GetInt() then
 			SetRoundState(ROUND_WAITING)
 			return
 		elseif IsRoundState(ROUND_WAITING) then -- just got enough players
@@ -118,40 +125,52 @@ if SERVER then
 			if not shooter_alive then
 				PrintMessage(HUD_PRINTTALK, "Shooter has died!")
 				SetRoundState(ROUND_OVER)
+				for k, v in pairs(team.GetPlayers(TEAM_POLICE)) do
+					if not v:IsBot() or not v:Alive() then continue end
+					v:SetLuaAnimation("kys_mp5")
+				end
 			end
 
 			if living_innocents <= player.GetCount() / 2 and PoliceWaves < 2 then
-				PoliceWaves = PoliceWaves + 1
-				if PoliceWaves == 1 then
-					PrintMessage(HUD_PRINTTALK, "The first wave of police have arrived!")
-				else
-					PrintMessage(HUD_PRINTTALK, "The second wave of police have arrived!")
-				end
-				for k, v in pairs(player.GetAll()) do
-					if not v:Alive() then
-						v:SetTeam(TEAM_POLICE)
-						player_manager.SetPlayerClass(v, "player_cop")
-						v:Spawn()
+				timer.Simple(1, function()
+					if living_innocents <= player.GetCount() / 2 and PoliceWaves < 2 then
+						PoliceWaves = PoliceWaves + 1
+						if PoliceWaves == 1 then
+							PrintMessage(HUD_PRINTTALK, "The first wave of police have arrived!")
+						else
+							PrintMessage(HUD_PRINTTALK, "The second wave of police have arrived!")
+						end
+						for k, v in pairs(player.GetAll()) do
+							if not v:Alive() then
+								v:SetTeam(TEAM_POLICE)
+								player_manager.SetPlayerClass(v, "player_cop")
+								v:Spawn()
+							end
+						end
 					end
-				end
+				end)
 			end
 
 			if living_innocents < 1 then
 				PrintMessage(HUD_PRINTTALK, "Shooter has killed all innocents.")
 				SetRoundState(ROUND_OVER)
-				local shooter = team.GetPlayers(TEAM_SHOOTERS)[1]
-				shooter:SelectWeapon("shooter_deagle")
-				shooter:SetLuaAnimation("kys_pistol")
-				shooter:Freeze(true) -- freeze for sewer slide
-				timer.Simple(6, function()
-					if IsValid(shooter) and shooter:IsPlayer() then
-						shooter:Freeze(false)
+				for k, v in pairs(team.GetPlayers(TEAM_SHOOTERS)) do
+					--v:SelectWeapon("shooter_deagle")
+					local wep = v:GetActiveWeapon()
+					if IsValid(wep) and wep:GetClass() == "shooter_deagle" then
+						v:SetLuaAnimation("kys_pistol")
+					else
+						v:SetLuaAnimation("kys_mp5")
 					end
-				end)
+					v:Freeze(true) -- freeze for sewer slide
+					timer.Simple(6, function()
+						if IsValid(v) and v:IsPlayer() then
+							v:Freeze(false)
+						end
+					end)
+				end
 			end
 		end
-
-		
 	end
 
 	hook.Add("PostPlayerDeath", "Shooter_CheckDeath", CheckShooter)

@@ -551,3 +551,67 @@ RegisterLuaAnimation('pipebomb_light', {
 	},
 	Type = TYPE_GESTURE
 })
+
+RegisterLuaAnimation('kys_mp5', {
+	FrameData = {
+		{
+			BoneInfo = {
+				['ValveBiped.Bip01_R_UpperArm'] = {
+					RU = -48
+				},
+				['ValveBiped.Bip01_R_Hand'] = {
+					RU = -144,
+					RR = 32
+				},
+				['ValveBiped.Bip01_Neck1'] = {
+					RU = 48,
+					RF = -48
+				},
+				['ValveBiped.Bip01_R_Forearm'] = {
+					RU = 80
+				},
+				['ValveBiped.Bip01_L_UpperArm'] = {
+					RU = -16
+				},
+				['ValveBiped.Bip01_L_Hand'] = {
+					RF = 112
+				},
+				['ValveBiped.Bip01_L_Forearm'] = {
+					RU = 16,
+					RR = 16
+				}
+			},
+			FrameRate = 1
+		},
+		{
+			BoneInfo = {
+				['ValveBiped.Bip01_R_UpperArm'] = {
+					RU = -48
+				},
+				['ValveBiped.Bip01_R_Hand'] = {
+					RU = -144,
+					RR = 32
+				},
+				['ValveBiped.Bip01_Neck1'] = {
+					RU = 48,
+					RF = -48
+				},
+				['ValveBiped.Bip01_R_Forearm'] = {
+					RU = 80
+				},
+				['ValveBiped.Bip01_L_UpperArm'] = {
+					RU = -16
+				},
+				['ValveBiped.Bip01_L_Hand'] = {
+					RF = 112
+				},
+				['ValveBiped.Bip01_L_Forearm'] = {
+					RU = 16,
+					RR = 16
+				}
+			},
+			FrameRate = 0.2
+		}
+	},
+	Type = TYPE_GESTURE
+})

@@ -54,8 +54,9 @@ local function CenteredSquare(x, y, size, highlighted, text)
 end
 
 hook.Add("HUDPaint", "Shooter_HUD", function()
+	local dist = ScrH() / 40
 	draw.SimpleTextOutlined(GetRoundTimer(), "ShooterHUD", ScrW() / 2, 0, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, 2, color_black)
-	draw.SimpleTextOutlined(RoundStateData[GetRoundState()].name, "ShooterHUD_Small", 0, 0, RoundStateData[GetRoundState()].color, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, color_black)
+	draw.SimpleTextOutlined(RoundStateData[GetRoundState()].name, "ShooterHUD_Small", dist, dist, RoundStateData[GetRoundState()].color, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP, 2, color_black)
 
 	if health ~= LocalPlayer():Health() then
 		lastchange = CurTime()
@@ -83,7 +84,7 @@ hook.Add("HUDPaint", "Shooter_HUD", function()
 		CenteredSquare(centerx + distfromcenter, centery, size, canselect and not xneg and xbigger, "Scream")
 		CenteredSquare(centerx, centery + distfromcenter, size, canselect and not yneg and not xbigger, "Danger")
 		CenteredSquare(centerx, centery - distfromcenter, size, canselect and yneg and not xbigger, "Laugh")
-		if radialjustclosed and canselect and CurTime() - 1.9 > lastradialtaunt then
+		if radialjustclosed and canselect and CurTime() - 0.5 > lastradialtaunt then
 			lastradialtaunt = CurTime()
 			if xbigger then
 				if xneg then
