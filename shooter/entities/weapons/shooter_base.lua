@@ -198,19 +198,34 @@ local shake = CreateConVar("shooter_shootshake", 1, FCVAR_NONE, "Should the scre
 function SWEP:PrimaryAttack()
 	if not self:CanShoot() then return end
 
+	local items_enabled = isfunction(self.Owner.HasItem)
+
 	self:TakePrimaryAmmo( 1 )
 
-	self:ShootBullet( self.Primary.Damage, self.Primary.NumShots, self:CalculateSpread() )
+	if items_enabled and self.Owner:HasItem(ITEM_BUCKSHOT) then
+		self:ShootBullet( self.Primary.Damage, self.Primary.ModdedNumShots or self.Primary.NumShots, self:CalculateSpread() * (self.Primary.ModdedConeMult or 1) )
+	else
+		self:ShootBullet( self.Primary.Damage, self.Primary.NumShots, self:CalculateSpread() )
+	end
 
 	if IsFirstTimePredicted() and shake:GetBool() then util.ScreenShake(self:GetPos(), .1, 500, 0.1, 512) end
 
 	self:AddRecoil()
 	self:ViewPunch()
 
-	self:EmitSound( self.Primary.Sound )
+	if items_enabled and self.Primary.SilencedSound ~= nil and self.Owner:HasItem(ITEM_SILENCER) then
+		self:EmitSound(self.Primary.SilencedSound)
+	else
+		self:EmitSound(self.Primary.Sound)
+	end
 
-	self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
-	self:SetReloadTime( CurTime() + self.Primary.Delay )
+	local delay = self.Primary.Delay
+	if items_enabled and self.Primary.BumpStockDelay ~= nil and self.Owner:HasItem(ITEM_BUMPSTOCK) then
+		delay = self.Primary.BumpStockDelay
+	end
+
+	self:SetNextPrimaryFire( CurTime() + delay )
+	self:SetReloadTime( CurTime() + delay )
 end
 
 function SWEP:SecondaryAttack()

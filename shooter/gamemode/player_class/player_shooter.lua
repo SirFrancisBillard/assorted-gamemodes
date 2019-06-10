@@ -28,9 +28,12 @@ function PLAYER:Loadout()
 	self.Player:Give("shooter_deagle")
 	self.Player:GiveAmmo(9999, "pistol", false)
 
-	if math.random(3) == 1 then
+	if math.random(4) == 1 then
 		self.Player:Give("shooter_m3")
 		self.Player:GiveAmmo(9999, "buckshot", false)
+	elseif math.random(2) == 1 then
+		self.Player:Give("shooter_ar15")
+		self.Player:GiveAmmo(9999, "smg1", false)
 	else
 		self.Player:Give("shooter_ak47")
 		self.Player:GiveAmmo(9999, "smg1", false)

@@ -1,5 +1,8 @@
 
+do return end
+
 hook.Add("PostDrawOpaqueRenderables", "Shooter_Wallhack", function()
+	do return end
 	if LocalPlayer():Team() ~= TEAM_SHOOTERS or not LocalPlayer():Alive() then return end
 
 	-- Reset everything to known good

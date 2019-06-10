@@ -1,8 +1,10 @@
 DEFINE_BASECLASS("player_default")
 
+CreateClientConVar("shooter_civclass", 0, true, true, "Your preferred civilian class.")
+
 local PLAYER = {}
 
-PLAYER.DisplayName = "Citizen"
+PLAYER.DisplayName = "Civilian"
 PLAYER.WalkSpeed = 120
 PLAYER.RunSpeed = 200
 
@@ -17,36 +19,41 @@ CLASS_MAX = CLASS_BLACK
 gCitizenClasses = {
 	[CLASS_EMO] = {
 		name = "Edgelord",
-		desc = "Crouching still will heal you.\nCutting yourself boosts you upwards.",
+		desc = {"Crouching still will heal you.", "Cutting yourself boosts you upwards."},
 		models = {"models/player/p2_chell.mdl"},
 		weps = {"weapon_selfharm"},
+		color = Color(50, 50, 50),
 		health = 80,
 	},
 	[CLASS_FATASS] = {
 		name = "Fatass",
-		desc = "Eating food will heal you.\nYou are slow, but have lots of health.",
+		desc = {"Eating food will heal you.", "You are slow, but have lots of health."},
 		models = {"models/player/monk.mdl"},
 		weps = {"weapon_eatfood"},
+		color = Color(255, 75, 75),
 		speeds = {90, 170},
 		health = 160,
 	},
 	[CLASS_VIRGIN] = {
-		name = "Virgin",
-		desc = "You seek out dropped weapons.\nYou also have a guitar.",
+		name = "Klein",
+		desc = {"You seek out dropped weapons.", "You also have a guitar."},
 		models = {"models/player/kleiner.mdl"},
 		weps = {"weapon_guitar"},
+		color = Color(0, 255, 255),
 	},
 	[CLASS_THOT] = {
 		name = "Thot",
-		desc = "Your phone can be used to blind.\nYou can also call the cops.",
+		desc = {"Your phone can be used to blind.", "You can also call the cops."},
 		models = {"models/player/alyx.mdl"},
 		weps = {"weapon_thotphone"},
+		color = Color(255, 50, 255),
 	},
 	[CLASS_BLACK] = {
 		name = "Nigga",
-		desc = "You are armed, but the police will shoot you.\nDrinking lean will heal you.",
+		desc = {"You are armed, but the police will shoot you.", "Drinking lean will heal you."},
 		models = {"models/player/eli.mdl"},
-		weps = {"weapon_lean"},
+		weps = {"shooter_glock", "weapon_lean"},
+		color = Color(150, 150, 75),
 		speeds = {130, 210},
 	},
 }
@@ -75,6 +82,10 @@ end
 
 function PLAYER:Spawn()
 	local cls = math.random(CLASS_MAX)
+	local pref = self.Player:GetInfoNum("shooter_civclass", 0)
+	if gCitizenClasses[pref] then
+		cls = pref
+	end
 	self.Player:SetSpecialClass(cls)
 	self:SetModel(cls)
 	self:Loadout()

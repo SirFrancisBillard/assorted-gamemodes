@@ -156,6 +156,7 @@ PlayerModelRadialTaunts = {
 }
 PlayerModelRadialTaunts["models/player/leet.mdl"] = PlayerModelRadialTaunts["models/player/guerilla.mdl"]
 PlayerModelRadialTaunts["models/player/phoenix.mdl"] = PlayerModelRadialTaunts["models/player/guerilla.mdl"]
+PlayerModelRadialTaunts["models/player/mossman_arctic.mdl"] = PlayerModelRadialTaunts["models/player/p2_chell.mdl"]
 
 function RadialTaunt(ply, taunt)
 	if not taunt or not IsValid(ply) or not ply:IsPlayer() then return end

@@ -1,3 +1,2 @@
-hook.Add("OnDamagedByExplosion", "DisableSound", function()
-	return true
-end)
+
+hook.Add("OnDamagedByExplosion", "NoMoreTinnitus", function() return true end)

@@ -1,16 +1,16 @@
 
 local function emohandle(ply, ducking)
 	if CLIENT or ply.Sliding then return end
-	if ply:GetSpecialClass() == CLASS_EMO then
+	if ply:GetModel() == "models/player/p2_chell.mdl" then
 		if ducking then
-			if math.Round(CurTime(), 1) % 2 == 1 then
-				ply:SetHealth(math.min(ply:Health() + 1, ply:GetMaxHealth()))
+			if ply:GetSpecialClass() == CLASS_EMO and math.Round(CurTime(), 1) % 2 == 1 then
+				ply:SetHealth(math.min(ply:Health() + 2, ply:GetMaxHealth()))
 			end
 			ply:SetLuaAnimation("sit_chell")
 		else
 			ply:StopLuaAnimation("sit_chell")
 		end
-	elseif ply:GetSpecialClass() == CLASS_THOT then
+	elseif ply:GetModel() == "models/player/alyx.mdl" then
 		if ducking then
 			ply:SetLuaAnimation("sit_alyx")
 		else

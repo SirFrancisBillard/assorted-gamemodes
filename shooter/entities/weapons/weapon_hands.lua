@@ -176,6 +176,8 @@ function SWEP:Think()
 	end
 end
 
+function SWEP:SecondaryAttack() end
+
 function SWEP:PrimaryAttack()
 	local Pos = self.Owner:GetShootPos()
 	local Aim = self.Owner:GetAimVector()

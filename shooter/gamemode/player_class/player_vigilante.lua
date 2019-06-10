@@ -2,7 +2,7 @@ DEFINE_BASECLASS("player_citizen")
 
 local PLAYER = {}
 
-PLAYER.DisplayName = "Cop"
+PLAYER.DisplayName = "Vigilante"
 PLAYER.WalkSpeed = 120
 PLAYER.RunSpeed = 200
 
@@ -11,19 +11,17 @@ function PLAYER:Loadout()
 	self.Player:RemoveAllAmmo()
 
 	self.Player:Give("weapon_hands")
-	self.Player:Give("shooter_pistol")
+	self.Player:Give("shooter_revolver")
 	self.Player:GiveAmmo(9999, "pistol")
-	self.Player:Give("shooter_mp5")
-	self.Player:GiveAmmo(9999, "smg1")
 end
 
-local CopModels = {"models/player/gasmask.mdl", "models/player/riot.mdl", "models/player/swat.mdl", "models/player/urban.mdl"}
+local VigiModels = {"models/player/barney.mdl"}
 
 function PLAYER:SetModel()
-	local modelname = CopModels[math.random(#CopModels)]
+	local modelname = VigiModels[math.random(#VigiModels)]
 	util.PrecacheModel(modelname)
 	self.Player:SetModel(modelname)
-	self.Player:SetPlayerColor(Vector(0, 0, 1))
+	self.Player:SetPlayerColor(Vector(math.random(2) - 1, math.random(2) - 1, math.random(2) - 1))
 end
 
 function PLAYER:Spawn()
@@ -39,4 +37,4 @@ function PLAYER:Spawn()
 	self.Player:SetSpecialClass(CLASS_NULL)
 end
 
-player_manager.RegisterClass("player_cop", PLAYER, "player_citizen")
+player_manager.RegisterClass("player_vigilante", PLAYER, "player_citizen")

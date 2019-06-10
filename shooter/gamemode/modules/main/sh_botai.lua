@@ -16,12 +16,19 @@ function GM:StartCommand(ply, cmd)
 
 		if not IsValid(nearest) then return end
 
-		local wep1 = ply:GetWeapon("shooter_ak47")
-		local wep2 = ply:GetWeapon("shooter_m3")
-		if IsValid(wep1) then
-			cmd:SelectWeapon(wep1)
-		elseif IsValid(wep2) then
-			cmd:SelectWeapon(wep2)
+		local wep = ply:GetWeapon("shooter_ak47")
+		if IsValid(wep) then
+			cmd:SelectWeapon(wep)
+		else
+			wep = ply:GetWeapon("shooter_ar15")
+			if IsValid(wep) then
+				cmd:SelectWeapon(wep)
+			else
+				wep = ply:GetWeapon("shooter_m3")
+				if IsValid(wep) then
+					cmd:SelectWeapon(wep)
+				end
+			end
 		end
 
 		local livingcops = #team.GetPlayers(TEAM_POLICE)
@@ -35,7 +42,13 @@ function GM:StartCommand(ply, cmd)
 			cmd:SetButtons(bit.band(cmd:GetButtons(), bit.bnot(IN_ATTACK)))
 		end
 
-		cmd:SetForwardMove(ply:GetRunSpeed())
+		if CurTime() - ply:GetNWFloat("blinded") < 3 then
+			cmd:SetForwardMove(0)
+			cmd:SetButtons(IN_ATTACK)
+			cmd:SetViewAngles(AngleRand())
+		else
+			cmd:SetForwardMove(ply:GetRunSpeed())
+		end
 	elseif ply:Team() == TEAM_CIVILIANS then
 		local scared = nil
 		for k, v in pairs(ents.FindByClass("ent_pipebomb")) do
@@ -93,12 +106,19 @@ function GM:StartCommand(ply, cmd)
 		local curang = cmd:GetViewAngles()
 		cmd:SetViewAngles(LerpAngle(FrameTime() * 12, curang, Angle(curang.p, ply.DesiredYaw, curang.r)))
 	elseif ply:Team() == TEAM_POLICE then
-		if not ply:HasWeapon("shooter_mp5") then
-			ply:Give("shooter_mp5")
-		end
 		local wep = ply:GetWeapon("shooter_mp5")
 		if IsValid(wep) then
 			cmd:SelectWeapon(wep)
+		else
+			wep = ply:GetWeapon("shooter_pistol")
+			if IsValid(wep) then
+				cmd:SelectWeapon(wep)
+			else
+				wep = ply:GetWeapon("shooter_revolver")
+				if IsValid(wep) then
+					cmd:SelectWeapon(wep)
+				end
+			end
 		end
 
 		if not IsValid(ply.BotEnemy) then
@@ -119,7 +139,7 @@ function GM:StartCommand(ply, cmd)
 
 		local desiredang = (targetpos - ply:GetShootPos()):GetNormalized():Angle()
 		local copsrecentlykilled = 0 -- TODO
-		if not ply.SkillMod then ply.SkillMod = math.random(10, 14) end
+		if not ply.SkillMod then ply.SkillMod = math.random(12, 20) end
 		cmd:SetViewAngles(LerpAngle(FrameTime() * (ply.SkillMod + (2 * copsrecentlykilled)), cmd:GetViewAngles(), desiredang))
 
 		local tr = ply:GetEyeTrace()

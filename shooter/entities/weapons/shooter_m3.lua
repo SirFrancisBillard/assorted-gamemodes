@@ -11,7 +11,7 @@ sound.Add({
 
 SWEP.Base = "shooter_base_shotgun"
 
-SWEP.PrintName = "M3 Super 90"
+SWEP.PrintName = "Shotgun"
 SWEP.Category = "Shooter Weapons"
 SWEP.DrawWeaponInfoBox = false
 SWEP.IconLetter = "k"
@@ -32,8 +32,8 @@ SWEP.SlotPos = 1
 
 SWEP.Primary.Sound = Sound( "Weapon_M3.Single" )
 SWEP.Primary.Recoil = 14
-SWEP.Primary.Damage = 30 / 2
-SWEP.Primary.NumShots = 12
+SWEP.Primary.Damage = 30 / 1.4
+SWEP.Primary.NumShots = 16
 SWEP.Primary.Cone = 0.06
 SWEP.Primary.Delay = 0.9
 
